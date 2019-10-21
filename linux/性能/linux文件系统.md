@@ -8,7 +8,7 @@
 2. 目录项，简称dentry，记录文件名字、索引节点指针以及其他目录项的关联观念西。多个关联的目录项，构成文件系统目录结构。目录项由内核维护的内存数据结构，也通常叫目录项缓存
 - 索引节点和目录项纪录了文件的元数据以及文件间的目录关系
 - 文件系统把连续的扇区组成逻辑块，每次都以逻辑块为最小单元管理数据，常见逻辑块大小4KB（连续的8个扇区）
-![image](2DE58673B7394C68BE10BA59A15AA0A1)
+![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F1.png)
 - 注意点
 1. 目录项本身是内存缓存，而索引节点是存储在磁盘中的数据，文件内容会缓存到cache中，索引节点也会缓存到cache中加速访问
 2. 磁盘在执行文件系统格式化时，会分成三个区域：超级块（存储整个文件系统的状态）、索引节点区（存储索引节点）、数据块区（存储文件数据）
@@ -16,7 +16,7 @@
 - 目录项、索引节点、逻辑块、超级块，构成linux文件系统的四大基本要素。
 - 为了支持不同的文件系统，linux在用户进程和文件系统之间引入抽象层虚拟文件系统VFS（virtual file system）
 - VFS定义了一组所有文件系统都支持的数据结构和标准接口。
-![image](33D5B03E817E4EF68B89EDE644C9B5A4)
+![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F2.png)
 - 文件系统分三类
 1. 第一类基于磁盘的文件系统，常见的是ext4、xfs等
 2. 第二类是基于内存的文件系统（虚拟文件系统），会占内存但无需磁盘空间，如/proc和/sys
@@ -121,7 +121,7 @@ Swap:             0           0           0
 
 ## IO栈
 linux存储系统的IO栈，由上到下三个层次：文件系统层、通用块层、设备层
-![image](32CB0939D4C24F6B85AA1E3C6879FC60)
+![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F3.png)
 1. 文件系统层，包括虚拟文件系统和其他文件系统的具体实现，它为上层的应用程序提供标准的文件访问接口，对下的通用块层来存储和管理磁盘数据
 2. 通用块层，包括块设备IO队列和IO调度器
 3. 设备层，包括存储设备和响应的驱动程序，负责最终物理设备的IO操作
@@ -151,7 +151,7 @@ vda               0.00     0.29    0.01    0.62     0.64     6.74    23.20     0
 Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
 vda               0.00    11.00    0.00    5.00     0.00    64.00    25.60     0.01    1.00    0.00    1.00   0.40   0.20
 ```
-![io指标解读](2888D696C24445B1AE981D3D998FE10A)
+![io指标解读](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F4.png)
 
 ## 进程IO观测
 #### pidstat -d
