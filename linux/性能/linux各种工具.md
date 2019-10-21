@@ -1,1 +1,1 @@
-![image](1C9199644B044AA1A0E7EE03847552CF)
+![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/linux%E5%90%84%E7%A7%8D%E5%B7%A5%E5%85%B7.png)
