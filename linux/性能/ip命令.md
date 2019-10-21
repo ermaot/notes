@@ -1,5 +1,5 @@
 ## ip命令之对应
-![image](874BAD9298534CBBB7FA1011951806B5)
+![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/ip%E5%91%BD%E4%BB%A4.png)
 ## 介绍
 #### 对象
 ```
