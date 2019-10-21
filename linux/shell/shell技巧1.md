@@ -224,7 +224,7 @@ xterm terminal emulator (X Window System)
 
 设置终端背景色（取值为0~7），为10的时候与0相同
 
-![image](13DA6658DEE34D82A8D05E139C59E9DA)
+![image](https://github.com/ermaot/notes/blob/master/linux/shell/pic/shell%E6%8A%80%E5%B7%A71.png)
 
 
 ```
