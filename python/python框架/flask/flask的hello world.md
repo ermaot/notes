@@ -1,5 +1,5 @@
 ## 通过pycharm创建一个新flask项目
-![image](964C086B12654AC4B4A8766FB561BAA9)
+![image](https://github.com/ermaot/notes/blob/master/python/python%E6%A1%86%E6%9E%B6/flask/pic/flask%E7%9A%84hello%20world.png)
 #### 最小flask程序
 app.py
 ```
