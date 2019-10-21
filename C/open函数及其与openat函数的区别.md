@@ -3,7 +3,7 @@
 - 一个进程有一个文件描述符：1024
 - 文件描述符：寻找磁盘文件
 
-![image](BDD6CCEEE7934F279435E4AA421AA910)
+![image](https://github.com/ermaot/notes/blob/master/C/pic/open_openat.png)
 
 ## open和openat原型
 ```
