@@ -139,7 +139,7 @@ Empty set (0.00 sec)
 1. 将select语句的结果放到临时表中（有性能问题，优化器很难优化这个临时表上的查询）
 2. 重写含有视图的查询，将视图的定义SQL直接包含进查询SQL中（更好的办法）
 3. 使用临时表的方法称为临时表算法，重写的方法称为合并算法（MERGE）。MySQL按需采用
-![合并算法和临时表算法](89BC1039E3D24469AD99274EC58BDB8F)
+![合并算法和临时表算法](https://github.com/ermaot/notes/blob/master/mysql/010%E5%90%84%E7%A7%8D%E6%93%8D%E4%BD%9C/pic/MySQL%E4%B8%80%E4%BA%9B%E7%89%B9%E6%80%A71.png)
 4. 如果使用临时表算法实现，explain中会显示为派生表（derived）
 5. ==如果视图中包含group by 、distinct、聚集函数、union、子查询等，只要无法在原表记录和视图记录中建立一一映射的场景中，MySQL都会使用临时表算法实现==【实际上并非如此】
 
