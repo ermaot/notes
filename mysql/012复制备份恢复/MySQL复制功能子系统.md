@@ -17,7 +17,7 @@ Replication通过3个简单的过程来实现,其中一个过程发生在主服�
 2. 从服务器则通过一个IO线程将主服务器上的二进制日志文件中的操作事件,复制到本地的-一个称作Relay Log的中继日志文件中
 3. 从服务器再通过另一个SQL线程将操作依次顺序地在本地执行,从而实现了主从之间的数据同步
 
-![Replication复制原理](https://github.com/ermaot/notes/blob/master/mysql/012%E5%A4%8D%E5%88%B6%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/pic/MySQL%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD%E5%AD%90%E7%B3%BB%E7%BB%9F.png)
+![Replication复制原理](pic/MySQL%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD%E5%AD%90%E7%B3%BB%E7%BB%9F.png)
 
 #### Replication复制线程
 - binlog dump线程：负责将主服务器上的二进制文件内容发送给服务器的IO线程，同时给每一个要传输的事件加锁。show processlist可查看该线程是否运行
