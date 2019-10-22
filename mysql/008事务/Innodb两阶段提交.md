@@ -3,7 +3,7 @@
 - 事务的提交涉及到binlog及具体的存储的引擎的事务提交，所以MySQL用2PC来保证的事务的完整性。
 - MySQL的2PC过程如下：
 
-![image](D362AF0B026342B2A2EA36A306DBFF24)
+![image](https://github.com/ermaot/notes/blob/master/mysql/008%E4%BA%8B%E5%8A%A1/pic/Innodb%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A41.png)
 
 ## 事务提交过程
 - 先调用binglog_hton和innobase_hton的prepare方法完成第一阶段，binlog_hton的papare方法实际上什么也没做，innodb的prepare将事务状态设为TRX_PREPARED，并将redo log刷磁盘 (innobase_xa_prepare à trx_prepare_for_mysql à trx_prepare_off_kernel)。
@@ -48,7 +48,7 @@ within that file */
 4. 对于TRX_ACTIVE的事务，回滚。
 
 - MySQL在打开binlog时，会检查binlog的状态(TC_LOG_BINLOG::open)。如果binlog没有正常关闭(LOG_EVENT_BINLOG_IN_USE_F为1)，则进行恢复操作，基本流程如下
-![image](6F63529541444F9FABB5E41A383B6D4D)
+![image](https://github.com/ermaot/notes/blob/master/mysql/008%E4%BA%8B%E5%8A%A1/pic/Innodb%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A42.png)
 1. 扫描binlog，读取XID_EVENT事务，得到所有已经提交的XA事务列表(实际上事务在innodb可能处于prepare或者commit)；
 2. 对每个XA事务，调用handlerton::recover，检查存储引擎是否存在处于prepare状态的该事务(见innobase_xa_recover)，也就是检查该XA事务在存储引擎中的状态；
 3. 如果存在处于prepare状态的该XA事务，则调用handlerton::commit_by_xid提交事务
@@ -74,7 +74,7 @@ return err;
 ```
 - innodb_flush_log_at_trx_commit
 
-![image](FD60403EB45A4A4687DD2BD23FCD765A)
+![image](https://github.com/ermaot/notes/blob/master/mysql/008%E4%BA%8B%E5%8A%A1/pic/Innodb%E4%B8%A4%E9%98%B6%E6%AE%B5%E6%8F%90%E4%BA%A43.png)
 - innodb_support_xa
 用于控制innodb是否支持XA事务的2PC，默认是TRUE。如果关闭，则innodb在prepare阶段就什么也不做；这可能会导致binlog的顺序与innodb提交的顺序不一致(比如A事务比B事务先写binlog，但是在innodb内部却可能A事务比B事务后提交)，这会导致在恢复或者slave产生不同的数据。
 ```
