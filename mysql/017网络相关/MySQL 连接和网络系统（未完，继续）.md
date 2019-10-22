@@ -8,7 +8,7 @@
 6. 服务器到客户端：OK包、错误（error）包、结果集包
 7. 客户端到服务器段：断开请求
 8. tcp四次挥手断开连接
-![MySQL 网络交互过程](24130D1353E84AAF82BA2638F46E6C0E)
+![MySQL 网络交互过程](https://github.com/ermaot/notes/blob/master/mysql/017%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F1.png)
 [MySQL协议分析](https://www.cnblogs.com/davygeek/p/5647175.html)<p>
 [MySQL网络协议分析](https://segmentfault.com/a/1190000012166738?utm_source=tag-newest)
 ## 协议和操作系统协议栈
@@ -112,7 +112,7 @@ N |用户名|存放试图登录的用户名
 1+N| 密码加密字段(scramble. buf)|是带长度标识的字符串(Length Coded String)
 N |数据库名(可选)|数据库的名称字段
 客户端标志示例
-![客户端标志示例](9B8E0F1B7E2C44F1B61E13C59A693873)
+![客户端标志示例](https://github.com/ermaot/notes/blob/master/mysql/017%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F2.png)
 
 - libmysq/libmysql.c::mysql_real_connect()定义了MySQL客户端的认证过程
 - sql/sql_connect.c::check_connections()中定义了服务器端认证用户的过程
@@ -293,7 +293,7 @@ n=strlen(server version)+1 |服务器信息|也可以在include/mysql_version.h�
 2| 服务器状态|
 13 |0x00填充位|
 13| 密码验证2|
-![握手包示例](7C549E53079C4CC2AAAA3A502CB05EB3)
+![握手包示例](https://github.com/ermaot/notes/blob/master/mysql/017%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F3.png)
 
 #### 结果包
 对于客户端的认证包或者命令包的请求，服务器段都将发送一个回应包，可能是OK包、ERROR包、命令的结果集包等
@@ -322,7 +322,7 @@ EOF包| 0xfe|
 2| 警告数量|
 N |消息|执行语句后,在返回的结果后有一段总结性信息，如2 rows affected
 
-![OK包示例](3BAADB6B048F4F86957568512FD70915)
+![OK包示例](https://github.com/ermaot/notes/blob/master/mysql/017%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F4.png)
 - 使用sql/protocol.cc中的net_send_ok()函数
 
 ###### ERROR包
