@@ -195,7 +195,7 @@ thread_id=1|发出SQL语句请求的线程ID<p>当每个客户端连接到MySQL�
 exec_time=0 |SQL语句执行的时间
 error_code=0| SQL语句执行的错误代码.0表示SQL语句执行成功
 
-![二进制日志格式样例](0C5B7718E18645E9AA6FB48BDC8470BF)
+![二进制日志格式样例](https://github.com/ermaot/notes/blob/master/mysql/014%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%88binlog%E7%AD%89%EF%BC%89/pic/mysql%E6%97%A5%E5%BF%97%E5%8A%9F%E8%83%BD%E5%8F%8A%E5%AE%9E%E7%8E%B0.png)
 
 #### 二进制日志初始化
 #### 二进制日志实现
