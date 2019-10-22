@@ -1,5 +1,5 @@
 ## 源码结构概览
-![源码结构](https://github.com/ermaot/notes/blob/master/mysql/005mysql%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/pic/mysql%E6%BA%90%E7%A0%81%E7%BB%93%E6%9E%84.png)
+![源码结构](pic/mysql%E6%BA%90%E7%A0%81%E7%BB%93%E6%9E%84.png)
 
 ==来自622463 MySQL运维内参：MySQL、Galera、Inception核心原理与最佳实践==
 文件夹|说明

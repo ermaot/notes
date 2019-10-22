@@ -11,10 +11,10 @@
 1. 缓存
 1. 存储引擎
 1. 物理文件
-![姜承尧-mysql物理结构](https://github.com/ermaot/notes/blob/master/mysql/005mysql%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/pic/mysql%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%841.png)
+![姜承尧-mysql物理结构](pic/mysql%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%841.png)
 对照
 ### mysql执行流程
-![丁奇-mysql结果与执行流程](https://github.com/ermaot/notes/blob/master/mysql/005mysql%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/pic/mysql%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%842.jpg)
+![丁奇-mysql结果与执行流程](pic/mysql%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%842.jpg)
 ### 存储引擎
 #### - innodb（==最常用==）
 1. 支持事务，面向OLTP
