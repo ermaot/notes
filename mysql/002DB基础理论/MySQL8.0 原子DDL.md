@@ -10,10 +10,10 @@ metadata在Server layer是存储在MyISAM引擎的系统表里，对于事务型
 - 两份系统表存储的信息有所不同，访问Server layer以及存储引擎需要使用不同API，这种设计导致了不能很好的统一对系统metadata的访问。另外两份API，也同时增加了代码的维护量。
 - 由于Server layer的metadata存储在非事务引擎（MyISAM)里，所以在进行crash recovery的时候就不能维持原子性。
 - DDL的非原子性使得Replication处理异常情况变得更加复杂。比如DROP TABLE t1, t2; 如果DROP t1成功，但是DROP t2失败，Replication就无法保证主备一致性了。
-![ MySQL8.0前的数据字典](https://github.com/ermaot/notes/blob/master/mysql/002DB%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/pic/MySQL8.0%20%E5%8E%9F%E5%AD%90DDL1.png)
+![ MySQL8.0前的数据字典](pic/MySQL8.0%20%E5%8E%9F%E5%AD%90DDL1.png)
 
 #### MySQL8.0 的create table
-![image](https://github.com/ermaot/notes/blob/master/mysql/002DB%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/pic/MySQL8.0%20%E5%8E%9F%E5%AD%90DDL2.png)
+![image](pic/MySQL8.0%20%E5%8E%9F%E5%AD%90DDL2.png)
 
 
 #### MySQL8.0 的drop table
@@ -157,7 +157,7 @@ class Log_DDL {
 
 
 #### drop table流程
-![drop table流程](https://github.com/ermaot/notes/blob/master/mysql/002DB%E5%9F%BA%E7%A1%80%E7%90%86%E8%AE%BA/pic/MySQL8.0%20%E5%8E%9F%E5%AD%90DDL3.png)
+![drop table流程](pic/MySQL8.0%20%E5%8E%9F%E5%AD%90DDL3.png)
 - 对于不支持原子DDL的存储引擎，Handler::ha_delete_table MySQL8.0的执行方式和之前版本没有太大的区别，都是直接删除物理文件，然后清理系统表
 - 对于InnoDB存储引擎而言，Handler::ha_delete_table并不会进行实际物理文件的修改，而只是记录相关的操作到DDL_LOG table
 - 当DDL事务提交或者回滚的时候，会调用post_ddl进行日志回放
