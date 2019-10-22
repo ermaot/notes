@@ -1,1 +1,1 @@
-![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/perf-tools.png)
+![image](pic/perf-tools.png)

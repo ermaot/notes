@@ -207,18 +207,18 @@ perf report
 
 ## 如何分析CPU性能问题
 #### cpu相关的性能指标
-![CPU性能指标清单](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/cpu%E4%BD%BF%E7%94%A8%E7%8E%871.png)
+![CPU性能指标清单](pic/cpu%E4%BD%BF%E7%94%A8%E7%8E%871.png)
 - CPU 缓存的速度介于 CPU 和内存之间，缓存的是热点的内存数据。根据不断增长的热点数据，这些缓存按照大小不同分为 L1、L2、L3 等三级缓存，其中 L1 和 L2 常用在单核中， L3 则用在多核中
 - 从 L1 到 L3，三级缓存的大小依次增大，相应的，性能依次降低（当然比内存还是好得多）。而它们的命中率，衡量的是 CPU 缓存的复用情况，命中率越高，则表示性能越好。
 
 #### 各种指标的对应命令
-![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/cpu%E4%BD%BF%E7%94%A8%E7%8E%872.png)
+![image](pic/cpu%E4%BD%BF%E7%94%A8%E7%8E%872.png)
 
 ## 各种命令可以查看的指标
-![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/cpu%E4%BD%BF%E7%94%A8%E7%8E%873.png)
+![image](pic/cpu%E4%BD%BF%E7%94%A8%E7%8E%873.png)
 
 #### 常用方法
-![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/cpu%E4%BD%BF%E7%94%A8%E7%8E%874.png)
+![image](pic/cpu%E4%BD%BF%E7%94%A8%E7%8E%874.png)
 
 
 ## CPU优化的思路
