@@ -1,7 +1,7 @@
 
 ## MySQL语句的基本执行过程
 这张图是极客时间丁奇在MySQL的45讲中的
-![image](https://github.com/ermaot/notes/blob/master/mysql/024%E4%B8%81%E5%A5%87%E7%9A%84mysql45%E8%AE%B2/pic/%E4%B8%80%E6%9D%A1SQL%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%841.png)
+![image](pic/%E4%B8%80%E6%9D%A1SQL%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%841.png)
 ## 丁奇：
 #### 大体来说，MySQL 可以分为 Server 层和存储引擎层两部分。
 - ==Server 层==包括连接器、查询缓存、分析器、优化器、执行器等，涵盖 MySQL 的大多数核心服务功能，以及所有的内置函数（如日期、时间、数学和加密函数等），所有跨存储引擎的功能都在这一层实现，比如存储过程、触发器、视图等。
