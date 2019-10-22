@@ -1,5 +1,5 @@
 ## HTTP报文结构
-![TCP头部](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%811.png)
+![TCP头部](pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%811.png)
 - 源端口号和目的端口号：再加上Ip首部的源IP地址和目的IP地址可以唯一确定一个TCP连接<p>
 - 数据序号：表示在这个报文段中的第一个数据字节序号<p>
 - 确认序号：仅当ACK标志为1时有效。确认号表示期望收到的下一个字节的序号（这个下面再详细分析）<p>
@@ -18,7 +18,7 @@ FIN-终止一个连接<p>
 - 选项与填充（必须为4字节整数倍，不够补0）：<p>
 最常见的可选字段的最长报文大小MSS（Maximum Segment Size），每个连接方通常都在一个报文段中指明这个选项。它指明本端所能接收的最大长度的报文段。<p>
 该选项如果不设置，默认为536（20+20+536=576字节的IP数据报）
-![HTTP结构](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%812.png)
+![HTTP结构](pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%812.png)
 - HTTP是纯文本协议，所以头数据都是ASCII文本
 - HTTP协议请求报文和响应报文结构基本相同，包括
 1. 起始行（start line）：描述请求或者响应的基本信息
@@ -27,9 +27,9 @@ FIN-终止一个连接<p>
 
 - 1，2经常合称为请求头或者响应头，消息正文又称为实体（body）
 - HTTP协议规定报文必须有header，但可以没有body，header之后必须有一个空行，即“CRLF”，十六进制的“0D0A”
-![image](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%813.png)
+![image](pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%813.png)
 样例
-![请求头](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%814.png)
+![请求头](pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%814.png)
 
 - 浏览器发送GET请求的时候，经常只有header没有body
 
@@ -39,7 +39,7 @@ FIN-终止一个连接<p>
 2. 请求目标：通常是一个URI，标记请求方法要操作的资源
 3. 版本号：表示报文使用的HTTP协议版本
 4. 三个部分用空格分隔，最后用CRLF换行表示结束
-![请求行实例](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%815.png)
+![请求行实例](pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%815.png)
 
 ```
 GET / HTTP/1.1
@@ -50,7 +50,7 @@ GET / HTTP/1.1
 1. 版本号：表示报文使用的 HTTP 协议版本；
 2. 状态码：一个三位数，用代码的形式表示处理的结果，比如 200 是成功，500 是服务器错误；
 3. 原因：作为数字状态码补充，是更详细的解释文字，帮助人理解原因。
-![image](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%816.png)
+![image](pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%816.png)
 ```
 HTTP/1.1 200 OK
 ```
@@ -60,9 +60,9 @@ HTTP/1.1 404 Not Found
 
 #### 头部字段
 ###### 请求头
-![image](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%817.png)
+![image](pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%817.png)
 ###### 响应头
-![image](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%818.png)
+![image](pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%818.png)
 - 头部字段是 key-value 的形式，key 和 value 之间用“:”分隔，最后用 CRLF 换行表示字段结束。比如在“Host: 127.0.0.1”这一行里 key 就是“Host”，value 就是“127.0.0.1”。
 - HTTP 头字段非常灵活，不仅可以使用标准里的 Host、Connection 等已有头，也可以任意添加自定义头，这就给 HTTP 协议带来了无限的扩展可能。
 - 注意事项
@@ -83,7 +83,7 @@ HTTP/1.1 404 Not Found
 2. User_Agent：只出现在请求头里，用一个自渡船描述HTTP请求的客户端，服务器可以根据它返回最合适的页面内容
 3. Date：通用字段，但通常出现在响应头里，表示HTTP报文创建的时间，客户端可以使用这个时间再搭配其他字段决定缓存策略
 4. Server：响应字段。告诉客户端当前正在提供web服务的软件名称和版本号，如“Server: openresty/1.15.8.1”，即使用的是 OpenResty 1.15.8.1。尽量使用无关信息，因为会暴露信息给外界，容易受到攻击
-![响应头案例](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%819.png)
+![响应头案例](pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%819.png)
 
 5. Content-Length：表示报文里body的长度，也就是请求头或者响应头空行后的数据的长度；如果没有这个字段，body则不定长，需要使用chunked方式分段传输
 
@@ -99,7 +99,7 @@ HTTP/1.1 404 Not Found
 6. CONNECT：建立特殊的连接隧道；
 7. OPTIONS：列出可对资源实行的方法；
 8. TRACE：追踪请求 - 响应的传输路径。
-![HTTP全部方法](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%8110.png)
+![HTTP全部方法](pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%8110.png)
 
 如果一个文件不允许访问，可以有下面几种方式
 1. 直接404，说文件不存在
@@ -167,7 +167,7 @@ HTTP/1.1 404 Not Found
 
 
 ## HTTP特点
-![HTTP特点](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%8111.png)
+![HTTP特点](pic/HTTP%E6%8A%A5%E6%96%87%E3%80%81%E6%96%B9%E6%B3%95%E3%80%81%E7%8A%B6%E6%80%81%E7%A0%8111.png)
 - 优点：
 1. 简单、灵活、易于扩展
 2. 应用广泛、环境成熟
