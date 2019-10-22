@@ -14,7 +14,7 @@
 ![姜承尧-mysql物理结构](FF3703C24C6A4C51AC1540821DF67C24)
 对照
 ### mysql执行流程
-![丁奇-mysql结果与执行流程](97783066C13A4F42AA94797A9E5715B1)
+![丁奇-mysql结果与执行流程](https://github.com/ermaot/notes/blob/master/mysql/005mysql%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/pic/mysql%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%842.jpg)
 ### 存储引擎
 #### - innodb（==最常用==）
 1. 支持事务，面向OLTP

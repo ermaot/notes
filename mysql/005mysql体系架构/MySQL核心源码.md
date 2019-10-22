@@ -193,7 +193,7 @@ maybe_null(void)|  bool | 字段是否包含NULL
 move_field(char *ptr_arg)|  bool | 将字段数据的地址重新指向另外一个位置
 
 - 各类之间的关系
-![各类之间的关系](D30829C4273848698EFACED6F54282F3)
+![各类之间的关系](https://github.com/ermaot/notes/blob/master/mysql/005mysql%E4%BD%93%E7%B3%BB%E6%9E%B6%E6%9E%84/pic/MySQL%E6%A0%B8%E5%BF%83%E6%BA%90%E7%A0%81.png)
 1. LEX、Item、 TABLE LIST是SQL语法分析以及SQL语句的抽象表示,Item用于实现表达式,如查询条目、函数、where、 order、 group、 on 子句等.TABLE_LIST则用来表达JOIN操作
 2. Protocol和NET，前者实现数据库服务器和客户端的通信协议,例如构建协议包等,提供网络支持,如原始数据的读写
 3. TABLE_SHARE和TABLE:前者代表表的元信息,例如字段定义,索引定义等;后者代表一个打开的表实例
