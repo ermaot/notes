@@ -16,7 +16,7 @@
 </form>
 ```
 效果如下：
-![image](https://github.com/ermaot/notes/blob/master/python/python%E6%A1%86%E6%9E%B6/flask/pic/flask%E8%A1%A8%E5%8D%951.png)
+![image](pic/flask%E8%A1%A8%E5%8D%951.png)
 - 除非比较简单的情况，一般不会在模板中直接使用HTML编写表单
 ## 使用flask-WTF处理表单
 - 扩展Flask-WTF集成了WTForms
@@ -171,7 +171,7 @@ def basic():
     return render_template('basic.html', form=form)
 ```
 - 访问http://127.0.0.1:5000/basic
-![image](https://github.com/ermaot/notes/blob/master/python/python%E6%A1%86%E6%9E%B6/flask/pic/flask%E8%A1%A8%E5%8D%952.png)
+![image](pic/flask%E8%A1%A8%E5%8D%952.png)
 渲染的html如下：
 ```
 <form method="post">
