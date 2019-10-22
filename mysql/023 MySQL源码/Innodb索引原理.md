@@ -59,7 +59,7 @@ B+树的存储方式
 3. 内节点key列：【非唯一索引列】【ROWID】+pageno指针
 
 ## B+树网络
-![B+树结构](49A51F14BCF7460C85B4EF04F5C9EFB8)
+![B+树结构](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/Innodb%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%861.png)
 - 一条记录分两个部分，对内节点一条记录只有key但存储的时候包括了pageno，对于叶子节点没有pageno
 - 每一层最左边节点页面的最左边位置，都有一个min虚拟记录，判断当前搜索是否已经到达页面边界
 - 每一个页面都有==页面头和页面尾==，用来管理及标记页面状态
@@ -77,7 +77,7 @@ B+树的存储方式
 
 #### 页面结构管理
 页面结构如图
-![页面结构](B61C0A6A93B84FBB99B6AC086D4BFE6D)
+![页面结构](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/Innodb%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%862.png)
 ###### 文件管理头信息
 - 文件头管理信息38字节
 

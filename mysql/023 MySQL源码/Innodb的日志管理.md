@@ -36,7 +36,7 @@
 1 row in set (0.00 sec)
 ```
 - buffer pool页面从实例池中从后向前分配，每次一个页面；而控制结构从前往后分配，每次一个buf_block_t大小，直到相遇。可能中间会剩余一部分没有被使用。所有的控制头连续在一起，而所有的page也连续在一起
-![image](4EAE4FA1F6F24572B13B471F8756F3B0)
+![image](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/Innodb%E7%9A%84%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%861.png)
 - 初始化页面控制信息通过buf_block_t实现，包括4个信息：
 1. 其对应的页面地址frame
 2. 页面信息结构buf_page_t，包括表空间所属的ID号，页面号，被修改时产生的LSN、使用状态（9种）
@@ -53,18 +53,18 @@
 - innodb通过日志组管理日志文件，每个日志组包含若干个日志文件，每个日志文件大小相等
 - 日志文件页面大小512字节，每次写入是机械硬盘块大小（512字节）的整数倍效率最高
 - 4个页面（2048字节），主要用于管理日志内容及整个数据库状态
-![image](A5E8EA23293D495E9A0297033702B392)
+![image](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/Innodb%E7%9A%84%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%862.png)
 - 普通页面，都会有12个字节用来存储页面头信息
 1. LOG_BLOCK_HDR_NO:4个字节,一个与LSN有关系的块号.
 2. LOG_BLOCK_HDR_DATA_LEN:2个字节,表示当前页面中存储的日志长度,这个值一般都等于512-12(12为页面头的大小),因为日志在相连的块中是连续存储的,中间不会存在空闲空间,所以如果这个长度不为500,表示此时日志已经扫描完成( Crash Recovery的工作).
 3. LOG_BLOCK_FIRST_REC_GROUP:2个字节,表示在当前块中是不是有一个MTR的开始位置.因为一个MTR所产生的日志量有可能是超过一个块大小的,那么如果一个MTR跨多个块时,这个值就表示了这个MTR的开始位置究竟是在哪一个块中.如果为0,则表示当前块的日志都属于同一个MTR;而如果其值大于0并且小于上面LOG_BLOCK_HDR_DATA_LEN所表示的值,则说明当前块中的日志是属于两个MTR的,后面MTR的开始位置就是LOG_BLOCK_FIRST_REC_GROUP所表示的位置.
 4. LOG_ LOCK_CHECKPOINT_NO:4个字节,存储的是检查点的序号
-![image](DAABFA593DAB4886A84C73D5DAB87F3D)
+![image](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/Innodb%E7%9A%84%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%863.png)
 
 ## MTR Innodb物理事务
 - 一种很重要的保证物理页面写入操作完整性和持久性的机制
 - mini-transaction，物理事务，缩写MTR，相对逻辑事务而言
-![image](B3D923D6EF1443AD8BE0A04F5EFA1B13)
+![image](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/Innodb%E7%9A%84%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%864.png)
 - 不管读还是写，只要使用到底层buffer pool都会用到MTR，是上层逻辑层与物理层的交互接口，保证物理层的数据正确性、完整性和持久性
 - 访问页面，系统都会将要访问的页面载入到buffer pool
 - innodb采用write ahead log（WAL），所有写操作都会有日志记录
@@ -127,7 +127,7 @@ Last checkpoint at  2625619
 3. 如果没有日志，page写入就是随机而并非顺序，性能很差（==有了redo，就能增加顺序比例？==）
 - 日志太小，容易造成太多checkpoint，性能不好；日志太大，重启恢复需要很多时间。一般情况，buffer pool与日志容量大小比例最好10~5：1范围
 #### 日志记录的格式
-![image](5878C5720DDB4554BA3C74612CFA5584)
+![image](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/Innodb%E7%9A%84%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%865.png)
 字段|说明
 ---|---
 type|日志类型，处记录的最高位，一个字节空间
@@ -152,7 +152,7 @@ MLOG_COMP_REC_DELETE|删除操作是通过打删除标记然后事务提交之�
 MLOG_COMP_PAGE_REORGANIZE|重组指定的页面，没有data部分。
 MLOG_COMP_REC_INSERT|记录基本的日志头信息，被插入记录在页面内的偏移，然后计算当前插入记录与前一条记录第一个不同字节的位置，再在日志中记录从此位置开始到当前记录结束位置之间的数据（前半部分依赖前一条记录，当前记录存储后半部分数据）
 
-![MLOG_COMP_REC_CLUST_DELETE_MARK格式](3719F6D4A098469DB69DC43242911E81)
+![MLOG_COMP_REC_CLUST_DELETE_MARK格式](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/Innodb%E7%9A%84%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%866.png)
 MLOG_COMP_REC_CLUST_DELETE_MARK格式为什么要记录索引字段数、唯一键数等信息？因为REDO是半逻辑半物理的，恢复时对应的数据字典可能是无用的
 
 #### 日志刷盘的时机
@@ -214,7 +214,7 @@ TRX_UNDO_DEL_MARK_REC|删除记录时对记录打删除标志的undo。格式与
 
 - 除了上面说到的tableid信息主键信息外，还会包括一些公有的信息比如回滚段指针、最新更新事务号，方便mvcc回溯记录找到之前的版本
 - 记录格式如下：
-![image](DCF46C8AA5F5406F97DF050ADC6A52C2)
+![image](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/Innodb%E7%9A%84%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%867.png)
 1. 最先的2字节和最后的2字节都是用来方便找到每一个记录并通过他们找到所有记录（类似于Undo记录组成的双向链表）
 2. 第二个位置存储的是记录类型
 3. 第三个位置存储的是事务的undo_no，用来区分一个事务中的多个undo顺序

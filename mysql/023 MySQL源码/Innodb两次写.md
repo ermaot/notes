@@ -5,7 +5,7 @@
 ## 两次写详述
 ##### 两次写过程
 两次写
-![double write](137C5D84677C40F485ED48471E4D71F5)
+![double write](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/Innodb%E4%B8%A4%E6%AC%A1%E5%86%99.png)
 共享表空间为2个区（extent），128个页，共2M
 - 两次写提升可靠性
 - 部分写失效：数据库宕机的时候，可能出现页未写完的情况

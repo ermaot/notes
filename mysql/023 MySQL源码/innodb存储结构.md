@@ -61,7 +61,7 @@ FSP_SEG_INODES_FREE | 16 | 空闲的inode页链表
 - 簇的基本组成单位，段端粒的最小单位，数据库文件管理的最小单位，文件中空间分配的最小单位
 - 一个簇默认64页面，逻辑上（页面号从小到大连续）及物理上都是连续的
 - innodb 访问的最小单位，默认16KB，由 UNIV_PAGE_SIZE 定义
-![innodb页结构](EDCD474E70734FE48552665AB2DC5DF5)
+![innodb页结构](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/innodb%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.png)
 
 innodb的页结构 |说明
 ---| ---|

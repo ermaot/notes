@@ -45,7 +45,7 @@ ut|这里实现了很多内部使用的一些经典算法,包括链表、红黑�
 
 
 ## innodb结构
-![innodb结构](ACF57FAAAF5C47C98F830424D248ED17)
+![innodb结构](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/innodb%E6%A6%82%E8%BF%B01.png)
 - 最上层的部分，是提供给MySQL server和Innodb NoSQL的接口。公共接口对应的定义在sql/handler.h中
 ```
 class handler :public Sql_alloc{
@@ -77,7 +77,7 @@ virtual int delete_row(const uchar *buf MY_ATTRIBUTE((unused)))
 ## Innodb存储引擎的启动与关闭
 #### Innodb启动过程
 1. 调用结构：
-![image](336E21BADC47477587DC2915F4EE7A09)
+![image](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/innodb%E6%A6%82%E8%BF%B02.png)
 2. 入口为innobase_init函数，最初的作用是初始化一些全局变量，为启动做准备
 3. innodb_start_or_create_for_mysql主要完成Innodb的启动过程。初始化一些系统模块（srv_general_init初始化了同步控制系统、内存管理系统、日志恢复变量等，srv_init函数中初始化了后台线程srv_sys->sys_threads同步控制系统）
 4. buf_pool_init函数根据innodb_buffer_pool_size和innodb_buffer_pool_instnaces初始化Innodb的buffer pool
