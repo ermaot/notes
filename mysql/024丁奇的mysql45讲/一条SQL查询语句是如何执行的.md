@@ -60,7 +60,7 @@ https://yq.aliyun.com/articles/71979
 
 
 ## 使用查找树
-![image](https://github.com/ermaot/notes/blob/master/mysql/024%E4%B8%81%E5%A5%87%E7%9A%84mysql45%E8%AE%B2/pic/%E4%B8%80%E6%9D%A1SQL%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%842.png)
+![image](pic/%E4%B8%80%E6%9D%A1SQL%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%842.png)
 gen_lex_hash.cc 的代码注释中有一个树的示例
 ```
 for this structure, presented program generate next searching-structure:
@@ -100,7 +100,7 @@ for this structure, presented program generate next searching-structure:
 #### 产生查找树：
 1. 读取关键字数组，产生一个Trie树（参看函数 generate_find_structs）；。
 2. 调整这棵树，并产生一个数组（也就是一个不用链表表示的树，参看函数 print_find_structs）。
-![image](https://github.com/ermaot/notes/blob/master/mysql/024%E4%B8%81%E5%A5%87%E7%9A%84mysql45%E8%AE%B2/pic/%E4%B8%80%E6%9D%A1SQL%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%843.png)
+![image](pic/%E4%B8%80%E6%9D%A1SQL%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%E6%98%AF%E5%A6%82%E4%BD%95%E6%89%A7%E8%A1%8C%E7%9A%843.png)
 - 处理过程
 1. nsert_symbols 处理的是 SQL 关键字
 2. insert_sql_functions 处理的是函数名
