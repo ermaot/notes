@@ -98,10 +98,10 @@ Out[13]: (__main__.D, __main__.B, __main__.C, __main__.A, object)
 ```
 内置的 super()函数会按照\_\_mro\_\_属性给出的顺序调用超类的方法
 
-![左侧继承关系图；右侧类MRO图](https://github.com/ermaot/notes/blob/master/python/python%E5%8E%9F%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/pic/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B9%A0%E6%83%AF%E7%94%A8%E6%B3%95-%E7%BB%A7%E6%89%BF%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B91.png)
+![左侧继承关系图；右侧类MRO图](pic/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B9%A0%E6%83%AF%E7%94%A8%E6%B3%95-%E7%BB%A7%E6%89%BF%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B91.png)
 ## 多重继承的真实应用
 Python 标准库中，最常使用多重继承的是 collections.abc 
-![Tkinter GUI 类层次结构的 UML 简图](https://github.com/ermaot/notes/blob/master/python/python%E5%8E%9F%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/pic/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B9%A0%E6%83%AF%E7%94%A8%E6%B3%95-%E7%BB%A7%E6%89%BF%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B92.png)
+![Tkinter GUI 类层次结构的 UML 简图](pic/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B9%A0%E6%83%AF%E7%94%A8%E6%B3%95-%E7%BB%A7%E6%89%BF%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B92.png)
 - Toplevel：表示 Tkinter 应用程序中顶层窗口的类。
 - Widget：窗口中所有可见对象的超类。
 - Button：普通的按钮小组件。

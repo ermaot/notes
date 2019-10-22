@@ -185,7 +185,7 @@ AsyncIterable|	|	\_\_aiter\_\_|
 AsyncIterator|	AsyncIterable|	\_\_anext\_\_|	\_\_aiter\_\_
 AsyncGenerator|AsyncIterator|asend,athrow|aclose,\_\_aiter\_\_,\_\_anext\_\_
 
-![image](https://github.com/ermaot/notes/blob/master/python/python%E5%8E%9F%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/pic/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B9%A0%E6%83%AF%E7%94%A8%E6%B3%95-%E6%8E%A5%E5%8F%A3%EF%BC%9A%E4%BB%8E%E5%8D%8F%E8%AE%AE%E5%88%B0%E6%8A%BD%E8%B1%A1%E5%9F%BA%E7%B1%BB.png)
+![image](pic/python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E4%B9%A0%E6%83%AF%E7%94%A8%E6%B3%95-%E6%8E%A5%E5%8F%A3%EF%BC%9A%E4%BB%8E%E5%8D%8F%E8%AE%AE%E5%88%B0%E6%8A%BD%E8%B1%A1%E5%9F%BA%E7%B1%BB.png)
 - Iterable、Container和Sized：各个集合应该继承这三个抽象基类，或者至少实现兼容的协议。Iterable 通过 \_\_iter\_\_ 方法支持迭代，Container 通过\_\_contains\_\_ 方法支持 in 运算符，Sized 通过 \_\_len\_\_ 方法支持len() 函数。
 - Sequence、Mapping 和Set:　　这三个是主要的不可变集合类型，而且各自都有可变的子类。
 - MappingView:　　在 Python 3 中，映射方法 .items()、.keys() 和 .values() 返回的对象分别是 ItemsView、KeysView和ValuesView的实例。前两个类还从Set类继承了丰富的接口

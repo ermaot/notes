@@ -76,7 +76,7 @@ cProfile.runctx( command, globals(), locals(), filename="OpenGLContext.profile" 
 ```
 
 结果
-![image](https://github.com/ermaot/notes/blob/master/python/python%E5%8E%9F%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/pic/python%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%951.png)
+![image](pic/python%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%951.png)
 
 还可以有类似的工具runsnakemem 
 
@@ -88,7 +88,7 @@ scanner.dump_all_objects( filename )
 
 # runsnakemem <filename>
 ```
-![image](https://github.com/ermaot/notes/blob/master/python/python%E5%8E%9F%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/pic/python%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%952.png)
+![image](pic/python%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%96%B9%E6%B3%952.png)
 ## 用line_profile进行逐行分析
 创建测试py程序文件
 

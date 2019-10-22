@@ -11,7 +11,7 @@
 - 如果Python代码集中于调用向量化的numpy例程，那么在编译后就不大可能运行得更快，只有当被编译的代码主要是 Python（并且可能主要是循环）时才会运行得更快
 - ==编译后的代码不可能比手工精心编写的C例程运行得更快，但也不可能比它慢很多==
 - 
-![image](https://github.com/ermaot/notes/blob/master/python/python%E5%8E%9F%E7%90%86%E4%B8%8E%E4%BC%98%E5%8C%96/pic/python%E6%80%A7%E8%83%BD-%E7%BC%96%E8%AF%91%E6%88%90C.png)
+![image](pic/python%E6%80%A7%E8%83%BD-%E7%BC%96%E8%AF%91%E6%88%90C.png)
 ## JIT和AOT编译器的对比
 编译工具大体分为两类：提前编译工具（Cython、Shed Skin、Pythran）和“即时”编译工具（Numba、PyPy）
 - 通过提前编译（AOT），你会创建一个为你的机器定制的静态库
