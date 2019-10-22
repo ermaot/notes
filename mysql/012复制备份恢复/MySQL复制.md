@@ -26,7 +26,7 @@
 1. 主库上把数据更改都记录到二进制日志（binary log）中：每次提交事务完成数据更新之前，主库按照事务提交的顺序将将数据更新事件记录到二进制日志中，完成后，主库通知存储引擎可以提交事务
 2. 备库将主库的日志复制到自己的中继日志（relay log）中：首先备库启动一个IO工作线程，与主库建立普通的客户端连接，然后主库启动一个特殊的二进制转储（binlog dump）线程赌气主库二进制日志中的事件，备库IO线程会将接收到的事件记录到中继日志
 3. 备库 读取中继日志中的事件，重放到备库数据库上。==可以配置中继日志是否写入自己的二进制日志中。==
-![复制拓扑](6B5FAEAD83CB459683EDAC4CDAEA7219)
+![复制拓扑](https://github.com/ermaot/notes/blob/master/mysql/012%E5%A4%8D%E5%88%B6%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/pic/MySQL%E5%A4%8D%E5%88%B6.png)
 - 这种方式实现了获取事件和重放事件的解耦，可以异步进行；但导致主库上可以并发但备库只能串行化
 ## 配置复制
 分三步：
@@ -178,7 +178,7 @@ sync_relay_log_info = 1
 - expire_logs_days 定义了MySQL过期日志的清理方式，会与.index有交互
 #### 发送复制事件到其他备库
 - log_slave_updates 选项可以让备库变成其他服务器的主库（MySQL会将其执行过的事件记录到自己的二进制日志中）
-![image](C478E4B27E8E4520A1CA1383EBC6B0B2)
+![image](https://github.com/ermaot/notes/blob/master/mysql/012%E5%A4%8D%E5%88%B6%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/pic/MySQL%E5%A4%8D%E5%88%B62.png)
 #### 复制过滤器
 - 可以使用binlog_do_db 和 binlog_ignore_db控制过滤，但最好别开启
 ## 复制拓扑
@@ -197,7 +197,7 @@ sync_relay_log_info = 1
 5. 使用其中一个备库，作为备份、培训、开发或者测试使用服务器
 #### 主动-主动模式下的主主复制
 主主复制（双主复制或者双向复制）包含两台服务器，每一个都被配置成对方的主库和备库
-![主主复制](5D7EDEDB0578478B9BDC9CC462856342)
+![主主复制](https://github.com/ermaot/notes/blob/master/mysql/012%E5%A4%8D%E5%88%B6%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/pic/MySQL%E5%A4%8D%E5%88%B63.png)
 - 场景：两个不同地理位置的办公室，都需要一份可写的数据拷贝
 - 最大问题：如何解决冲突。
 - 双主复制导致的问题非常多
@@ -212,7 +212,7 @@ sync_relay_log_info = 1
 
 #### 拥有备库的主主结构
 #### 环形复制
-![image](0428BBF74D2A4CBD9B76A4D80669B45D)
+![image](https://github.com/ermaot/notes/blob/master/mysql/012%E5%A4%8D%E5%88%B6%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/pic/MySQL%E5%A4%8D%E5%88%B64.png)
 - 无双主复制的优点（对称配置和简单的故障转移）
 - 大大增加了整个系统的失效概率，一个节点失效就整个系统失效
 尽量避免环形复制
@@ -220,11 +220,11 @@ sync_relay_log_info = 1
 - 当备库很多的时候，有大的事件出现，主库负载会明显上升，可能导致内存耗尽并崩溃
 - 如果备库请求的数据不在文件系统的缓存中，可能导致大量的磁盘检索，影响主库性能
 - 可以使用分发主库（实际是专用备库）
-![image](2CC6C769CC34489E8E97D541FB73A7A3)
+![image](https://github.com/ermaot/notes/blob/master/mysql/012%E5%A4%8D%E5%88%B6%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/pic/MySQL%E5%A4%8D%E5%88%B65.png)
 
 
 #### 树或者金字塔形
-![image](6E4777B437DB4E77B7AB61B564B66E33)
+![image](https://github.com/ermaot/notes/blob/master/mysql/012%E5%A4%8D%E5%88%B6%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/pic/MySQL%E5%A4%8D%E5%88%B66.png)
 #### 定制的复制方案
 ## 复制和容量规划
 #### 为什么复制无法扩展写操作
