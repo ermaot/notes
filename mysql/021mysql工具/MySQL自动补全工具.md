@@ -48,4 +48,4 @@ SELECT * FROM users WHERE <Tab> - 这将简单的显示出列名称。
 - 支持 SQL 语句执行和表查询计时
 - 以更吸引人的方式打印表格数据
 
-![mycli自动补全](https://github.com/ermaot/notes/blob/master/mysql/021mysql%E5%B7%A5%E5%85%B7/pic/MySQL%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%B7%A5%E5%85%B7.png)
+![mycli自动补全](pic/MySQL%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8%E5%B7%A5%E5%85%B7.png)
