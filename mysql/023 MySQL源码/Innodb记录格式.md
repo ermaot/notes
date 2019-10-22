@@ -29,7 +29,7 @@ MySQL有3个层次的存储格式
 - server层的格式：与引擎无关，适用于所有引擎。操作数据时必然要经过的一种格式，row模式下的binlog存储所使用的格式
 - 索引元组格式：Innodb存储引擎在存取记录时一种中间状态。它是Innodb在内存中的一种元组格式，==不同索引对应的元组不同==（？）
 - 物理存储格式。这种格式与索引元组一一对应。每次存取，都从server层格式转换为索引元祖格式，再转换为页面上的索引记录物理格式。
-![compat格式](https://github.com/ermaot/notes/blob/master/mysql/023%20MySQL%E6%BA%90%E7%A0%81/pic/Innodb%E8%AE%B0%E5%BD%95%E6%A0%BC%E5%BC%8F.png)
+![compat格式](pic/Innodb%E8%AE%B0%E5%BD%95%E6%A0%BC%E5%BC%8F.png)
 1. 首部是变长字段长度列表，最大为2字节（所以mysqlvarchar最大长度为2^16-1 = 65535）
 2. NULL标志位，所用字节为byte
 3. 记录头
