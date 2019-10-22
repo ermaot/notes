@@ -96,7 +96,7 @@ InnoDB缓存池的命中率:
 - 擦除不能在扇区上完成，只能在擦除块上完成，通常大小128kb
 - 闪存读写性能不对称，读取远大于写入
 - 访问延时一般小于0.1ms
-![image](90D97E268BDC400F912DFC73E75F493A)
+![image](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/innodb%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%981.png)
 - innodb_io_capacity 可以增加该值
 - 修改innodb源码禁用预读、邻接页特性
 ## 合理设置RAID
