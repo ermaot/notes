@@ -173,13 +173,13 @@ log：
 ## raft如何在不同的阶段保障一致性
 #### 1.数据到达 Leader 节点前
 这个阶段 Leader 挂掉不影响一致性，不多说。
-![image](https://github.com/ermaot/notes/blob/master/mysql/013%E5%88%86%E5%B8%83%E5%BC%8F/pic/RAFT%E7%AE%97%E6%B3%951.png)
+![image](pic/RAFT%E7%AE%97%E6%B3%951.png)
 
 #### 2.数据到达 Leader 节点，但未复制到 Follower 节点
 - 这个阶段 Leader 挂掉，数据属于未提交状态，Client 不会收到 Ack 会认为超时失败可安全发起重试。
 - Follower 节点上没有该数据，重新选主后 Client 重试重新提交可成功。
 - 原来的 Leader 节点恢复后作为 Follower 加入集群重新从当前任期的新 Leader 处同步数据，强制保持和 Leader 数据一致
-![image](https://github.com/ermaot/notes/blob/master/mysql/013%E5%88%86%E5%B8%83%E5%BC%8F/pic/RAFT%E7%AE%97%E6%B3%952.png)
+![image](pic/RAFT%E7%AE%97%E6%B3%952.png)
 
 
 #### 3.数据到达 Leader 节点，成功复制到 Follower 所有节点，但还未向 Leader 响应接收
@@ -187,20 +187,20 @@ log：
 - 重新选出 Leader 后可完成数据提交
 - 此时 Client 由于不知到底提交成功没有，可重试提交
 - 针对这种情况 Raft 要求 RPC 请求实现幂等性，也就是要实现内部去重机制
-![image](https://github.com/ermaot/notes/blob/master/mysql/013%E5%88%86%E5%B8%83%E5%BC%8F/pic/RAFT%E7%AE%97%E6%B3%953.png)
+![image](pic/RAFT%E7%AE%97%E6%B3%953.png)
 
 ##### 4.数据到达 Leader 节点，成功复制到 Follower 部分节点，但还未向 Leader 响应接收
 - 这个阶段 Leader 挂掉，数据在 Follower 节点处于未提交状态（Uncommitted）且不一致
 - ==Raft 协议要求投票只能投给拥有最新数据的节点==。所以拥有最新数据的节点会被选为 Leader 再强制同步数据到 Follower，数据不会丢失并最终一致
-![image](https://github.com/ermaot/notes/blob/master/mysql/013%E5%88%86%E5%B8%83%E5%BC%8F/pic/RAFT%E7%AE%97%E6%B3%954.png)
+![image](pic/RAFT%E7%AE%97%E6%B3%954.png)
 
 ##### 5.数据到达 Leader 节点，成功复制到 Follower 所有或多数节点，数据在 Leader 处于已提交状态，但在 Follower 处于未提交状态
 这个阶段 Leader 挂掉，重新选出新 Leader 后的处理流程和阶段 3 一样。
-![image](https://github.com/ermaot/notes/blob/master/mysql/013%E5%88%86%E5%B8%83%E5%BC%8F/pic/RAFT%E7%AE%97%E6%B3%955.png)
+![image](pic/RAFT%E7%AE%97%E6%B3%955.png)
 
 ##### 6.数据到达 Leader 节点，成功复制到 Follower 所有或多数节点，数据在所有节点都处于已提交状态，但还未响应 Client
 这个阶段 Leader 挂掉，Cluster 内部数据其实已经是一致的，Client 重复重试基于幂等策略对一致性无影响。
-![image](https://github.com/ermaot/notes/blob/master/mysql/013%E5%88%86%E5%B8%83%E5%BC%8F/pic/RAFT%E7%AE%97%E6%B3%956.png)
+![image](pic/RAFT%E7%AE%97%E6%B3%956.png)
 
 ##### 7.网络分区导致的脑裂情况，出现双 Leader
 - 网络分区将原先的 Leader 节点和 Follower 节点分隔开，Follower 收不到 Leader 的心跳将发起选举产生新的 Leader。这时就产生了双 Leader
