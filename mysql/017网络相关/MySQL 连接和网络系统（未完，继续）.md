@@ -8,7 +8,7 @@
 6. 服务器到客户端：OK包、错误（error）包、结果集包
 7. 客户端到服务器段：断开请求
 8. tcp四次挥手断开连接
-![MySQL 网络交互过程](https://github.com/ermaot/notes/blob/master/mysql/017%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F1.png)
+![MySQL 网络交互过程](pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F1.png)
 [MySQL协议分析](https://www.cnblogs.com/davygeek/p/5647175.html)<p>
 [MySQL网络协议分析](https://segmentfault.com/a/1190000012166738?utm_source=tag-newest)
 ## 协议和操作系统协议栈
@@ -112,7 +112,7 @@ N |用户名|存放试图登录的用户名
 1+N| 密码加密字段(scramble. buf)|是带长度标识的字符串(Length Coded String)
 N |数据库名(可选)|数据库的名称字段
 客户端标志示例
-![客户端标志示例](https://github.com/ermaot/notes/blob/master/mysql/017%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F2.png)
+![客户端标志示例](pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F2.png)
 
 - libmysq/libmysql.c::mysql_real_connect()定义了MySQL客户端的认证过程
 - sql/sql_connect.c::check_connections()中定义了服务器端认证用户的过程
@@ -293,7 +293,7 @@ n=strlen(server version)+1 |服务器信息|也可以在include/mysql_version.h�
 2| 服务器状态|
 13 |0x00填充位|
 13| 密码验证2|
-![握手包示例](https://github.com/ermaot/notes/blob/master/mysql/017%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F3.png)
+![握手包示例](pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F3.png)
 
 #### 结果包
 对于客户端的认证包或者命令包的请求，服务器段都将发送一个回应包，可能是OK包、ERROR包、命令的结果集包等
@@ -322,7 +322,7 @@ EOF包| 0xfe|
 2| 警告数量|
 N |消息|执行语句后,在返回的结果后有一段总结性信息，如2 rows affected
 
-![OK包示例](https://github.com/ermaot/notes/blob/master/mysql/017%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F4.png)
+![OK包示例](pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F4.png)
 - 使用sql/protocol.cc中的net_send_ok()函数
 
 ###### ERROR包
@@ -338,13 +338,13 @@ N| 消息|发生错误的原因，长度512字节<p>发送error的函数net_send
 ###### 结果集包
 - 客户端90%语句是查询语句，查询语句中 90%返回一个结果集，结果基本都超过一个单元格。
 - 结果集包结构
-![结果集包结构](https://github.com/ermaot/notes/blob/master/mysql/017%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F5.png)
+![结果集包结构](pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F5.png)
 1. 结果集包头部
 字节数|字段名|说明
 ---|---|---
 1~9|FIELD_COUNT|记录返回集的列数
 1~9|附属字段|可选，show columns才用到
-![结果集包头](https://github.com/ermaot/notes/blob/master/mysql/017%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F6.png)
+![结果集包头](pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F6.png)
 2. 列包（属性包）
 
 列包格式
@@ -364,7 +364,7 @@ N(带长度标识字符串) |原列名称|as左侧的列名
 1| 十进制|对于Decimal或Numeric类型的数据,该字段记录了小数点后面的位数
 2| 填充(总是0x00)
 N(带长度标识字符串]| 默认值|仅用于数据表定义.当用户执行show columns from tablea 时,并不返回这个字段的任何值
-![列包格式](https://github.com/ermaot/notes/blob/master/mysql/017%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3/pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F7.png)
+![列包格式](pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F7.png)
 整个包有FIELD_COUNT个列包
 3. 行包
 
