@@ -156,7 +156,7 @@ Modified db pages       0
 
 ```
 3. 缓存的内容有索引页，数据页，undo页，插入缓冲，自适应哈希索引，innodb的锁信息，数据字典（data dictionary）等
-![innodb内存结构](932BCD7D6B964F36881561B166640B47)
+![innodb内存结构](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/innodb%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E2-innodb%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84.png)
 - 重做日志缓冲池（redo log buffer  pool）:innodb_log_buffer_size
 1. 将重做日志放入这个内存区，按照一定的频率刷新到重做日志文件
 2. 频率一般为1秒一次
@@ -281,7 +281,7 @@ merge recs： 合并页的数量
 merges : merge recs 代表插入缓冲对非聚集索引的IO请求降低的次数比
 - 插入缓冲可能导致占用太多缓存池内存，（percona）使用ibuff_pool_size_per_max_size控制
 #### 两次写
-![double write](137C5D84677C40F485ED48471E4D71F5)
+![double write](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/innodb%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E2.png)
 共享表空间为2个区（extent），128个页，共2M
 - 两次写提升可靠性
 - 部分写失效：数据库宕机的时候，可能出现页未写完的情况

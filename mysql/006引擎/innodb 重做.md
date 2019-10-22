@@ -14,7 +14,7 @@
 1. innodb_flush_log_at_trx_commit = 0 表示事务完成时不刷日志到磁盘，而等master每秒刷新（宕机可能损失最后一秒数据）
 2. innodb_flush_log_at_trx_commit = 1 表示commit时同步刷到磁盘
 3. innodb_flush_log_at_trx_commit = 2 表示commit时异步刷到磁盘（有这个动作，但不是肯定会写入而由操作系统决定写入）；mysql宕机但操作系统不宕机，则也不会丢失数据；操作系统宕机，可能丢失未刷入磁盘的那部分数据
-![参数不同导致的性能区别](ED674CC316224B81AA4682847B5B34DF)
+![参数不同导致的性能区别](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/innodb%20%E9%87%8D%E5%81%9A1.png)
 - 二进制日志和重做日志
 1. 重做日志是innodb产生，而二进制日志是数据库上层产生
 2. 内容不同。二进制日志本质是逻辑日志，是sql语句；而重做日志是对每个页的修改，物理日志
@@ -86,10 +86,10 @@ Checkpoint age        0
 - 归档日志防止重做日志丢失（==这部分需要再看==）
 #### 重做日志块
 - 重做日志都是以512字节存储的；如果大于512，需要分割多个来存储
-![image](A764D9531891413CB1960CA07BEDE582)
+![image](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/innodb%20%E9%87%8D%E5%81%9A2.png)
 - 512与扇区大小一致，所以无需double write
 - 重做日志块有块头（log block header），块尾（log block tail），日志本身三个部分
-![重做日志块结构](B5249DC9B5554CC99683A29777276412)
+![重做日志块结构](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/innodb%20%E9%87%8D%E5%81%9A3.png)
 - LSN计算举例
 
 ```

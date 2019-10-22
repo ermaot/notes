@@ -11,7 +11,7 @@ B+树使用填充因子(fill factor) 来控制树的删除变化,50% 是填充�
 ## B+树索引
 #### 索引的特点
 B+树与索引之间的区别
-![image](1FE5FD188D0740A296701DBCC0961482)
+![image](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/B%2B%E6%A0%91%E7%B4%A2%E5%BC%951.png)
 特点 | B+树|B+树索引
 ---|---|---
 存储位置| 内存|磁盘
@@ -30,9 +30,9 @@ B+树与索引之间的区别
 1. 记录的物理地址，页号：槽号：偏移量
 2. 记录的主键值
 - MyISAM 无聚集索引。索引文件和数据文件分开存放。主键与其他索引的区别仅仅是主键是唯一的（unique）且非空（not null）
-![MyISAM索引与数据记录之间的关系](6D6C3069F46344CDA91390EB35AB184F)
+![MyISAM索引与数据记录之间的关系](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/B%2B%E6%A0%91%E7%B4%A2%E5%BC%952.png)
 - innodb存储引擎是索引组织表，辅助索引中记录地址存放的是主键的键值。若通过辅助索引查询完整记录，还要通过一次聚集索引来书签查找（bookmark lookup）
-![innodb辅助索引和聚集索引的关系](41CBD11F3BDF49ED9B77685E8E8BD4D4)
+![innodb辅助索引和聚集索引的关系](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/B%2B%E6%A0%91%E7%B4%A2%E5%BC%953.png)
 - 不同辅助索引实现的对比
 
 操作 | MyIsam  | innodb
@@ -207,7 +207,7 @@ mtr |页的日志
 - 辅助索引上没有隐式锁，因此不需要隐式和显式的锁转化
 - 聚集索引伪删除操作产生undo日志
 - delete mark操作会产生重做日志（聚集索引和辅助索引），格式如下：
-![delete mark重做日志格式](5C4E3FF70B6D4C9CBBF9D33E1213B0F7)
+![delete mark重做日志格式](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/B%2B%E6%A0%91%E7%B4%A2%E5%BC%954.png)
 ****表示压缩方式存储***
 ## 持久游标
 - btr0cur模块用于对B+树索引进行增删改查操作，产生对应的redo和undo，并处理可能发生的B+树分裂和合并的情况
