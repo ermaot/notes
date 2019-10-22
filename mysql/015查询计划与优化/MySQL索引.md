@@ -103,7 +103,7 @@ SELECT * FROM TABLE1 IGNORE INDEX (FIELD1, FIELD2)
 1. Myisam数据分布很简单，按照数据插入的顺序存储在磁盘上
 2. Myisam主键索引和非主键索引结构相同，主键索引就是一个==名为primary==的唯一非空索引
 3. innodb索引结构
-![innodb所以结构](https://github.com/ermaot/notes/blob/master/mysql/015%E6%9F%A5%E8%AF%A2%E8%AE%A1%E5%88%92%E4%B8%8E%E4%BC%98%E5%8C%96/pic/MySQL%E7%B4%A2%E5%BC%95.png)
+![innodb所以结构](pic/MySQL%E7%B4%A2%E5%BC%95.png)
 4. 每一个叶子节点包含了主键值、事务ID、回滚指针（用于事务和mvcc）以及所有剩余列
 5. innodb二级索引和聚簇索引很不同，二级索引叶子节点存储的是主键值（移动行的时候，无需更新二级索引中的指针）
 - innodb最大的填充因子默认是15/16，最小是50%
