@@ -61,14 +61,14 @@ HTTP（Hyper Text Transfer Protocol）协议的内涵：
 ## HTTP相关协议
 #### TCP/IP
 TCP/IP 协议实际上是一系列网络通信协议的统称，其中最核心的两个协议是TCP和IP，其他的还有UDP、ICMP、ARP等等，共同构成了一个复杂但有层次的协议栈。
-![image](97C4237CED7A495A8EE3BFD80C249C67)
+![image](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%801.png)
 - 第一层叫“链接层”（link layer），负责在以太网、WiFi这样的底层网络上发送原始数据包，工作在网卡这个层次，使用MAC地址来标记网络上的设备，所以有时候也叫 MAC 层。
 - 第二层叫网际层或者网络互联层（internet layer）”（internet layer），IP 协议就处在这一层。因为 IP 协议定义了“IP 地址”的概念，所以就可以在“链接层”的基础上，用 IP 地址取代 MAC 地址，把许许多多的局域网、广域网连接成一个虚拟的巨大网络，在这个网络里找设备时只要把 IP 地址再“翻译”成 MAC 地址就可以了。
 - 第三层叫传输层（transport layer），这个层次协议的职责是保证数据在IP地址标记的两点之间“可靠”地传输，是TCP协议工作的层次，另外还有它的一个“小伙伴”UDP。TCP面向连接，有状态；UDP面向无连接，无状态
 - 第四层叫“应用层”，各种不同的应用协议
 - MAC 层的传输单位是帧（frame），IP 层的传输单位是包（packet），TCP 层的传输单位是段（segment），HTTP 的传输单位则是消息或报文（message）。但这些名词并没有什么本质的区分，可以统称为数据包。
 #### OSI网络分层模型
-![image](24BB81569AFA4F89B164D7C20BEEBBE2)
+![image](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%802.png)
 1. 第一层：物理层，网络的物理形式，例如电缆、光纤、网卡、集线器等等；
 2. 第二层：数据链路层，它基本相当于 TCP/IP 的链接层；
 3. 第三层：网络层，相当于 TCP/IP 里的网际层；
@@ -78,10 +78,10 @@ TCP/IP 协议实际上是一系列网络通信协议的统称，其中最核心�
 7. 第七层：应用层，面向具体的应用传输数据。
 
 #### TCP/IP与OSI模型之间的关系
-![image](F40EBAA3941046C8A3B49816A6589DE3)
+![image](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%803.png)
 
 #### 包在层次之间的转移
-![image](FD8383568C924BBC8A4059D7C64C1C23)
+![image](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%804.png)
 OSI 的分层模型在四层以上分的太细，而 TCP/IP 实际应用时的会话管理、编码转换、压缩等和具体应用经常联系的很紧密，很难分开。例如，HTTP 协议就同时包含了连接管理和数据格式定义。
 
 #### DNS协议
@@ -136,7 +136,7 @@ server {
 1. 根域名服务器（Root DNS Server）：管理顶级域名服务器，返回“com”“net”“cn”等顶级域名服务器的 IP 地址；
 2. 顶级域名服务器（Top-level DNS Server）：管理各自域名下的权威域名服务器，比如 com 顶级域名服务器可以返回 apple.com 域名服务器的 IP 地址；
 3. 权威域名服务器（Authoritative DNS Server）：管理自己域名下主机的 IP 地址，比如 apple.com 权威域名服务器可以返回 www.apple.com 的 IP 地址。
-![image](4A7FD770364448D39D35C82E2775431A)
+![image](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/HTTP%E5%8D%8F%E8%AE%AE%E5%9F%BA%E7%A1%805.png)
 - 根域名服务器是关键，它必须是众所周知的，目前全世界共有 13 组根域名服务器，又有数百台的镜像，保证一定能够被访问到
 - 域名查询举例（www.apple.com）：
 1. 访问根域名服务器，它会告诉你“com”顶级域名服务器的地址；

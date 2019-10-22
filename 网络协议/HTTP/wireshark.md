@@ -4,10 +4,10 @@
 wireshark的过滤项是“协议“+”.“+”协议字段”的模式，以端口为例，端口出现于tcp协议中所以有端口这个过滤项且其写法就是tcp.port。其他协议，如eth、ip、udp、http、telnet、ftp、icmp、snmp等等其他协议都是如此
 #### 过滤关系
 过滤关系就是大于、小于、等于等几种等式关系
-![image](07BA42F68A3A4280BC5BC8B05A1259E0)
+![image](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/wireshark1.png)
 
 #### 复合过滤表达式
-![image](2CFC0C0D54C9412C868A970AD27ECCA6)
+![image](https://github.com/ermaot/notes/blob/master/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/HTTP/pic/wireshark2.png)
 
 
 #### 常见用显示过滤需求及其对应表达式
