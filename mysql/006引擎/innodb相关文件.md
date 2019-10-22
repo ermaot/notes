@@ -302,7 +302,7 @@ innodb_data_file_path = /db/ibdata1:2000M;/dr/ibdata2:2000M:autoextend
 ```
 1. 配置了该参数，存储表的数据、索引、插入缓冲等信息会存入单独的.ibd中
 2. 其余信息（undo信息，事务信息，二次写缓冲等）还是存放默认表空间
-![innodb 文件的存储方式](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/innodb%E7%9B%B8%E5%85%B3%E6%96%87%E4%BB%B6.png)
+![innodb 文件的存储方式](pic/innodb%E7%9B%B8%E5%85%B3%E6%96%87%E4%BB%B6.png)
 #### 重做日志文件
 - 默认情况下有两个ib_logfile1 和 ib_logfile1
 - 可使用重做日志返回到宕机前的时刻，防止介质失效（media failure）
@@ -358,7 +358,7 @@ innodb_data_file_path = /db/ibdata1:2000M;/dr/ibdata2:2000M:autoextend
 - redo log 与二进制日志的区别
 1. 二进制日志会记录所有与mysql有关的日志记录，不论引擎是什么，innodb只记录其本身的事务日志
 2. 二进制日志记录的是事务的具体操作内容，不管格式是statement还是row，而redo log记录的是每一个页的更改情况
-![重做日志结构](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/innodb%E7%9B%B8%E5%85%B3%E6%96%87%E4%BB%B62.png)
+![重做日志结构](pic/innodb%E7%9B%B8%E5%85%B3%E6%96%87%E4%BB%B62.png)
 3. 写入时间不同，二进制日志是事务提交前记录的，而事务在进行过程中不断有日志产生
 - innodb_flush_log_at_trx_commit 值可为0，1，2
 1. innodb_flush_log_at_trx_commit = 0 表示事务完成时不刷日志到磁盘，而等master每秒刷新

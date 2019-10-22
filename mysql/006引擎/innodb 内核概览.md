@@ -31,5 +31,5 @@ innodb版本 | 代码行数
 - windows使用visual studio
 - linux使用vim + gdb
 ## 阅读源码次序
-![innodb模块划分](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/innodb%20%E5%86%85%E6%A0%B8%E6%A6%82%E8%A7%881.png)
+![innodb模块划分](pic/innodb%20%E5%86%85%E6%A0%B8%E6%A6%82%E8%A7%881.png)
 ## 

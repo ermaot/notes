@@ -1,6 +1,6 @@
 ## 相关文件
 - dyn0dyn.* 、 fut0*.* 、 ha0ha.* 、hash0hash.* 、mem0.*、 ut0.*共8164行
-![与基本算法相关的文件](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/innodb%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%841.png)
+![与基本算法相关的文件](pic/innodb%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%841.png)
 ## 内存管理系统
 - 此处的内存管理不是管理缓存池中的页，而是动态生成的数据库对象
 #### 内存管理
@@ -11,14 +11,14 @@
 - innodb可以从缓冲池中分配内存建立内存堆，这样更快生成内存页（大小16KB）：缓冲池分配（buffer allocation）
 - innodb内存结构分三层，从下到上依次为：系统内存 → （通用内存池，缓冲内存池） → 各种用途的内存堆对象
 - 从通用内存池分配，使用mem_area_alloc；从缓冲内存池分配，使用buf_frame_alloc
-![内存层次结构示意图](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/innodb%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%842.png)
+![内存层次结构示意图](pic/innodb%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%842.png)
 ###### 内存堆
 - 内存堆是innodb最基本也是最重要的内存对象
 - 内存堆其实就是一系列相连的内存块
 - 内存堆相当于一个栈：通过不断增加内存块以增大内存堆的空间；从栈顶释放内存块
 - innodb使用 mem_block_t 表示内存堆中每次从操作系统或者缓冲池中分配的内存块，每个内存块都包含 mem_block_info_t 的元数据信息
 #### 通用内存池（==此处有很多笔记需要补充==）
-![伙伴系统分配方式](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/innodb%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%843.png)
+![伙伴系统分配方式](pic/innodb%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%843.png)
 ## 哈希表
 #### 哈希算法
 - 哈希算法复杂度为O(1)
@@ -63,7 +63,7 @@ HASH_SEARCH_ALL(NAME, TABLE, TYPE, DATA, ASSERTION, TEST) |
 - 通常意义上的双链表，广泛应用于缓冲池、事务处理、锁、文件系统等模块
 - 在ut0lst.h中宏定义，与数据类型无关
 - 链表有两个部分：链表基节点 UT_LIST_BASE_NODE_T(TYPE) 与 节点链表 UT_LIST_NODE_T(TYPE)
-![双链表示意图](https://github.com/ermaot/notes/blob/master/mysql/006%E5%BC%95%E6%93%8E/pic/innodb%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%844.png)
+![双链表示意图](pic/innodb%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%844.png)
 #### 磁盘双链表
 - 主要用于表空间管理、事务处理、B树模块，用于建立保存在磁盘的数据之间的关系
 - 先读到内存，然后通过块内的数据偏移得到数据
