@@ -1,0 +1,131 @@
+本文来自 https://www.cnblogs.com/crazylqy/p/7611069.html （何登成）与丁奇《mysql45讲》之事务隔离
+
+#### ACID
+
+Atomicity、Consistency、Isolation、Durability，即原子性、一致性、隔离性、持久性
+
+#### 多版本并发控制MVCC：Snapshot Read vs Current Read
+- MVCC (Multi-Version Concurrency Control) ：最大的好处，读不加锁（？），读写不冲突
+- 与MVCC相对的，是基于锁的并发控制，Lock-Based Concurrency Control
+- 读操作可以分成两类： **快照读** (snapshot read，一般不加锁)与**当前读** (current read，加锁)
+1.  **快照读：**  select * from table where ; 
+
+2. **当前读**：select * from table where ? lock in share mode;（S锁）
+
+   ​          select * from table where ? for update;（X锁）
+
+   ​          insert into table values (…);（X锁）
+
+   ​          update table set ? where ?;（X锁）
+
+   ​          delete from table where ?;（X锁）
+
+   
+
+#### 聚簇索引
+
+ InnoDB存储引擎的数据组织方式，是聚簇索引表：完整的记录，存储在主键索引中，通过主键索引，就可以获取记录所有的列。 
+
+#### 2PL：Two-Phase Locking
+
+ 2PL就是将加锁/解锁分为两个完全不相交的阶段 
+
+#### 事务隔离级别Isolation Level
+
+- Read Uncommited：可以读取未提交记录。此隔离级别，不会使用，忽略。
+- Read Committed (RC)：快照读忽略；针对当前读，RC隔离级别保证对读取到的记录加锁 (记录锁)，存在幻读现象。
+- Repeatable Read (RR)：快照读忽略；针对当前读，RR隔离级别保证对读取到的记录加锁 (记录锁)，同时保证对读取的范围加锁，新的满足查询条件的记录不能够插入 (间隙锁)，不存在幻读现象。
+- Serializable：从MVCC并发控制退化为基于锁的并发控制。不区别快照读与当前读，所有的读操作均为当前读，读加读锁 (S锁)，写加写锁 (X锁)。
+
+## 加锁过程分析
+
+####  语句delete from t1 where id = 10; 的加锁分析
+
+- 组合一：id列是主键，RC隔离级别
+
+   只需要将主键上，id = 10的记录加上X锁即可 
+
+- 组合二：id列是二级唯一索引，RC隔离级别
+
+  1.  SQL需要加两个X锁，一个对应于id unique索引上的id = 10的记录
+  2.  另一把锁对应于聚簇索引上的[name='d',id=10]的记录 
+
+- 组合三：id列是二级非唯一索引，RC隔离级别
+
+   所有满足SQL查询条件的记录，都会被加锁。同时，这些记录在主键索引上的记录，也会被加锁 
+
+- 组合四：id列上没有索引，RC隔离级别
+
+  1. 每条记录，无论是否满足条件，都会被加上X锁
+  2.  MySQL做了优化，对于不满足条件的记录，会在判断后放锁 （**优化违背了2PL的约束** ）
+
+- 组合五：id列是主键，RR隔离级别
+
+  与组合一一致：只需要将主键上，id = 10的记录加上X锁即可
+
+- 组合六：id列是二级唯一索引，RR隔离级别
+
+  与组合二一致：SQL需要加两个X锁
+
+- 组合七：id列是二级非唯一索引，RR隔离级别
+
+  1.  GAP锁锁住的位置，也不是记录本身，而是两条记录之间的GAP 
+
+  2. 过程：
+
+     - [x]  首先，通过id索引定位到第一条满足查询条件的记录，加记录上的X锁，加GAP上的GAP锁，
+
+     - [x] 然后加主键聚簇索引上的记录X锁，然后返回
+
+     - [x] 然后读取下一条，重复进行
+
+     - [x] 直至进行到第一条不满足条件的记录，此时，不需要加记录X锁，但是仍旧需要加GAP锁，最后返回结束 
+
+- 组合八：id列上没有索引，RR隔离级别
+
+   **进行全表扫描的当前读，会锁上表中的所有记录，同时会锁上聚簇索引内的所有GAP，杜绝所有的并发更新/删除/插入 操作** 
+
+- 组合九：Serializable隔离级别
+
+   Serializable隔离级别，所有的读操作，都是当前读 ，也加锁
+
+#### 复杂SQL
+
+delete from t where pubtime > 1 and pubtime < 20 and  userid="hdc" and comment is not null;（加入走(pubtime,userid)联合索引）
+
+- Index key：pubtime > 1 and puptime < 20。此条件，用于确定SQL在idx_t1_pu索引上的查询范围。
+
+- Index Filter：userid = ‘hdc’ 。此条件，可以在idx_t1_pu索引上进行过滤，但不属于Index Key。
+
+- Table Filter：comment is not NULL。此条件，在idx_t1_pu索引上无法过滤，只能在聚簇索引上过滤。
+
+##### 加锁分析
+
+-  Index Key确定的范围，需要加上GAP锁
+- Index Filter过滤条件，视MySQL版本是否支持ICP，若支持ICP，则不满足Index Filter的记录，不加X锁，否则需要X锁；
+- Table Filter过滤条件，无论是否满足，都需要加X锁 
+
+####   死锁
+
+ 死锁的发生与否，并不在于事务中有多少条SQL语句，死锁的关键在于：**两个(或以上)的Session加锁的顺序不一致**。
+
+- 如何阅读死锁信息（来自[何登成《管中窥豹——MySQL(InnoDB)死锁分析之道》](https://github.com/hedengcheng/tech/blob/master/database/MySQL/%E7%AE%A1%E4%B8%AD%E7%AA%A5%E8%B1%B9%E2%80%94%E2%80%94MySQL(InnoDB)%E6%AD%BB%E9%94%81%E5%88%86%E6%9E%90%E4%B9%8B%E9%81%93.pdf)）
+
+  ```
+  > show engine innodb status;
+  ------------
+  TRANSACTIONS
+  ------------
+  Trx id counter 5383
+  Purge done for trx's n:o < 2681 undo n:o < 0 state: running
+  History list length 922
+  Total number of lock structs in row lock hash table 0
+  LIST OF TRANSACTIONS FOR EACH SESSION:
+  ---TRANSACTION 421264734039160, not started
+  0 lock struct(s), heap size 1200, 0 row lock(s)
+  ---TRANSACTION 421264734038112, not started
+  0 lock struct(s), heap size 1200, 0 row lock(s)
+  
+  ```
+
+  ![1571819750445](pic/事务隔离/1571819750445.png)
