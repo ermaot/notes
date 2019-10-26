@@ -11,7 +11,7 @@
 1. 缓存
 1. 存储引擎
 1. 物理文件
-![姜承尧-mysql物理结构](pic/mysql%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%841.png)
+<img src="pic/mysql%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%841.png" alt="姜承尧-mysql物理结构" style="zoom:200%;" />
 对照
 ### mysql执行流程
 ![丁奇-mysql结果与执行流程](pic/mysql%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%842.jpg)
@@ -25,7 +25,7 @@
 4. 可将表放独立ibd文件中（MySQL>4.1）
 5. 支持裸设备
 6. MVCC
-7. SQL标准==4种隔离级别==，REPEATABLE为默认，==next-key locking==
+7. SQL标准==4种隔离级别==，READ REPEATABLE为默认，==next-key locking==
 8. 插入缓冲（insert buffer），二次写（double write），自适应哈希索引（adaptive hash index），预读（read ahead）
 9. 聚集索引（表按主键顺序存储）
 10.若无主键，自动6字节ROWID作为主键
