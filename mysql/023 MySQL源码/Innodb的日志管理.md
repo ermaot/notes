@@ -223,7 +223,10 @@ TRX_UNDO_DEL_MARK_REC|删除记录时对记录打删除标志的undo。格式与
 6. roll_ptr用来存储当前被更新记录上一个版本在回滚段中的位置
 7. 存储的是真实主键信息
 - undo日志很多位置都是压缩存储的
+
 - undo不会跨页面
+
+  ![1571912453188](pic/Innodb的日志管理/1571912453188.png)
 #### 回滚时刻
 - redo完成后，innodb通过函数trx_sys_init_at_db_start将所有回滚段相关的128*1024个undo扫描出来，然后缓存
 - 然后通过函数trx_lists_iit_at_db_start依次处理每个undo段，undo段的状态如果是TRX_UNDO_REPEATED和TRX_UNDO_ACTIVE，则需要回滚

@@ -12,7 +12,7 @@
 - 两次写步骤：
 1. 缓冲池的脏页刷新时，通过memcpy拷贝到double write buffer
 2. 通过double write buffer 分两次，每次1MB到的共享表空间磁盘，然后fsync函数同步到磁盘（顺序写，性能好）
-3. double write页完成后，再将souble write buffer中的页写入到表空间的文件中（离散写）
+3. double write页完成后，再将double write buffer中的页写入到表空间的文件中（离散写）
 4. 查看double write 命令如下：
 ```
 > show global status like "%dblw%";

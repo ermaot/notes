@@ -43,7 +43,7 @@ min_rec_flag | 1 | 最小的记录标志
 n_owned | 4 | 该记录拥有的记录数
 heap_no | 13 | 索引堆中该记录的排序记录
 recored_type | 3 | 记录类型：000=普通 001=B+树节点指针 010=infimum 011=supermum 1xx=保留
-next_recorder | 16 | 页中下一条记录的相对未知
+next_recorder | 16 | 页中下一条记录的相对位置 
 合计 | 40 | 即5个字节
 
 隐藏列：两个（事务ID列（6个字节）和回滚指针列（7个字节））<p>
