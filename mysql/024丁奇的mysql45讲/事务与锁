@@ -129,3 +129,14 @@ delete from t where pubtime > 1 and pubtime < 20 and  userid="hdc" and comment i
   ```
 
   ![1571819750445](pic/事务隔离/1571819750445.png)
+
+
+
+## 幻读
+
+- 当隔离级别是可重复读，且禁用innodb_locks_unsafe_for_binlog的情况下，在搜索和扫描index的时候使用的next-key locks可以避免幻读 
+
+-  InnoDB提供了next-key locks，需要应用程序自己去加锁 
+
+####  一致性读和提交读 
+
