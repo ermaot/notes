@@ -336,3 +336,4 @@ type Model struct {
 ## Timeout
 
 -  在实际的分布式环境中，一个操作，我们有三种状态，成功，失败，超时 
+-  如果我们碰到了一个是 timeout 的 response，我们应该暂存起来，然后在整个 history 的最后，才把这个 response 加进去，这样 Porcupine 才能正确处理 
