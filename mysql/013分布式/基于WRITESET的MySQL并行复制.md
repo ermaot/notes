@@ -69,7 +69,7 @@ WriteSet=hash(index_name | db_name | db_name_length | table_name | table_name_le
 
 ```
 * index_name只记录唯一索引，主键也是唯一索引。
-* 如果有多个唯一索引，则每条记录会产生对应多个WriteSet值。
+* 如果有多个唯一索引，则每条记录会产生对应多个WriteSet值。（要保证唯一性约束）
 * 另外，Value这里会分别计算原始值和带有Collation值的两种WriteSet
 所以一条记录可能有多个WriteSet对象
 
@@ -110,3 +110,10 @@ slave-parallel-workers = 32
    ![img](pic/MySQL并行复制/640-1572335656698.webp) 
 
    ![img](pic/MySQL并行复制/640-1572335681594.webp) 
+
+
+
+## kuafu 系统
+- 第29届ICDE（ IEEE 29th International Conference on Data Engineering）大会，来自中国的小伙伴们发表了一篇：KuaFu: Closing the parallelism gap in database replication
+- 即通过WriteSet冲突检测机制，允许不冲突的事务并行执行，从而缩短主从复制间的延迟
+- MySQL 5.7.22版本支持基于WriteSet的MTS机制，其实现架构基本源于上述论文中的KuaFu。
