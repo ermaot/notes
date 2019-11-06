@@ -1,4 +1,10 @@
+本文来自  
+
+[MySQL协议分析](https://www.cnblogs.com/davygeek/p/5647175.html)<br>
+[MySQL网络协议分析](https://segmentfault.com/a/1190000012166738?utm_source=tag-newest)
+
 ## MySQL 网络交互过程
+
 分为以下阶段：
 1. 握手阶段（连接阶段，客户端与服务器端交互）
 2. 从服务器到客户端：握手初始化包
@@ -9,8 +15,7 @@
 7. 客户端到服务器段：断开请求
 8. tcp四次挥手断开连接
 ![MySQL 网络交互过程](pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F1.png)
-[MySQL协议分析](https://www.cnblogs.com/davygeek/p/5647175.html)<p>
-[MySQL网络协议分析](https://segmentfault.com/a/1190000012166738?utm_source=tag-newest)
+
 ## 协议和操作系统协议栈
 - 有时候mysql net 几个包放同一个tcp/ip包中，有时候一个mysql net包横跨几个tcp/ip包
 - mysql调用net_serv.cc中的my_net_write写到缓冲中
@@ -79,7 +84,7 @@ my_bool
 
 第一字节值 |后续字节数| 说明
 ---|---|---
-0~250|0|这个值说明了Length Coded String后面有多少字节数据<p>这种方式限制了后续数据最多有250个字节
+0~250|0|这个值说明了Length Coded String后面有多少字节数据<br>这种方式限制了后续数据最多有250个字节
 251|0| 列值为NULL,仅仅用于行数据包
 252|0|后面两个字节的值,说明Length Coded String后面有多少字节数据
 253|3|后面三个字节的值,说明Length Coded String后面有多少字节数据
@@ -104,7 +109,7 @@ my_bool
 
 字节数 |字段名|说明
 ---|---|---
-4| 客户端标志|与服务器端能力描述有相同作用<p>也是用位图的形式表述客户端能够接受的连接选项<p>所有选项都可以在include/mysq. com.h中找到,以CLIENT开头<p>分为客户端部分和扩展部分，分别为2字节
+4| 客户端标志|与服务器端能力描述有相同作用<br>也是用位图的形式表述客户端能够接受的连接选项<br>所有选项都可以在include/mysq. com.h中找到,以CLIENT开头<br>分为客户端部分和扩展部分，分别为2字节
 4| 包最大长度(Max packet size)|一个包能包容的最大长度
 1 |客户端字符集ID|MySQL 客户端所使用的字符集ID
 23| 填充字符[0x00)|是以Null结尾的字符串
@@ -330,10 +335,10 @@ N |消息|执行语句后,在返回的结果后有一段总结性信息，如2 r
 字节数 |字段|说明
 ---|---|---
 1| 其值总为0xff|
-2 |错误号|在include/mysqld error.h 中定义了内部错误号:<p>#define ER_ERROR_FIRST 1000<p>#define ER_HASHCHK 1000<p>#define ER_NISAMCHK 1001<p>#define ER_NO 1002<p>#define ER YES 1003<p>#define ER CANT_CREATE_FILE 1004<p>#define ER_CANT_CREATE_TABLE 1005<p>#define ER_CANT_CREATE_DB 1006<p>#define ER_DB_CREATE_EXISTS 1007<p>#define ER_DB_DROP_EXISTS 1008<p>
+2 |错误号|在include/mysqld error.h 中定义了内部错误号:<br>#define ER_ERROR_FIRST 1000<br>#define ER_HASHCHK 1000<br>#define ER_NISAMCHK 1001<br>#define ER_NO 1002<br>#define ER YES 1003<br>#define ER CANT_CREATE_FILE 1004<br>#define ER_CANT_CREATE_TABLE 1005<br>#define ER_CANT_CREATE_DB 1006<br>#define ER_DB_CREATE_EXISTS 1007<br>#define ER_DB_DROP_EXISTS 1008<br>
 1 |SQL状态标识符,总是'#'|用于区分状态出资4.1以及以后版本
-5 |SQL状态|每个错误号对应了一个错误状态。<p>该对应任务由mysql_errno_to_sqlstate()函数完成。<p>SQL状态在include/sql state.h 中有所记录:<p>ER_DUP_KEY . , "23000",""<p>ER_OUTOFMEMORY ,"HY001","S1001"
-N| 消息|发生错误的原因，长度512字节<p>发送error的函数net_send_error_packet()在sql/protocol.cc中
+5 |SQL状态|每个错误号对应了一个错误状态。<br>该对应任务由mysql_errno_to_sqlstate()函数完成。<br>SQL状态在include/sql state.h 中有所记录:<br>ER_DUP_KEY . , "23000",""<br>ER_OUTOFMEMORY ,"HY001","S1001"
+N| 消息|发生错误的原因，长度512字节<br>发送error的函数net_send_error_packet()在sql/protocol.cc中
 
 ###### 结果集包
 - 客户端90%语句是查询语句，查询语句中 90%返回一个结果集，结果基本都超过一个单元格。
@@ -353,19 +358,20 @@ N| 消息|发生错误的原因，长度512字节<p>发送error的函数net_send
 N(带长度标识字符串)| 分类|分类字段.MySQL内部使用.在5.0和5.1中均为def
 N(带长度标识字符串)| 数据库|数据库描述,即数据库名称
 N(带长度标识字符串)| 表|数据库表描述,即数据库表名
-N(带长度标识字符串] |原表|as左侧的表名，即原表名
-N(带长度标识字符串] |列名称|as右侧的列名，即别名
+N(带长度标识字符串) |原表|as左侧的表名，即原表名
+N(带长度标识字符串) |列名称|as右侧的列名，即别名
 N(带长度标识字符串) |原列名称|as左侧的列名
 1| 填充|
 2 |字符集编号|每类字符集均由字符集ID表示
 4 |长度|列的长度,即定义列时使用的显示长度.Varchar(5)的长度总是为5,不管这个变量中存了多少数据
-1| 类型|列数据类型.MySQL的列可以多达20多种类型<p>include/mysqL com.h中定义了所有类型的编号<p>为了向后兼容,采用了宏定义:<p>#define CLIENT_MULTI_QUERIES CLIENT_MULTI_STATEMENTS<p>#define FIELD_TYPE_DECIMAL MYSQL_TYPE_,DECIMAL<p>#define FIELD_TYPE_NEWDECIMAL MYSQL_TYPE_NEWDECIMAL<p>
-2 |标志位(flags)|列的其他可能定义,如primary key、zerofill 等<p>#define NOT_ NULL_ FLAG 1 /*字段不能为空(NULL) */<p>#define PRI_ KEY_ FLAG 2 /*这个字段是主键*/<p>#define UNIQUE_ KEY_ FLAG 4 1*这个字段是唯一键*/<p>#define MULTIPLE_ KEY_ FLAG 8 /*这个字段是索引的一部分*/<p>#define BLOB_ FLAG 16 /*字段是blob类型*/<p>#define UNSIGNED_ PLAG 32 /*字段是unsigned的*/<p>#define ZEROFILL_ ,FLAG 64 /*字段采用零值填充*/<p>#define BINARY_ FLAG 128 /*字段是二进制的*/<p>
+1| 类型|列数据类型.MySQL的列可以多达20多种类型<br>include/mysqL com.h中定义了所有类型的编号<br>为了向后兼容,采用了宏定义:<br>#define CLIENT_MULTI_QUERIES CLIENT_MULTI_STATEMENTS<br>#define FIELD_TYPE_DECIMAL MYSQL_TYPE_,DECIMAL<br>#define FIELD_TYPE_NEWDECIMAL MYSQL_TYPE_NEWDECIMAL<br>
+2 |标志位(flags)|列的其他可能定义,如primary key、zerofill 等<br>#define NOT_ NULL_ FLAG 1 /*字段不能为空(NULL) */<br>#define PRI_ KEY_ FLAG 2 /*这个字段是主键*/<br>#define UNIQUE_ KEY_ FLAG 4 1*这个字段是唯一键*/<br>#define MULTIPLE_ KEY_ FLAG 8 /*这个字段是索引的一部分*/<br>#define BLOB_ FLAG 16 /*字段是blob类型*/<br>#define UNSIGNED_ PLAG 32 /*字段是unsigned的*/<br>#define ZEROFILL_ ,FLAG 64 /*字段采用零值填充*/<br>#define BINARY_ FLAG 128 /*字段是二进制的*/<br>
 1| 十进制|对于Decimal或Numeric类型的数据,该字段记录了小数点后面的位数
-2| 填充(总是0x00)
-N(带长度标识字符串]| 默认值|仅用于数据表定义.当用户执行show columns from tablea 时,并不返回这个字段的任何值
+2| 填充(总是0x00)|
+N(带长度标识字符串]| 默认值|仅用于数据表定义.当用户执行show columns from table a 时,并不返回这个字段的任何值
 ![列包格式](pic/MySQL%20%E8%BF%9E%E6%8E%A5%E5%92%8C%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F7.png)
 整个包有FIELD_COUNT个列包
+
 3. 行包
 
 MySQL发送完列包之后，发送行包
