@@ -88,11 +88,11 @@ port = 3306
 - innodb需要设置合适的缓冲池（buffer pool）和log file，默认值过小。缓冲池大小设置过程如下：
 1.  从服务器内存总量开始.
 2. 减去操作系统的内存占用,如果MySQL不是唯一运行在这个服务器上的程序,还要扣掉其他程序可能占用的内存.
-3. 减去一些MySQL自身需要的内存,例如为每个查询操作分配的-些缓冲.
+3. 减去一些MySQL自身需要的内存,例如为每个查询操作分配的一些缓冲.
 4. 减去足够让操作系统缓存InnoDB日志文件的内存,至少是足够缓存最近经常访问的部分.(此建议适用于标准的MySQL, Percona Server可以配置日志文件用O_DIRECT方式打开,绕过操作系统缓存),留一些内存至少可以缓存二进制日志的最后一部分也是个很好的选择,尤其是如果复制产生了延迟,备库就可能读取主库上旧的二进制日志文件,给主库的内存造成压力.
 5. 减去其他配置的MySQL缓冲和缓存需要的内存,例如MyISAM的键缓存(Key Cache),或者查询缓存(Query Cache).
 6. 除以105%,这差不多接近InnoDB管理缓冲池增加的自身管理开销.
-7. 把结果四舍五入,向下取一个合理的数值.向下舍人不会太影响结果,但是如果分配太多可能就会是件很糟糕的事情.
+7. 把结果四舍五入,向下取一个合理的数值.向下舍入不会太影响结果,但是如果分配太多可能就会是件很糟糕的事情.
 #### 检查MySQL服务器状态变量
 - 有时候可以使用show global status输出，作为配置的输入
 - 使用 mysqladmin extended-status -ri60 -uroot -p  查看每60秒状态变量的增量变化
@@ -197,7 +197,7 @@ p = 100 - 6697 * 1024 * 100 / 8388608 = 18.2465
 // 下面命令可以获取每10秒状态变化量
 mysqladmin extended-status -r -i 10 | grep Key_reads
 ```
-- 即使没有任何Myisam表，依然需要将ky_buffer_size设置为较小的值，如32M
+- 即使没有任何Myisam表，依然需要将key_buffer_size设置为较小的值，如32M
 - MySQL服务器有时在内部使用Myisam表，例如group by语句有可能会使用Myisam做临时表
 ###### MySQL键缓存大小（key block size）
 - 如果缓存块太小，可能会碰到写时读取（read around write）
@@ -276,7 +276,7 @@ MySQL8
 +--------------------------------------+-------+
 2 rows in set (0.00 sec)
 ```
-- MySQL启动后，innodb统计操作可能对服务器和一些特定查询产生冲击，可以关闭 innodb_stats_on_metadata
+- MySQL启动后，innodb统计操作可能对服务器和一些特定查询产生冲击，可以关闭    innodb_stats_on_metadata
 
 ```
 > show  variables like "%innodb_stats_on_metadata%";
