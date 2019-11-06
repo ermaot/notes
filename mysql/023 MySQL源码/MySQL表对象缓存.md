@@ -1,13 +1,17 @@
+本文来自MySQL运维内参
+
 MySQL中，有很多的系统对象，比如表、视图、存储过程、存储函数等，每一种对象缓存方式不同，不是通过统一的方式管理
+
 - 表对象缓存，是将某个表对象的字典信息缓存到内存中，提高表对象的访问效率
 - 查询表的数据时，会先找到这个表缓存。表缓存是通过HASH表（源码table_def_cache）来管理的 
 - MySQL是插件式数据库，每一个用户得到表对象之后需要将表实例化，所以并非所有用户都使用同一个缓存对象
 - MySQL表对象缓存使用“共享私有化缓存”（源码TABLE_SHARE结构体）。打开表的时候，会将表的所有信息读入内存，包括表名、模式名、所有列信息、列默认值、表字符集、对应.frm文件路径、所属存储引擎、主键等
 - 表信息通过TABLE_SHARE存储，所有用户可以共享，静态不允许修改，直到表从缓存中删除
 - 表构造了TABLE_SHARE后被缓存，然后计算得到key，进入到table_def_cache，用户访问的时候，TABLE_SHARE会被实例化成TABLE对象（动态可操作的实例）
-- TABLE_SHARE服务于MySQL的server层，而TABLE对象服务于存储引擎层
+- **TABLE_SHARE服务于MySQL的server层，而TABLE对象服务于存储引擎层**
 - 对表的操作完成后，在内存中保留下来，进入SHARE的free_tables链表中，下次访问的时候可以直接使用
-- 表对象缓存有两个部分，一部分是SHARE缓存，另一部分是每个SHARE结构被实例化后的实例对象缓存。MySQL管理表对象缓存空间大小的方法是计数，即系统SHARE总数不超多table_definition_cache（即参数table_definition_cache）
+- 表对象缓存有两个部分，**一部分是SHARE缓存(table_definition_cache控制)，另一部分是每个SHARE结构被实例化后的实例对象缓存**（table_open_cache控制）。
+- MySQL管理表对象缓存空间大小的方法是计数，即系统SHARE总数不超多table_definition_cache（即参数table_definition_cache）
 ```
 > show variables like "table_definition_cache";
 +------------------------+-------+

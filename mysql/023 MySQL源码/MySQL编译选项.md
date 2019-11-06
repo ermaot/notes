@@ -1,5 +1,5 @@
 ## 编译选项
-来自==622463 MySQL运维内参：MySQL、Galera、Inception核心原理与最佳实践==
+**来自==MySQL运维内参：MySQL、Galera、Inception核心原理与最佳实践==**
 与[mysql编译参数详解（./configure）](https://www.cnblogs.com/lisuyun/articles/4507715.html)
 ```
 cmake .. -DBUILD_CONFIG=mysql_release \

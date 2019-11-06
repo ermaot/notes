@@ -1,4 +1,9 @@
+
+
+本文来自MySQL运维内参
+
 ## 创建数据库
+
 - my.cnf配置
 ```
 [ mysqld]
@@ -44,17 +49,31 @@ if (load_defaults(MYSQL_CONFIG_NAME, load_default_groups, &argc, &argv,
 }
 ```
 
-文件|步骤|解释
----|---|---
-mysqld_main|load_defaults()|处理配置文件及启动参数等
-mysqld_main|handle_warly_options()|继续处理参数变量
-mysqld_main|logger.init_base()|日志系统初始化
-mysqld_main|init_common_variables()|初始化很多系统内部变量
-mysqld_main|my_init_signals()|信号系统初始化
-mysqld_main|init_server_componets()|核心模块启动，包括存储引擎等
-mysqld_main|reopen_fstream()|终端重定向处理
-mysqld_main|netword_init()|网络初始化
-mysqld_main|init_status_vars()|状态量初始化
-mysqld_main|lchecl_binlog_cache_size(NULL)<p>check_binlog_stmt_cache_size(NULL)|binlog相关检查初始化
-mysqld_main|handle_connections_sockets()|服务器监听线程创建
-mysqld_main||服务器启动线程等待
+| 文件        | 步骤                                                         | 解释                                                         |
+| ----------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| mysqld_main | load_defaults()                                              | 处理配置文件及启动参数等。如果有defaults-file则读取，没有则从特定路径查找文件 |
+| mysqld_main | handle_warly_options()                                       | 继续处理参数变量                                             |
+| mysqld_main | logger.init_base()                                           | 日志系统初始化                                               |
+| mysqld_main | init_common_variables()                                      | 初始化很多系统内部变量                                       |
+| mysqld_main | my_init_signals()                                            | 信号系统初始化                                               |
+| mysqld_main | init_server_componets()                                      | 核心模块启动，包括存储引擎等                                 |
+| mysqld_main | reopen_fstream()                                             | 终端重定向处理                                               |
+| mysqld_main | netword_init()                                               | 网络初始化                                                   |
+| mysqld_main | init_status_vars()                                           | 状态量初始化                                                 |
+| mysqld_main | lchecl_binlog_cache_size(NULL)<br>check_binlog_stmt_cache_size(NULL) | binlog相关检查初始化                                         |
+| mysqld_main | handle_connections_sockets()                                 | 服务器监听线程创建                                           |
+| mysqld_main |                                                              | 服务器启动线程等待                                           |
+
+#### 导入参数
+
+handle_default_option()函数，导入到内存使用数据结构如下：
+
+```
+struct handle_option_ctx{
+MEM_ROOT *alloc
+DYNAMIC_ARRAY *args;
+TYPELIB *group;
+}
+
+```
+
