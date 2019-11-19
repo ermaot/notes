@@ -21,9 +21,28 @@
 3. 写入磁盘时间点不同。redo log 一直在产生和写入，二进制日志是事务提交完毕一次性写入
 #### 物理逻辑日志
 重做日志分为物理日志、逻辑日志、物理逻辑日志
-- 物理日志是记录对每个页的字节的改变；多次重做不会导致数据不一致，但日志量大
+- 物理日志是记录对每个页的字节的改变；多次重做不会导致数据不一致（幂等性
+- ），但日志量大
+```
+struct value_log_record_for_page_update{
+int opcode;
+filename fname;
+long pageno;
+char old_value[PAGESIZE];
+char new_values[PAGESIZE];
+}
+
+```
+记录的是4元组数据，哪个表空间，哪个文件，哪个页，哪个偏移位置，插入的字节内容
 - 逻辑日志记录的是对表的操作，类似于二进制日志；恢复时无法保证数据一致性
 - 物理逻辑日志：对页是物理的，但页内部是逻辑的
+
+一条插入语句"insert into t1(id,name,age) values(1,'小明',26);"会记录3条类似的日志（t1有name和age两个索引）：
+```
+<insert op,base filename = T1,page number = 502, record value = {1,'小明',26}>
+<insert op,index1 filename = idx_name ,page number = 72,index1 record value = index_name of r = "小明">
+<insert op,index1 filename = idx_age ,page number = 50,idx_age record value = idx_age of r = 26>
+```
 #### lsn
 - log sequence number，日志编号，单调递增，每一个号码与对应一个日志
 - lsn 8个字节，dulint_struct 结构
@@ -64,11 +83,13 @@ Checkpoint age        0
 687 log i/o's done, 0.00 log i/o's/second
 ……………………
 ```
-
+#### REDO落盘时间点
+1. 首先写入日志缓冲区（log buffer），由参数innodb_log_buffer_size控制
+2. 接着从日志缓冲区刷新到磁盘（并非事务提交后再刷盘）
 #### 检查点
 - innodb为了实现持久性，采用WAL（write ahead logging）。即事务提交的时候，先将重做日志写入到文件，实际数据页刷新到磁盘的操作由检查点完成。
 - innodb中存在sharp checkpoint 和 fuzzy checkpoint
-1. sharp checkpoint 将脏页一次性全部刷新到磁盘，速度快但不能同时其他的dml操作
+1. sharp checkpoint 将脏页一次性全部刷新到磁盘，速度快但不能同时其他的dml操作（一般不建议线上使用）
 2. fuzzy checkpoint 将脏页慢慢刷到磁盘，但需要将脏页根据LSN排序并依次刷到磁盘
 #### 归档日志
 - round robin（重做日志组满了，就循环使用重做日志）
@@ -108,3 +129,26 @@ LSN = 2048 + 700 + 2 * LOG_BLOCK_HDR_SIZE(12) + LOG_BLOCK_TRL_SIZE(4) = 2776
 #### log_struct
 ## 组提交
 ## 恢复
+
+## REDO设置
+- 1.show engine innodb
+```
+---
+LOG
+---
+Log sequence number          44845773		//REDO缓冲区中的LSN
+Log buffer assigned up to    44845773			
+Log buffer completed up to   44845773
+Log written up to            44845773
+Log flushed up to            44845773		//REDO日志文件中的LSN
+Added dirty pages up to      44845773
+Pages flushed up to          44845773		//写入磁盘数据页对应的LSN
+Last checkpoint at           44845773		//最后checkpoint对应的LSN
+562 log i/o's done, 0.00 log i/o's/second
+----------------------
+```
+- 2.innodb_metrics
+```
+
+```
+- 3.sys schema
