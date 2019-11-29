@@ -1,6 +1,6 @@
 ## 克隆表
 ```
-create table clone like sample ;				//复制/克隆表，但不复制外键定义，data directory 和index directory；仅仅是参照表定义而创建一个空表
+create table clone like sample ;		//复制/克隆表，但不复制外键定义，data directory 和index directory；仅仅是参照表定义而创建一个空表
 insert into new_table select * from sample ;	//插入表的数据
 insert into new_table( a ,b ) select c ,d from sample ;
 ```
