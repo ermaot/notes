@@ -1,4 +1,7 @@
+本文来自《mysql运维内参》
+
 ## 背景
+
 - 数据字典是用来存储数据原信息的表，属于系统表
 - 数据字典的好处，让用户很简单明确了解MySQL元数据管理的实现原理
 - Innodb数据字典不能被用户感知，只能通过源代码或者手册了解
@@ -33,7 +36,7 @@ mysql5.7
 |       15 | SYS_VIRTUAL                     |    0 |      6 |     0 | Antelope    | Redundant  |             0 | System     |
 
 mysql8
-l> select * from INNODB_TABLES;
+> select * from INNODB_TABLES;
 +----------+---------------------------------+------+--------+------------+------------+---------------+------------+--------------+
 | TABLE_ID | NAME                            | FLAG | N_COLS | SPACE      | ROW_FORMAT | ZIP_PAGE_SIZE | SPACE_TYPE | INSTANT_COLS |
 +----------+---------------------------------+------+--------+------------+------------+---------------+------------+--------------+
@@ -46,7 +49,7 @@ l> select * from INNODB_TABLES;
 ---|---
 name|表名
 ID|ID号
-N_COLS|表的列的个数（4个字节）
+N_COLS|表的列的个数（4个字节），包括隐藏列
 TYPE|表的存储类型、包括记录的格式、压缩等信息
 space|表所在表空间的ID（4字节）。这个表对应的主键列为NAME，同时还有一个在ID号上的唯一索引
 
@@ -220,5 +223,5 @@ index = dict_mem_index_create("SYS_TABLES", "CLUST_IND", DICT_HDR_SPACE,
 
 ## rowid加载
 - rowid只有在一个表没有定义主键时，需要rowid作为聚簇索引列才被分配
-- 插入操作时，系统在内存中对rowid加1，rowid每到256的倍数是才写入一次
+- 插入操作时，系统在内存中对rowid加1，rowid每到256的倍数时才写入一次
 - 数据库启动时，函数dict_boot会将上次写入的rowid向上对齐256后再加上256（也就是会跳过一些ID）
