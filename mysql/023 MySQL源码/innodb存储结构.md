@@ -1,10 +1,13 @@
 ## 表空间的组成结构
 - Innodb存储引擎在存储设计上模仿了Oracle的结构，用表空间进行管理。新建一个数据库时Innodb初始化一个名为ibdata1的表空间文件，如果innodb_file_per_table没有设置为true，所有的表都会放ibdata1上
+
 - 如果innodb_file_per_table设置为True，每个表都有独立的表空间文件，存储B+数据、索引和插入缓冲等信息，其余还是存储于默认表空间
-表空间组织结构如下
+  表空间组织结构如下：
+
+![1574219545681](pic/innodb存储结构/1574219545681.png)
 #### 段
 - 段是表空间文件中的主要组织结构，是一个逻辑概念，用来管理物理文件，是构成索引、表、回滚段的基本元素
-- 创建一个索引（B+树）会同时创建两个段，分别==是内节点段和叶节点段==，内节点段用咯爱管理B+树中的非叶子节点的数据，叶子段用来管理B+树中的叶子节点数据
+- 创建一个索引（B+树）会同时创建两个段，分别==是内节点段和叶节点段==，内节点段用来管理B+树中的非叶子节点的数据，叶子段用来管理B+树中的叶子节点数据
 - 内节点分裂时新节点从内节点段中申请，叶子节点分裂时新节点从叶子段申请
 - ibd文件，由多个段组成。段之间的物理位置没有关系
 - innodb 的数据都是根据主键值以B+树形式组织的，也就是索引组织表（IOT）
@@ -20,7 +23,7 @@ FSEG_FREE | 16 | 空闲区链表
 FSEG_NOT_FULL | 16 | 全部页未被使用的区链表
 FSEG_FULL | 16 | 全部页已被使用的区链表
 FSEG_MAGIC_N | 4 | 仅在调试模式下使用
-FSEG_FRAG_ARR |128 | 碎片页链表,一共32个页,保存每个页在表空间中的偏移量<p>因此总共需要32x4个字节
+FSEG_FRAG_ARR |128 | 碎片页链表,一共32个页,保存每个页在表空间中的偏移量<br>因此总共需要32x4个字节
 - segment inode 依旧是索引页，页的分配依然从碎片区开始
 - segment inode位置不固定，需要用segment header（10字节）指向它
 
@@ -31,7 +34,8 @@ FSEG_HDR_SPACE | 4 | segment  inode页所在的表空间ID
 FSEG_HDR_PAGE_NO | 4 | segment inode页所在表空间的偏移量
 FSEG_HDR_OFFSET | 2 | segment inode在页中的偏移量
 
--用户表segment header 在索引的root页中；而其他segment header 可能存放于单独的页中，比如insert buffer
+- 用户表segment header 在索引的root页中；而其他segment header 可能存放于单独的页中，比如insert buffer
+
 #### 簇（也就是区，extent）
 - 簇是构成段的基本元素，一个簇是物理上连续分配的一段空间，一个簇大小是64个页面
 - 簇之间的物理位置没有关系
@@ -65,13 +69,13 @@ FSP_SEG_INODES_FREE | 16 | 空闲的inode页链表
 
 innodb的页结构 |说明
 ---| ---|
-file header（文件头） | 8部分，38字节<p>fil_page_space_or_checksum（4字节） mysql4.1之后表示checksum值<p>fil_page_offset（4字节）表空间中页的偏移值<p>fil_page_prev（4字节）,fil_page_next（4字节），顾名思义，表示前一个页面和后一个页面的指针<p>fil_page_LSN（8字节）该页最后修改的LSN<p>fil_page_type（2字节），页类型<p>fil_page_file_flush_LSN（8字节），在数据文件的某一个页才有，代表文件至少被更新到该LSN<p>fil_page_arch_log_no_or_space_id（4字节）mysql4.1开始代表数据页属于哪个表空间
-page header（页头） | 14部分，56字节<p>PAGE_N_DIR_SLOTS（2字节） page directory 的slots数<p> PAGE_HEAP_TOP（2字节） 堆中第一个记录的指针<p> PAGE_N_HEAP（2字节）  堆中的记录数 <p> PAGE_FREE（2字节）指向空闲列表的首指针<p>PAGE_GARBAGE（2字节）已删除的字节数，即行记录结构中 delete flag为1的记录的数目<p>PAGE_LAST_INSERT（2字节） 最后插入记录的位置<p> PAGE_DIRECTION（2字节）插入的方向 <p> PAGE_N_DIRECTION（2字节）一个方向连续插入的数量<p>PAGE_N_RECS（2字节）该页中记录的数量<p> PAGE_MAX_TRX_ID（8字节）当前页的最大事务ID<p> PAGE_LEVEL（2字节）当前页在索引中的位置，0x00代表叶子节点<p> PAGE_INDEX_ID（8字节）当前页属于哪个索引ID <p> PAGE_BTR_SEG_LEAF（10字节）B+树叶节点中文件段的首指针位置，仅B+树的root页中定义<p>PAGE_BTR_SEG_TOP（8字节）B+树非叶节点中文件段的首指针位置，仅B+树的root页中定义<p>
-infimum + supremum records | innodb 每个数据页会有两个虚拟行记录以限定记录边界，infimum记录比任何主键还小的值，supremum记录比任何主键还大的值<p>页建立的时候创建，并任何情况都不会删除
+file header（文件头） | 8部分，38字节<br>fil_page_space_or_checksum（4字节） mysql4.1之后表示checksum值<br>fil_page_offset（4字节）表空间中页的偏移值<br>fil_page_prev（4字节）,fil_page_next（4字节），顾名思义，表示前一个页面和后一个页面的指针<br>fil_page_LSN（8字节）该页最后修改的LSN<br>fil_page_type（2字节），页类型<br>fil_page_file_flush_LSN（8字节），在数据文件的某一个页才有，代表文件至少被更新到该LSN<br>fil_page_arch_log_no_or_space_id（4字节）mysql4.1开始代表数据页属于哪个表空间
+page header（页头） | 14部分，56字节<br>PAGE_N_DIR_SLOTS（2字节） page directory 的slots数<br> PAGE_HEAP_TOP（2字节） 堆中第一个记录的指针<br> PAGE_N_HEAP（2字节）  堆中的记录数 <br> PAGE_FREE（2字节）指向空闲列表的首指针<br>PAGE_GARBAGE（2字节）已删除的字节数，即行记录结构中 delete flag为1的记录的数目<br>PAGE_LAST_INSERT（2字节） 最后插入记录的位置<br> PAGE_DIRECTION（2字节）插入的方向 <br> PAGE_N_DIRECTION（2字节）一个方向连续插入的数量<br>PAGE_N_RECS（2字节）该页中记录的数量<br> PAGE_MAX_TRX_ID（8字节）当前页的最大事务ID<br> PAGE_LEVEL（2字节）当前页在索引中的位置，0x00代表叶子节点<br> PAGE_INDEX_ID（8字节）当前页属于哪个索引ID <br> PAGE_BTR_SEG_LEAF（10字节）B+树叶节点中文件段的首指针位置，仅B+树的root页中定义<br>PAGE_BTR_SEG_TOP（8字节）B+树非叶节点中文件段的首指针位置，仅B+树的root页中定义<br>
+infimum + supremum records | innodb 每个数据页会有两个虚拟行记录以限定记录边界，infimum记录比任何主键还小的值，supremum记录比任何主键还大的值<br>页建立的时候创建，并任何情况都不会删除
 user records（用户记录，即行记录） | innodb是索引组织表
 free space（空闲空间） | 链表数据结构；记录被删除时，会加入到空闲链表中
 page directory（页目录） | 存放了记录的相对位置
-file trailer（文件结尾信息） | 为了页面写入时候的完整性，file trailer只有8字节的FIL_PAGE_END_LSN<p>前4个字节是本页的checksum，后四个字节与 FIL_PAGE_LSN 的LSN相同<p>前4字节与fil_page_space_or_checksum比较，后4字节与FIL_PAGE_LSN比较，确认是否相同
+file trailer（文件结尾信息） | 为了页面写入时候的完整性，file trailer只有8字节的FIL_PAGE_END_LSN<br>前4个字节是本页的checksum，后四个字节与 FIL_PAGE_LSN 的LSN相同<br>前4字节与fil_page_space_or_checksum比较，后4字节与FIL_PAGE_LSN比较，确认是否相同
 
 - fil_page_offset 是4字节，所以一个表空间最大数据是2^32 * 页面大小（默认16kb） = 64TB
 - FIL_PAGE_LSN 与FIL_PAGE_END_LSN如果一致，则页是完整的，由函数buf_page_is_corrupted判断
