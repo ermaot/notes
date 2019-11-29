@@ -109,7 +109,7 @@ PARTITION P_catchall VALUES LESS THAN MAXVALUE )
 ```
 
 #### 合并表
-合并表是早起的简单的分区实现，和分区表相比有一些不同的限制且缺乏优化
+合并表是早期的简单的分区实现，和分区表相比有一些不同的限制且缺乏优化
 
 ```
 CREATE TABLE t1(a INT NOT NULL PRIMARY KEY)ENGINE=MyISAM;
