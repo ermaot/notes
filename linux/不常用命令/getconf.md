@@ -3,6 +3,8 @@ https://www.cnblogs.com/kelamoyujuzhen/p/10115985.html
 getconf本身是个ELF可执行文件，用于获取系统信息
 
 
+
+
 ```
 # getconf -a
 LINK_MAX                           65000
