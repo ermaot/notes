@@ -6,20 +6,21 @@
 
 - my.cnf配置
 ```
-[ mysqld]
+[mysqld]
 port=3306
 datadir=/var/mysql/data_3306
 log error=/var/mysql/data_3306/errorlog
 basedir=/var/mysql/
 ```
 2 初始化
+
 ```
 /var/ mysql/bin/mysqld --defaults-file=/var/mysql/data_3306/my.cnf --initialize
--user=mysql
+--user=mysql
 ```
 3. 启动数据库
 ```
-/var/mysql/bin/mysqld --defaults-file=/var/mysql/data_3306/my cnf --user=mysql
+/var/mysql/bin/mysqld --defaults-file=/var/mysql/data_3306/my.cnf --user=mysql
 ```
 mysql5.7以后的初始密码要从errorlog中获取，如果不想这样，可以初始化的时候，加 --initialize-insecure参数
 
@@ -52,7 +53,7 @@ if (load_defaults(MYSQL_CONFIG_NAME, load_default_groups, &argc, &argv,
 | 文件        | 步骤                                                         | 解释                                                         |
 | ----------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | mysqld_main | load_defaults()                                              | 处理配置文件及启动参数等。如果有defaults-file则读取，没有则从特定路径查找文件 |
-| mysqld_main | handle_warly_options()                                       | 继续处理参数变量                                             |
+| mysqld_main | handle_early_options()                                       | 继续处理参数变量                                             |
 | mysqld_main | logger.init_base()                                           | 日志系统初始化                                               |
 | mysqld_main | init_common_variables()                                      | 初始化很多系统内部变量                                       |
 | mysqld_main | my_init_signals()                                            | 信号系统初始化                                               |
