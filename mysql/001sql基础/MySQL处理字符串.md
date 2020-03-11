@@ -174,8 +174,6 @@ select "He said \"I'm OK\"" ;   //字符转义
 
 ```
 select * from test where a like '%test%' and b like '_test%' and  c like '____test__%' ;	//null匹配任何，都是返回null;_代表一个字符
-
-
 ```
 #### 正则
 
