@@ -123,8 +123,10 @@ Commands:
 ```
 linux
 # export FLASK_APP=hello
-或者windows
+或者windows（cmd）
  set FLASK_APP=hello
+ 如果是powershell环境set不起作用，可以使用
+ $env:FLASK_APP="arg"
 ```
 
 #### 管理环境变量
@@ -221,7 +223,7 @@ Instance: d:\project\docsreal\instance
 
 ```
 ## flask扩展
-此Flask官方推荐以flask_something形式导入扩展
+早期版本的Flask扩展使用flaskext.foo或flask.ext.something的形式导入，造成问题，现在Flask官方推荐以flask_something形式导入扩展
 
 ## 项目配置
 - 在Flask中，配置变量就是一些大写形式的Python变量，你也可以称之为配置参数或配置键。使用统一的配置变量可以避免在程序中以硬编码（hard coded）的形式设置程序
@@ -289,7 +291,7 @@ Options:
 - 这两个文件夹需要和包含程序实例的模块处于同一个目录下
 
 ## Flask与MVC架构
-- Werkzeug中URL匹配的实现主要参考了Routes（一个URL匹配库），再往前追溯，Routes的实现又参考了Rubyon Rails
+- Werkzeug中URL匹配的实现主要参考了Routes（一个URL匹配库），再往前追溯，Routes的实现又参考了Ruby on Rails
 - MVC架构最初是用来设计桌面程序的，后来也被用于Web程序，应用了这种架构的Web框架有Django、Ruby on Rails等。
 - 在MVC架构中，程序被分为三个组件：数据处理（Model）、用户界面（View）、交互逻辑（Controller）
 
