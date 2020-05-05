@@ -82,7 +82,7 @@ Password|-P <P>--password|None
 3. 可选的,也可以通过指定--protocol=tcp选项来强制使用TCP/IP进行连接
 
 ==以上可以通过tcpdump抓包验证。localhost是不能通过tcpdump -i lo port 3306 抓到包的，而127.0.0.1可以==
- 
+
 不论查看权限还是删除用户，都需要带登录主机选项。==原因在于MySQL判断的时候是加上该字符串一起的==
 
 - socket登录
@@ -118,7 +118,7 @@ user权限列决定了用户的权限，描述了用户在==全局范围内==允
 ```
 select * from mysql.user
 ```
- 
+
 ## 删除用户
 
 
@@ -178,7 +178,10 @@ mysql -utest  --pager="/usr/bin/less -E| grep a"
 \P			//pager分页
 \P /usr/bin/less
 ```
-
+使用方法
+```
+mysql> select * from test ;\P /usr/bin/more
+```
 ## 查看登录选项
 
 ```
@@ -236,34 +239,34 @@ Ctrl + E	//行尾
 ```
 % mysql -utest-p123456 test -e "select * from url"  -H  > 1.txt                              
 % mysql -utest-p123456 test -e "select * from url"  --html  > 1.txt
-```     
+```
 //以xml格式输出  -X也可以放前面
 ```
 % mysql -utest-p123456 test -e "select * from url"  -X  > 1.txt
 % mysql -utest-p123456 test -e "select * from url"  --xml  > 1.txt
-```                             
+```
 //跳过头部
 ```
 % mysql -utest-p123456 test -e "select * from url" --skip-column-names	              
 % mysql -utest-p123456 test -e "select * from url" -ss
-```                            
+```
 //控制垂直输出（三者效果一样） 
 ```
 mysql > select * from test \G					                            
 % mysql -utest-p123456 test -e "select * from url" -E                                                  
 % mysql -utest-p123456 test -e "select * from url" --vertical
-```     
+```
 //控制信息详细程度，详细输出 
 ```
 % mysql -utest-p123456 test -e "select * from url" -v                                                  
 % mysql -utest-p123456 test -e "select * from url" -vv
-```     
+```
 //记录交互式mysql 
 ```
 mysql > \T temp.out                                                                
 mysql > \t
 ```
-  
+
 ## 历史命令
 ```
 ~/.mysql_history
