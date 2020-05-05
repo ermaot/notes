@@ -76,18 +76,56 @@ def three_colors(color):
 before_first_request|注册一个函数,在处理第一个请求前运行
 before_request|注册一个函数,在处理每个请求前运行
 after_request|注册一个函数,如果没有未处理的异常抛出,会在每个请求结束后运行
-teardown_request注册一个函数,即使有未处理的异常抛出,会在每个请求结束后运行.如果
-发生异常,会传入异常对象作为参数到注册的函数中
+teardown_request|注册一个函数,即使有未处理的异常抛出,会在每个请求结束后运行.如果发生异常,会传入异常对象作为参数到注册的函数中
 after_this_request|在视图函数内注册一个函数,会在这个请求结束后运行
 
+样例：
+```
+from flask import Flask,session,redirect,after_this_request
+import click
+from flask import request
+app = Flask(__name__)
+
+##after_request
+@app.after_request
+def process_response(response):
+    print(2222)
+    return response
+
+## before_request
+@app.before_request
+def process_request():
+    if request.path=="/login":
+        return None
+    if not session.get("user_info"):
+        return None
+    return None
+
+@app.route("/")
+def index():
+    name = request.args.get("name","Flask")
+    ##注意写法和用法，在“视图函数内”，且不需要加app
+    @after_this_request
+    def test(response):
+        print(3333)
+        return response
+    return "<h1>Hello World%s</h1>"%name
+
+@app.cli.command()
+def hello():
+    click.echo('Hello, Human!')
+```
+
 ## flask的http响应
+
 #### 响应报文
 - 响应报文主要由协议版本、状态码（status code）、原因短语（reason phrase）、响应首部和响应主体组成
 
 组成说明|响应报文内容
 ---|---
-报文首部:状态行(协议、状态码、原因短语)|Http/li200 Ok
+报文首部:状态行(协议、状态码、原因短语)|Http/1.1 200 Ok
 报文首部:各种首部字段|Content-Type: text/html; charset=utf-8<p>Content-Length: 22<p>Server: Werkzeug/0. 12.2 Python/2.7. 13<p>Date: Thu, 03 Aug 201705: 05: 54 GMT
+空行 |
 报文主体|<p>Hello, Human</p>
 
 常见状态码
@@ -96,7 +134,7 @@ after_this_request|在视图函数内注册一个函数,会在这个请求结束
 成功|200|OK|请求被正常处理
 成功|201|Created|请求被处理,并创建了一个新资源
 成功|204|No Content|青求处理成功,但无内容返回
-重定向|Moved Permanently|永久重定向
+重定向|301|Moved Permanently|永久重定向
 重定向|302|found|临时性重定向
 重定向|304|Not modified|请求的资源未被修改,重定向到缓存的资源
 客户端错误|400|Bad Request|表示请求无效,即请求报文中存在错误
