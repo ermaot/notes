@@ -112,7 +112,7 @@ my_bool
 4| 客户端标志|与服务器端能力描述有相同作用<br>也是用位图的形式表述客户端能够接受的连接选项<br>所有选项都可以在include/mysq. com.h中找到,以CLIENT开头<br>分为客户端部分和扩展部分，分别为2字节
 4| 包最大长度(Max packet size)|一个包能包容的最大长度
 1 |客户端字符集ID|MySQL 客户端所使用的字符集ID
-23| 填充字符[0x00)|是以Null结尾的字符串
+23| 填充字符[0x00] |是以Null结尾的字符串
 N |用户名|存放试图登录的用户名
 1+N| 密码加密字段(scramble. buf)|是带长度标识的字符串(Length Coded String)
 N |数据库名(可选)|数据库的名称字段
@@ -320,7 +320,7 @@ EOF包| 0xfe|
 
 字节数 |字段|说明
 ---|---|---
-1 |FIELD_COUNT|意指该包是0K包,总为零
+1 |FIELD_COUNT|意指该包是OK包,总为零
 1~9 |命令影响的行数|命令DELETE、INSERT 和UPDATE影响的行数
 1~9 |插入ID|如果该操作引起任何AUTO INCREMENT的作用,那么插入ID会记录最后一个AUTO INCREMENT的结果
 2| 服务器状态|
