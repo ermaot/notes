@@ -1,6 +1,6 @@
 ## CPU使用率
 - linux是多任务分时操作系统，将CPU时间划分为很短的时间片，通过调度器轮流给任务使用
-- linux定义了节拍率（HZ），触发中断，并使用全局变量Jiffies记录开机依赖的节拍数。每一次时间终端，jiffies加1
+- linux定义了节拍率（HZ），触发中断，并使用全局变量jiffies记录开机依赖的节拍数。每一次时间中断，jiffies加1
 ```
 # grep 'CONFIG_HZ=' /boot/config-$(uname -r)
 CONFIG_HZ=1000
@@ -132,7 +132,7 @@ Overhead  Shared Object            Symbol
 - 第一行：包含三个数据，采样数（samples），事件类型（event）和事件总数量（event count）
 - 采样数比较重要，如果过少则没有价值
 - 表格样式的数据：
-1. verhead，表示该符号的性能事件在所有采样中的比例
+1. overhead，表示该符号的性能事件在所有采样中的比例
 2. shared，是指该函数或者指令所在的动态共享对象（Dynamic shared object），如内核、进程名、动态链接库名、内核模块名等
 3. object，是动态动向对象的类型。比如[.]表示用户控件的可执行程序，或者动态链接库，[k]表示内核空间
 4. 最后一列symbol是符号名，也就是函数名。如果函数名位置，用十六进制的地址表示
