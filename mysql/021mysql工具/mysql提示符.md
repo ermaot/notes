@@ -18,35 +18,32 @@ root@mysql 04:27:21->
 prompt=\\u@username \\r:\\m:\\s
 ```
 ## 提示符详解
-```
-\c  A counter that increments for each statement you issue
-\D  The full current date
-\d The default database
-\h The server host
-\l The current delimiter (new in 5.1.12)
-\m  Minutes of the current time
-\n  A newline character
-\O  The current month in three-letter format (Jan, Feb, …)
-\o  The current month in numeric format
-\P  am/pm
-\p The current TCP/IP port or socket file
-\R  The current time, in 24-hour military time (0–23)
-\r  The current time, standard 12-hour time (1–12)
-\S  Semicolon
-\s  Seconds of the current time
-\t  A tab character
-\U   
-
-\u Your user name
-\v  The server version
-\w  The current day of the week in three-letter format (Mon, Tue, …)
-\Y  The current year, four digits
-\y  The current year, two digits
-\_  A space
-\   A space (a space follows the backslash)
-\'  Single quote
-\"  Double quote
-\\  A literal “\” backslash character
-\x 
-x, for any “x” not listed above
-```
+参数|说明
+---|---
+\c | 执行的sql的序号
+\D|当前日期的详细值
+\d|当前所处数据库
+\h|服务器主机
+\l|当前分隔符
+\m |当前时间的分钟
+\n|  换行符
+\O | 当前月份的三字母表示法 (Jan, Feb, …)
+\o  |当前月份的数字表示
+\P | am/pm
+\p |当前TCP/IP端口或者socket文件
+\R | 当前小时，24小时制
+\r  |当前小时，12小时制
+\S  |分号
+\s  |当前时间的秒数
+\t  |制表符
+\U  | 包含了主机的用户名
+\u |用户名
+\v  |服务器版本
+\w  |当前星期，三字符表示
+\Y  |当前年，4位数
+\y  |当前年，2位数
+\_  |空格
+\   |空格（斜线后有一个空格）
+\'  |单引号
+\"  |双引号
+\\  |转义后的右斜线
