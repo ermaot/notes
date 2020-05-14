@@ -3,8 +3,7 @@
 
 ## 相关概念
 #### 简介
-- redo log用来实现ACID中的D（持久化）
-- 包括重做日志缓冲（redo log buffer易失的）与重做日志文件（redo log file持久的）
+- redo log用来实现ACID中的D（持久化），包括重做日志缓冲（redo log buffer易失的）与重做日志文件（redo log file持久的）
 - force log at commit：事务提交时，必须将该事务所有的重做日志进行持久化
 - redo log 是用来保证事务持久性（D特性），顺序写，数据库运行时不需要读redo
 - undo log 是用来帮助事务回滚以及mvcc，undo 随机读写
@@ -21,8 +20,7 @@
 3. 写入磁盘时间点不同。redo log 一直在产生和写入，二进制日志是事务提交完毕一次性写入
 #### 物理逻辑日志
 重做日志分为物理日志、逻辑日志、物理逻辑日志
-- 物理日志是记录对每个页的字节的改变；多次重做不会导致数据不一致（幂等性
-- ），但日志量大
+- 物理日志是记录对每个页的字节的改变；多次重做不会导致数据不一致（幂等性），但日志量大
 ```
 struct value_log_record_for_page_update{
 int opcode;
@@ -60,7 +58,7 @@ struct dulint_struct{
 #define LOG_START_LSN	ut_dulint_create(0, 16 * OS_FILE_LOG_BLOCK_SIZE)
 
 ```
-- LSN记录的是日志的增量，单位是字节（此处可继续研究）
+- LSN记录的是日志的增量，单位是字节。也就是当前LSN是1000，写入重做日志300字节，那么LSN变1300（此处可继续研究）
 - LSN存在于（重做日志、检查点、页）中
 - 页LSN：每一个页的头部，有一个 FIL_PAGE_LSN ，表示最后刷新的事务LSN大小，以判断是否需重做
 - 检查点LSN：检查点用LSN形式保存，记录已经刷新到磁盘的检查点序号。
@@ -83,7 +81,10 @@ Checkpoint age        0
 687 log i/o's done, 0.00 log i/o's/second
 ……………………
 ```
+一般来说，Log sequence number > Log flushed > Last checkpoint
+
 #### REDO落盘时间点
+
 1. 首先写入日志缓冲区（log buffer），由参数innodb_log_buffer_size控制
 2. 接着从日志缓冲区刷新到磁盘（并非事务提交后再刷盘）
 #### 检查点
@@ -104,7 +105,7 @@ Checkpoint age        0
 - 重做日志缓存：内存中，易失；innodb_log_buffer_size 控制，默认1M
 - 重做日志文件组内容完全一样，镜像关系，提高可用性，但innodb_mirrored_log_groups 不能取1 之外的值
 - 重做日志文件可以由多个同样大小文件组成，前缀是“ib_logfile”
-- 归档日志防止重做日志丢失（==这部分需要再看==）
+- 归档日志防止重做日志丢失
 #### 重做日志块
 - 重做日志都是以512字节存储的；如果大于512，需要分割多个来存储
 ![image](pic/innodb%20%E9%87%8D%E5%81%9A2.png)
