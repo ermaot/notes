@@ -1,4 +1,7 @@
+本文来自《mysql内核-innodb存储引擎-姜承尧》
+
 ## 相关文件
+
 - dyn0dyn.* 、 fut0*.* 、 ha0ha.* 、hash0hash.* 、mem0.*、 ut0.*共8164行
 ![与基本算法相关的文件](pic/innodb%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%841.png)
 ## 内存管理系统
@@ -75,4 +78,58 @@ HASH_SEARCH_ALL(NAME, TABLE, TYPE, DATA, ASSERTION, TEST) |
 - 内存堆分配为上一次的两倍，而动态数组分配 dyn_block_t 大小
 - dyn_array_create创建动态数组，但并不立刻分配空间，只初始化第一个块
 #### 排序
-- innodb是合并排序，函数是 UT_SORT_FUNCTION_BODY(SORT_FUN, ARR, AUX_ARR, LOW, HIGH, CMP_FUN)
+- innodb是合并排序，函数是 UT_SORT_FUNCTION_BODY(SORT_FUN, ARR, AUX_ARR, LOW, HIGH, CMP_FUN)(其实是一个宏)
+
+  ```
+  #define UT_SORT_FUNCTION_BODY(SORT_FUN, ARR, AUX_ARR, LOW, HIGH, CMP_FUN)    \
+    {                                                                          \
+      ulint ut_sort_mid77;                                                     \
+      ulint ut_sort_i77;                                                       \
+      ulint ut_sort_low77;                                                     \
+      ulint ut_sort_high77;                                                    \
+                                                                               \
+      ut_ad((LOW) < (HIGH));                                                   \
+      ut_ad(ARR);                                                              \
+      ut_ad(AUX_ARR);                                                          \
+                                                                               \
+      if ((LOW) == (HIGH)-1) {                                                 \
+        return;                                                                \
+      } else if ((LOW) == (HIGH)-2) {                                          \
+        if (CMP_FUN((ARR)[LOW], (ARR)[(HIGH)-1]) > 0) {                        \
+          (AUX_ARR)[LOW] = (ARR)[LOW];                                         \
+          (ARR)[LOW] = (ARR)[(HIGH)-1];                                        \
+          (ARR)[(HIGH)-1] = (AUX_ARR)[LOW];                                    \
+        }                                                                      \
+        return;                                                                \
+      }                                                                        \
+                                                                               \
+      ut_sort_mid77 = ((LOW) + (HIGH)) / 2;                                    \
+                                                                               \
+      SORT_FUN((ARR), (AUX_ARR), (LOW), ut_sort_mid77);                        \
+      SORT_FUN((ARR), (AUX_ARR), ut_sort_mid77, (HIGH));                       \
+                                                                               \
+      ut_sort_low77 = (LOW);                                                   \
+      ut_sort_high77 = ut_sort_mid77;                                          \
+                                                                               \
+      for (ut_sort_i77 = (LOW); ut_sort_i77 < (HIGH); ut_sort_i77++) {         \
+        if (ut_sort_low77 >= ut_sort_mid77) {                                  \
+          (AUX_ARR)[ut_sort_i77] = (ARR)[ut_sort_high77];                      \
+          ut_sort_high77++;                                                    \
+        } else if (ut_sort_high77 >= (HIGH)) {                                 \
+          (AUX_ARR)[ut_sort_i77] = (ARR)[ut_sort_low77];                       \
+          ut_sort_low77++;                                                     \
+        } else if (CMP_FUN((ARR)[ut_sort_low77], (ARR)[ut_sort_high77]) > 0) { \
+          (AUX_ARR)[ut_sort_i77] = (ARR)[ut_sort_high77];                      \
+          ut_sort_high77++;                                                    \
+        } else {                                                               \
+          (AUX_ARR)[ut_sort_i77] = (ARR)[ut_sort_low77];                       \
+          ut_sort_low77++;                                                     \
+        }                                                                      \
+      }                                                                        \
+                                                                               \
+      memcpy((void *)((ARR) + (LOW)), (AUX_ARR) + (LOW),                       \
+             ((HIGH) - (LOW)) * sizeof *(ARR));                                \
+    }
+  ```
+
+  
