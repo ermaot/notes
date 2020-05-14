@@ -27,13 +27,13 @@ set @@session.sort_buffer_size := <value>
 
 参数 | 效果
 ---|---
-key_buffer_size | 一次性为键缓冲区分配指定空间<p>操作系统不立即分配，到使用时才真正分配<p>MySQL允许创建多个键缓存（==？？如何创建==）<p>对于一个已经存在的键缓存设置非零值，会阻塞所有对该键值的访问并刷新键缓存
-table_cache_size | 下次有线程打开表才有效果<p>如果值大于缓存中表的数量，线程可以直接将最新打开的表放入缓存；<p>否则会删除不常使用的表（mariadb5.5和mysql8都不存在该参数，而是table_open_cache）<p>mysql手册上给的建议大小 是:table_cache=max_connections*n（n是MySQL最大的表数目）
-thread_cache_size | 在有连接被关闭时生效<p>连接被关闭时，MySQL检查是否还有空间缓存线程，若没有则销毁线程
+key_buffer_size | 一次性为键缓冲区分配指定空间<br>操作系统不立即分配，到使用时才真正分配<br>MySQL允许创建多个键缓存（==？？如何创建==）<br>对于一个已经存在的键缓存设置非零值，会阻塞所有对该键值的访问并刷新键缓存
+table_cache_size | 下次有线程打开表才有效果<br>如果值大于缓存中表的数量，线程可以直接将最新打开的表放入缓存；<br>否则会删除不常使用的表（mariadb5.5和mysql8都不存在该参数，而是table_open_cache）<br>mysql手册上给的建议大小 是:table_cache=max_connections*n（n是MySQL最大的表数目）
+thread_cache_size | 在有连接被关闭时生效<br>连接被关闭时，MySQL检查是否还有空间缓存线程，若没有则销毁线程
 query_cache_size | MySQL启动的时候，一次性分配；如果修改该值（即使值与之前一样），MySQL会一个个清理缓存，并重新分配内存初始化
 read_buffer_size | MySQL只会在需要查询时分配；一次性分配
 read_rnd_buffer_size | MySQL只会在需要查询时分配；分配实际大小而非参数大小（更好的名字是max_read_rnd_buffer_size）
-sort_buffer_size | MySQL在查询需要做排序操作时分配；然后一旦需要排序就立刻分配指定大小的内存，不管是否需要<p>连接级别参数，尽量小一些；按照需要在连接中调大
+sort_buffer_size | MySQL在查询需要做排序操作时分配；然后一旦需要排序就立刻分配指定大小的内存，不管是否需要<br>连接级别参数，尽量小一些；按照需要在连接中调大
 
 #### 入门
 - 参数值不是越大越好，有可能导致服务器使用交换内存或者超过地址空间
