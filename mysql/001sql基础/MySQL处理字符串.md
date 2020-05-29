@@ -269,7 +269,51 @@ DAYOFMONTH(a) = 1 |a LIKE '%-01'
 > select * from date_test where a like "20%";
 ERROR 1525 (HY000): Incorrect TIMESTAMP value: '20%'
 ```
+## 字符串函数
+函数名| 解释
+---|---|
+ASCII(str)|返回字符串str的最左面字符的ASCII代码值。<br>如果str是空字符串，返回0。如果str是NULL，返回NULL。
+ORD(str)|              |
+CONV(N,from_base,to_base)|进制转换
+BIN(N)|返回二进制值N的一个字符串表示，在此N是一个长整数(BIGINT)数字，这等价于CONV(N,10,2)。如果N是NULL，返回NUL
+OCT(N)|返回八进制值N的一个字符串的表示，在此N是一个长整型数字，这等价于CONV(N,10,8)。如果N是NULL，返回NULL
+HEX(N)|返回十六进制值N一个字符串的表示，在此N是一个长整型(BIGINT)数字，这等价于CONV(N,10,16)。如果N是NULL，返回NULL
+CHAR(N,...)|CHAR()将参数解释为字符并且返回由这些整数的ASCII代码字符组成的一个字符串
+LENGTH(str)|返回字符串str的长度
+OCTET_LENGTH(str)|返回字符串str的长度
+CHAR_LENGTH(str)|返回字符串str的长度
+CHARACTER_LENGTH(str)|返回字符串str的长度
+LOCATE(substr,str)|　返回子串substr在字符串str第一个出现的位置，如果substr不是在str里面，返回0
+LOCATE(substr,str,pos)|返回子串substr在字符串str第一个出现的位置，从位置pos开始。如果substr不是在str里面，返回0
+POSITION(substr IN str)|返回子串substr在字符串str第一个出现的位置，如果substr不是在str里面，返回0
+INSTR(str,substr)|返回子串substr在字符串str中的第一个出现的位置
+LPAD(str,len,padstr)|返回字符串str，左面用字符串padstr填补直到str是len个字符长
+RPAD(str,len,padstr)|返回字符串str，右面用字符串padstr填补直到str是len个字符长
+LEFT(str,len)|返回字符串str的最左面len个字符
+RIGHT(str,len)|返回字符串str的最右面len个字符
+SUBSTRING(str,pos,len)　|SUBSTRING(str FROM pos FOR len)　
+MID(str,pos,len)|从字符串str返回一个len个字符的子串，从位置pos开始
+SUBSTRING(str,pos)<br>SUBSTRING(str FROM pos)|从字符串str的起始位置pos返回一个子串
+SUBSTRING_INDEX(str,delim,count)|返回从字符串str的第count个出现的分隔符delim之后的子串，count可正可负
+LTRIM(str)|返回删除了其前置空格字符的字符串str
+RTRIM(str)|返回删除了其拖后空格字符的字符串str
+TRIM([[BOTH | LEADING | TRAILING] [remstr] FROM] str)|返回字符串str，其所有remstr前缀或后缀被删除了。如果没有修饰符BOTH、LEADING或TRAILING给出，BOTH被假定。如果remstr没被指定，空格被删除
+SOUNDEX(str)|返回str的一个同音字符串
+SPACE(N)|返回由N个空格字符组成的一个字符串
+REPLACE(str,from_str,to_str)|返回字符串str，其字符串from_str的所有出现由字符串to_str代替
+REPEAT(str,count)|返回由重复countTimes次的字符串str组成的一个字符串。如果count <= 0，返回一个空字符串。如果str或count是NULL，返回NULL
+REVERSE(str)|返回颠倒字符顺序的字符串str
+INSERT(str,pos,len,newstr)|返回字符串str，在位置pos起始的子串且len个字符长得子串由字符串newstr代替
+ELT(N,str1,str2,str3,...)|如果N= 1，返回str1，如果N= 2，返回str2，等等。如果N小于1或大于参数个数，返回NULL。ELT()是FIELD()反运算
+FIELD(str,str1,str2,str3,...)|返回str在str1, str2, str3, ...清单的索引。如果str没找到，返回0。FIELD()是ELT()反运算
+FIND_IN_SET(str,strlist)|如果字符串str在由N子串组成的表strlist之中，返回一个1到N的值
+MAKE_SET(bits,str1,str2,...)|返回一个集合 (包含由“,”字符分隔的子串组成的一个字符串)，由相应的位在bits集合中的的字符串组成
+LCASE(str)<br>LOWER(str)|返回字符串str
+UCASE(str)<br>UPPER(str)|返回字符串str
+
+
 ## 字符串截取
+
 #### left(),mid(),right(),substring(),substr()
 - 可以看到mid(),substring(),substr()同义
 - SUBSTRING_INDEX(str, c,n)： 该函数从str左侧查找字符c第n次出现的位置,然后返回该位置左侧的整个子串；如果n是负数,从str右侧开始查找c第Inl次出现的位置,并返回其右侧的整个子串
