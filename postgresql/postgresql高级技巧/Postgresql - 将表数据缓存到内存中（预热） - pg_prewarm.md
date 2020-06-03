@@ -16,7 +16,7 @@ pg_prewarm(regclass, mode text default 'buffer', fork text default 'main', first
 - 第五个参数是预热的最后一个块号
 - 返回值是prewarm块的数量。
 
-#### 与人方法
+#### 预热方法
 
 预热方法有三种：
 

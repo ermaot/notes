@@ -12,7 +12,7 @@ uid=1000(postgres) gid=1000(postgres) groups=1000(postgres)
 
 ## initdb数据库
 
-一定要initdb，否则会报
+一定要initdb，否则会报以下错误
 
 ```
 May 19 17:26:12 izm5edbv563hlvcbf71opez postgresql-check-db-dir[13693]: "/var/lib/pgsql/data" is missing or empty.
