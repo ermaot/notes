@@ -151,7 +151,7 @@ vda               0.00     0.29    0.01    0.62     0.64     6.74    23.20     0
 Device:         rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util
 vda               0.00    11.00    0.00    5.00     0.00    64.00    25.60     0.01    1.00    0.00    1.00   0.40   0.20
 ```
-![io指标解读](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/linux%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F4.png)
+![io指标解读](pic/linux文件系统4.png)
 
 ## 进程IO观测
 #### pidstat -d
