@@ -271,9 +271,9 @@ ERROR 1525 (HY000): Incorrect TIMESTAMP value: '20%'
 ```
 ## 字符串函数
 函数名| 解释
----|---|
+---|---
 ASCII(str)|返回字符串str的最左面字符的ASCII代码值。<br>如果str是空字符串，返回0。如果str是NULL，返回NULL。
-ORD(str)|              |
+ORD(str)|              
 CONV(N,from_base,to_base)|进制转换
 BIN(N)|返回二进制值N的一个字符串表示，在此N是一个长整数(BIGINT)数字，这等价于CONV(N,10,2)。如果N是NULL，返回NUL
 OCT(N)|返回八进制值N的一个字符串的表示，在此N是一个长整型数字，这等价于CONV(N,10,8)。如果N是NULL，返回NULL
@@ -286,7 +286,7 @@ CHARACTER_LENGTH(str)|返回字符串str的长度
 LOCATE(substr,str)|　返回子串substr在字符串str第一个出现的位置，如果substr不是在str里面，返回0
 LOCATE(substr,str,pos)|返回子串substr在字符串str第一个出现的位置，从位置pos开始。如果substr不是在str里面，返回0
 POSITION(substr IN str)|返回子串substr在字符串str第一个出现的位置，如果substr不是在str里面，返回0
-INSTR(str,substr)|返回子串substr在字符串str中的第一个出现的位置
+INSTR(str,substr)|返回子串substr在字符串str中的第一个出现的位置，如果不在就返回0
 LPAD(str,len,padstr)|返回字符串str，左面用字符串padstr填补直到str是len个字符长
 RPAD(str,len,padstr)|返回字符串str，右面用字符串padstr填补直到str是len个字符长
 LEFT(str,len)|返回字符串str的最左面len个字符
@@ -297,7 +297,7 @@ SUBSTRING(str,pos)<br>SUBSTRING(str FROM pos)|从字符串str的起始位置pos�
 SUBSTRING_INDEX(str,delim,count)|返回从字符串str的第count个出现的分隔符delim之后的子串，count可正可负
 LTRIM(str)|返回删除了其前置空格字符的字符串str
 RTRIM(str)|返回删除了其拖后空格字符的字符串str
-TRIM([[BOTH | LEADING | TRAILING] [remstr] FROM] str)|返回字符串str，其所有remstr前缀或后缀被删除了。如果没有修饰符BOTH、LEADING或TRAILING给出，BOTH被假定。如果remstr没被指定，空格被删除
+TRIM([[BOTH | LEADING 
 SOUNDEX(str)|返回str的一个同音字符串
 SPACE(N)|返回由N个空格字符组成的一个字符串
 REPLACE(str,from_str,to_str)|返回字符串str，其字符串from_str的所有出现由字符串to_str代替

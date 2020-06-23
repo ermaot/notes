@@ -168,6 +168,9 @@ Modified db pages       0
 
 ## master thread
 #### innodb的主要工作是在master thread中完成的
+
+![img](pic/innodb存储引擎/InnoDB_Master_Thread.png)
+
 #### 优先级别最高
 #### 由主循环（main loop），后台循环（background loop），刷新循环（flush loop），暂停循环（suspend loop）组成
 - main loop：大部分操作都在其中，有每秒操作和每10秒操作的两个循环<p>
@@ -333,7 +336,7 @@ Hash table size 18749, node heap has 38 buffer(s)
 
 
 ## innodb plugin
-- 从musql5.1.38，包含两个innodb引擎：build-in innodb，1.0.4的innodb
+- 从mysql5.1.38，包含两个innodb引擎：build-in innodb，1.0.4的innodb
 - 新功能：
 1. 快速的索引重建
 2. 更好的多核性能

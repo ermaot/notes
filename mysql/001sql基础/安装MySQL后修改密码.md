@@ -36,7 +36,7 @@ mysql> set global validate_password_length=1;
 
 MySQL 8.0
 mysql> set global validate_password.policy=0;
-mysql>  set global validate_password.length=1;
+mysql> set global validate_password.length=1;
 
 mysql> alter user 'root'@'localhost' identified by '123456';
 Query OK, 0 rows affected (0.05 sec)

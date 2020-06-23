@@ -16,6 +16,43 @@
 1. 创建ibd文件的硬链接
 2. 删除表（同时删除了ibd文件），这一步很快。因为此时只减少了一个文件的硬链接而已
 3. 删除硬链接文件
+
+例子如下：
+
+```
+创建表：
+create table test_delete(a varchar(32));
+插入数据：
+insert into test_delete values("12345678901234567890123456789012");
+反复执行
+insert into test_delete select * from test_delete;
+得到一个大表，并复制该表：
+create table test_delete2 select * from test_delete;
+查看数据文件：
+# ls -lh
+total 6.1G
+-rw-r----- 1 mysql mysql 2.0G Jun 16 16:26 test_delete2.ibd
+-rw-r----- 2 mysql mysql 2.0G Jun 16 16:18 test_delete.ibd
+可以看到两个表文件大小为2G，比较大了
+新建文件的硬链接
+# ln test_delete.ibd  test_delete_hd.ibd
+
+我们先删除没有硬链接的表
+drop table test_delete2;
+Query OK, 0 rows affected (5.34 sec)
+
+耗费了好几秒的时间
+我们再删除有硬链接的表
+drop table test_delete;
+Query OK, 0 rows affected (0.02 sec)
+
+速度很快
+```
+
+
+
+
+
 #### galera cluster
 galera cluster 有一个wsrep_on参数可以控制本地操作是否需要复制到其他节点，如果使用硬链接方法删除文件需要将该配置设置为off，再处理
 
