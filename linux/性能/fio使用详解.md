@@ -19,7 +19,7 @@ bsrange=512-2048         同上，提定数据块的大小范围
 size=5g                  本次的测试文件大小为5g，以每次4k的io进行测试
 numjobs=30               本次的测试线程为30
 runtime=1000             测试时间为1000秒，如果不写则一直将5g文件分4k每次写完为止
-ioengine=psync           io引擎使用pync方式，如果要使用libaio引擎，需要yum install libaio-devel包
+ioengine=psync           io引擎使用psync方式，如果要使用libaio引擎，需要yum install libaio-devel包
 rwmixwrite=30            在混合读写的模式下，写占30%
 group_reporting          关于显示结果的，汇总每个进程的信息
 此外
@@ -31,7 +31,7 @@ nrfiles=8                每个进程生成文件的数量
 
 测试场景：
 
-　
+
 ```
 100%随机，100%读， 4K
 　　fio -filename=/dev/emcpowerb -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=4k -size=1000G -numjobs=50 -runtime=180 -group_reporting -name=rand_100read_4k

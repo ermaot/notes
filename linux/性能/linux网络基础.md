@@ -15,7 +15,7 @@
 4. 网络接口层，负责网络包在物理网络中的传输，比如 MAC 寻址、错误侦测以及通过网卡传输网络帧等。
 
 #### 两种模型相互比较
-![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/linux%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%801.png)
+![linux网络基础1.png](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/linux%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%801.png?raw=true)
 
 ## linux网络栈
 ![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/linux%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%802.png)
