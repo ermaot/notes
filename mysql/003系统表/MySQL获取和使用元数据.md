@@ -67,7 +67,7 @@ CREATE TABLE `test` (
 ## 改变set
 
 ```
-alter table test modify  a set ("mon","tue") default "tue";
+alter table test modify  a set ("mon","tue") default "true";
 ```
 ## show
 

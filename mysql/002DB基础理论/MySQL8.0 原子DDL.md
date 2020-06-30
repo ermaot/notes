@@ -1,7 +1,7 @@
 ## 简述
 [参考链接](http://mysql.taobao.org/monthly/2018/03/02/?spm=a2c4e.10696291.0.0.168619a4MyG0Qk)
 #### MySQL8.0之前的版本DDL是非原子的。
-- 对于复合的DDL，比如DROP TABLE t1, t2;执行过程中如果遇到server crash，有可能出现表t1被DROP掉了，但是t2没有被DROP掉的情况。
+- 对于复合的DDL，比如DROP TABLE t1, t2;执行过程中如果遇到server crash，有可能出现表t1被DROP掉了，但是t2没有被DROP掉的情况。 
 - 即便是一条DDL，比如CREATE TABLE t1(a int);也可能在server crash的情况下导致建表不完整，有可能在建表失败的情况下遗留.frm或者.ibd文件
 
 #### MySQL8.0以前的数据字典

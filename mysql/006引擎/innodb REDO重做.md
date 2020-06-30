@@ -1,8 +1,16 @@
+本文参考：https://www.cnblogs.com/liuhao/p/3714012.html
+
+https://www.cnblogs.com/cuisi/p/6549757.html
+
 ## 相关文件
+
 主要文件log0log.*、log0recv.*
 
 ## 相关概念
 #### 简介
+
+InnoDB有buffer pool（简称bp）。bp是数据库页面的缓存，对InnoDB的任何修改操作都会首先在bp的page上进行，然后这样的页面将被标记为dirty并被放到专门的flush list上，后续将由master thread或专门的刷脏线程阶段性的将这些页面写入磁盘（disk or ssd）。这样的好处是避免每次写操作都操作磁盘导致大量的随机IO，阶段性的刷脏可以将多次对页面的修改merge成一次IO操作，同时异步写入也降低了访问的时延。然而，如果在dirty page还未刷入磁盘时，server非正常关闭，这些修改操作将会丢失，如果写入操作正在进行，甚至会由于损坏数据文件导致数据库不可用。为了避免上述问题的发生，Innodb将所有对页面的修改操作写入一个专门的文件，并在数据库启动时从此文件进行恢复操作，这个文件就是redo log file。这样的技术推迟了bp页面的刷新，从而提升了数据库的吞吐，有效的降低了访问时延。带来的问题是额外的写redo log操作的开销（顺序IO，当然很快），以及数据库启动时恢复操作所需的时间。
+
 - redo log用来实现ACID中的D（持久化），包括重做日志缓冲（redo log buffer易失的）与重做日志文件（redo log file持久的）
 - force log at commit：事务提交时，必须将该事务所有的重做日志进行持久化
 - redo log 是用来保证事务持久性（D特性），顺序写，数据库运行时不需要读redo
@@ -106,12 +114,28 @@ Checkpoint age        0
 - 重做日志文件组内容完全一样，镜像关系，提高可用性，但innodb_mirrored_log_groups 不能取1 之外的值
 - 重做日志文件可以由多个同样大小文件组成，前缀是“ib_logfile”
 - 归档日志防止重做日志丢失
+
+#### 重做日志文件头
+
+1. Redo log文件包含一组log files，其会被循环使用。
+2. Redo log文件的大小和数目可以通过特定的参数设置，详见：[innodb_log_file_size](http://dev.mysql.com/doc/refman/5.6/en/innodb-parameters.html#sysvar_innodb_log_file_size) 和 [innodb_log_files_in_group](http://dev.mysql.com/doc/refman/5.6/en/innodb-parameters.html#sysvar_innodb_log_files_in_group) 。
+3. 每个log文件有一个文件头，其代码在"storage/innobase/include/log0log.h"中
+
 #### 重做日志块
+
 - 重做日志都是以512字节存储的；如果大于512，需要分割多个来存储
 ![image](pic/innodb%20%E9%87%8D%E5%81%9A2.png)
 - 512与扇区大小一致，所以无需double write
 - 重做日志块有块头（log block header），块尾（log block tail），日志本身三个部分
-![重做日志块结构](pic/innodb%20%E9%87%8D%E5%81%9A3.png)
+![1063598-20170314173946182-1552462362](pic/innodb REDO重做/1063598-20170314173946182-1552462362.png)
+
+名称|解释
+---|---
+LOG_BLOCK_HDR_NO|4字节。log buffer由log block组成，在内部就像一个数组，而LOG_BLOCK_HDR_NO,用来标记这个数组中的位置。必须大于0,允许最大2G；如果在日志刷新写入段时，是第一个日志块，最高位就设置成1.
+LOG_BLOCK_DATA_LEN|2字节。表示LOG_BLOCK所占用的大小，被写满时，该值为：0x200,表示全部block空间，即占用512字节。
+LOG_BLOCK_FIRST_REC_GROUP|2字节，表示LOG_BLOCK中第一个日志所在的偏移量。如果LOG_BLOCK_FIRST_REC_GROUP=LOG_BLOCK_DATA_LEN 表示log block不包含新的日志。
+LOG_BLOCK_CHECKPOINT_NO|4字节，表示LOG_BLOCK最后被写入时的检查点。如果此时log block还没写满，只能等下次log flush 时，才会更新。
+
 - LSN计算举例
 
 ```
@@ -125,7 +149,24 @@ LSN = 2048 + 700 + 2 * LOG_BLOCK_HDR_SIZE(12) + LOG_BLOCK_TRL_SIZE(4) = 2776
 ```
 
 #### 重做日志组和文件
+
+Redo log文件是循环写入的，在覆盖写之前，总是要保证对应的脏页已经刷到了磁盘。在非常大的负载下，Redo log可能产生的速度非常快，导致频繁的刷脏操作，进而导致性能下降，通常在未做checkpoint的日志超过文件总大小的76%之后，InnoDB 认为这可能是个不安全的点，会强制的preflush脏页，导致大量用户线程stall住。如果可预期会有这样的场景，建议调大redo log文件的大小。可以做一次干净的shutdown，然后修改Redo log配置，重启实例。
+
+#### REDO log 生命周期
+
+1. redo log record首先由mtr生成并保存在mtr的local buffer中。这里保存的redo log record需要记录数据库恢复阶段所需的所有信息，并且要求恢复操作是幂等的；
+2. 当mtr_commit被调用后，redo log record被记录在全局内存的log buffer之中；
+
+3. 根据需要，redo log buffer将会write（+flush）到磁盘上的redo log文件中，此时redo log已经被安全的保存起来；
+
+4. mtr_commit执行时会给每个log record生成一个lsn，此lsn确定了其在log file中的位置；\5.   lsn同时是联系redo log和dirty page的纽带，WAL要求redo log在刷脏前写入磁盘，同时，如果lsn相关联的页面都已经写入了磁盘，那么磁盘上redo log file中对应的log record空间可以被循环利用；
+
+6. 数据库恢复阶段，使用被持久化的redo log来恢复数据库；
+
 ## 相关数据结构
+
+#### log_t
+
 #### log_group_struct
 #### log_struct
 ## 组提交
