@@ -220,6 +220,16 @@ fluash loop也没有什么事情了，innodb会切换到suspend loop
 | innodb_io_capacity | 200   |
 +--------------------+-------+
 
+MySQL 8
+> show variables like "%innodb_io_capacity%";
++------------------------+-------+
+| Variable_name          | Value |
++------------------------+-------+
+| innodb_io_capacity     | 200   |
+| innodb_io_capacity_max | 2000  |
++------------------------+-------+
+2 rows in set (0.01 sec)
+
 ```
 
 - innodb_max_dirty_pages_pct 值为90%，太大。innodb plugin修改为75%
@@ -250,9 +260,11 @@ fluash loop也没有什么事情了，innodb会切换到suspend loop
 
 ## 关键特性
 #### 插入缓冲
-- ==对于非聚集索引==，并非每一次直接插入到索引页中，而是先判断非聚集索引页是否在缓冲池中
+- 对于非聚集索引，并非每一次直接插入到索引页中，而是先判断非聚集索引页是否在缓冲池中
 - 如果在，则直接插入；若不在，则先放入到插入缓冲池中，然后以一定的频率执行插入缓冲和非聚集索引页的合并操作<p>
-条件：==索引是非辅助索引；索引不是唯一==
+  条件：
+  1. 索引是非辅助索引
+  2. 索引不是唯一
 
 ```
 > show engine innodb status\G;
@@ -307,6 +319,10 @@ merges : merge recs 代表插入缓冲对非聚集索引的IO请求降低的次�
 - skip_innodb_double_writer可以禁止double write
 - 在一些已经有防止写失效的文件系统（zfs），可以关闭double write
 #### 自适应哈希索引
+
+1. innodb会监控表上索引的查找，如果观察到建立哈希索引可以带来速度的提升，则会自动建立，即“自适应”
+2. 自适应哈希索引通过缓冲池的B+树构造而来，建立速度很快
+3. innodb会根据访问的频率和模式来为**某些页**建立哈希索引
 
 ```
 > show engine innodb status \G;

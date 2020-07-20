@@ -37,7 +37,7 @@ B+树与索引之间的区别
 
 操作 | MyIsam  | innodb
 ---|---|---
-读操作 |所有索引都是辅助索引,因此所有索引访问记录的开销基本都是相同的 | 通过辅助索引查询记录仅能得到主键值,<p>要查询完整记录还需要通过一次聚集索引查询
+读操作 |所有索引都是辅助索引,因此所有索引访问记录的开销基本都是相同的 | 通过辅助索引查询记录仅能得到主键值,<br>要查询完整记录还需要通过一次聚集索引查询 
 写操作 |若记录发生改变,需要更新索引|仅当主键值发生改变时,需要更新辅助索引
 B+树高度 |低 |聚集索引通常比辅助索引树的高度要高
 范围查询| 低效 |聚集查询高效,辅助索引相对低效
@@ -53,13 +53,13 @@ B+树高度 |低 |聚集索引通常比辅助索引树的高度要高
 
 变量名|类型 |说明
 ---|---|---
-type| ulint |索引的类型,有效值为:<p>DICT_CLUSTED 聚集索引<p>DICT_UNIQUE辅助索引,但含有唯-一约束<p>DICT_UNIVERSAL普通辅助索引<p>DICT_IBUF insert buffer
+type| ulint |索引的类型,有效值为:<br>DICT_CLUSTED 聚集索引<br>DICT_UNIQUE辅助索引,但含有唯-一约束<br>DICT_UNIVERSAL普通辅助索引<br>DICT_IBUF insert buffer
 索id |dulint |索引id
 space |ulint| 索引所在表空间
 page| ulint| root页的编号( 偏移量)
-pad[64]| byte| 将下一个变量lock放在独立的cache  line中,<p>减少多核CPU下并发的资源竞争
+pad[64]| byte| 将下一个变量lock放在独立的cache  line中,<br>减少多核CPU下并发的资源竞争 
 lock| rw_lock_t |读/写锁,控制索引并发
-tree_indexes| UT_LIST_BASE_NODE<p>_T(dict_index_t)|链表, 类型为dict_index_t
+tree_indexes| UT_LIST_BASE_NODE<br>_T(dict_index_t) |链表, 类型为dict_index_t
 magic_n | ulint| 调试模式使用
 #### 相关latch
 - 对于B+树索引的并发控制通过两部分的latch进行控制
@@ -78,17 +78,17 @@ magic_n | ulint| 调试模式使用
 - innodb 不再总是将中间记录作为分裂点，而根据插入情况进行判断
 #### 合并
 ## 查找
-- 函数 btr_cur_search_to_nth_level 用来查找指定的记录<p>
+- 函数 btr_cur_search_to_nth_level 用来查找指定的记录<br>
 ***btr_cur_search_to_nth_level参数说明***
 
 参数 | 说 明
 ---|---
 index |根据哪个索引进行查询
 level |查询到树高度为level时就结束,查询叶子节点中的记录时,level为0
-mode |和第8章中介绍页的查询模式相同,有效值为<p>PAGE_CUR_LE<p>PAGE_CUR_L<p>PAGE_CUR_GE<p>PAGE_CUR_G
-latch_mode| 对页和内存索引对象加何种latch进行并发控制,有效值为:<p>BTR_SEARCH_LEAF<p>BTR_SEARCH_TREE<p>BTR_NO_LATCHES<p>BTR_MODIFY_TREE<p>BTR_CONT_MODIFY_TREE<p>BTR_SEARCH_PREV<p>BTR_MODIFY_PREV
+mode |和第8章中介绍页的查询模式相同,有效值为<br>PAGE_CUR_LE<br>PAGE_CUR_L<br>PAGE_CUR_GE<br>PAGE_CUR_G
+latch_mode| 对页和内存索引对象加何种latch进行并发控制,有效值为:<br>BTR_SEARCH_LEAF<br>BTR_SEARCH_TREE<br>BTR_NO_LATCHES<br>BTR_MODIFY_TREE<br>BTR_CONT_MODIFY_TREE<br>BTR_SEARCH_PREV<br>BTR_MODIFY_PREV 
 cursor |查询得到的记录用btr_cur_t结果保存
-has_ search_ latch |是否已经对btr_ search_ latch加上了s-latch,有效值为:<p>0:没有对btr_search_latch加上任何latch保护<p>RW_ S_ LATCH: 已经对btr_ search_ latch 加上latch保护
+has_ search_ latch |是否已经对btr_ search_ latch加上了s-latch,有效值为:<br>0:没有对btr_search_latch加上任何latch保护<br>RW_ S_ LATCH: 已经对btr_ search_ latch 加上latch保护
 #### mode
 - 查找模式有4种PAGE_CUR_LE、PAGE_CUR_L、PAGE_CUR_GE、PAGE_CUR_G，但实际使用的时候只有PAGE_CUR_LE、PAGE_CUR_GE两种。因为实际在页中，存在多版本记录，也就是存在delete flag不同的相同主键记录
 - 非叶子节点搜索，使用的是PAGE_CUR_L。如果查询得到的结果是Supremum，则会自动搜索下一页以便得到正确的数据。使用唯一值查找记录的时候，使用PAGE_CUR_GE，而非PAGE_CUR_LE（此时会锁定Supremum，而如果插入新的Supremum的值，则新的插入语句会被阻塞）
@@ -97,8 +97,8 @@ has_ search_ latch |是否已经对btr_ search_ latch加上了s-latch,有效值�
 
 有效值 |说明
 ---|---
-BTR_SEARCH_LEAF |对索引内存对象加s-latch,对查询的页加s-latch<p>当查询到叶子节点时释放索引内存对象的S- latch
-BTR_MODIFY_LEAF |对索引内存对象加s-latch,对查询的页加x-latch<p>当查询到叶子节点时释放索引内存对象的s-latch
+BTR_SEARCH_LEAF |对索引内存对象加s-latch,对查询的页加s-latch<br>当查询到叶子节点时释放索引内存对象的S- latch
+BTR_MODIFY_LEAF |对索引内存对象加s-latch,对查询的页加x-latch<br>当查询到叶子节点时释放索引内存对象的s-latch
 BTR_NO_LATCHES| 对索引内存对象加s-latch,对查询的页不加任何latch保护
 BTR_MODIFY_TREE |对索引内存对象加x-latch,对查询的页加x-latch
 BTR_CONT_MODIFY_TREE |函数开始前已经对索引内存对象加x-latch,对查询的页加x-latch
@@ -137,7 +137,7 @@ index |此次查询使用的索引
 page_cur| 查询得到的结果
 left_page| 查询得到记录所在页的左兄弟页
 thr |线程队列
-flag |使用何种查询得到记录结果,有效值为:<p>BTR_CUR_HASH使用自适应哈希查询得到记录<p>BTR_CUR_HASH_FAIL使用自适应哈希查询记录失败<p>之后使用B+树索引查询成功<p>BTR_CUR_BINARY直接使用B+树索引查询得到结果<p>BTR_CUR_INSERT_TO_IBUF 使用插入缓存进行记录的插入
+flag |使用何种查询得到记录结果,有效值为:<br>BTR_CUR_HASH使用自适应哈希查询得到记录<br>BTR_CUR_HASH_FAIL使用自适应哈希查询记录失败<br>之后使用B+树索引查询成功<br>BTR_CUR_BINARY直接使用B+树索引查询得到结果<br>BTR_CUR_INSERT_TO_IBUF 使用插入缓存进行记录的插入
 tree_height |树的高度
 up_match|
 up_bytes|
@@ -157,8 +157,8 @@ path |查询得到记录的路径,并保存每个路径上的查询信息
 
 参数 | 说明
 ---|---
-flags |有效值为:<p>0<p>**BTR_NO_LOCKING_FLAG**:若含有BTR_NO_LOCKING_FLAG标志位,<p>则表示插入后不需要对查询的记录加上一个锁。例如对于插入缓存<p>不会对其进行并发的读取操作,因此不需要对插入的记录进行锁保护<p>**BTR_KEEP_SYS_FLAG**:若不含有该标志位时,更新记录的隐藏列roll ptr<p>例如当插入的是辅助索引或者是非叶子节点时,记录不含有隐藏列,因此需要设置该标志位<p>**BTR_NO_UNDO_LOG_FLAG**:若flag含有此标志位,表示不需要记录undo log<p>例如回滚时不需要再次产生undo log
-cursor |curosr指向插入前通过函数btr_cur_search_to_nth_Level定位到待插入记录的前一条记录<p>其查询mode为PAGE_CUR_LE, latch_mode 为BTR_MODIFY_LEAF entry |待插入的记录,用逻辑记录表示
+flags |有效值为:<br>0<br>**BTR_NO_LOCKING_FLAG**:若含有BTR_NO_LOCKING_FLAG标志位,<br>则表示插入后不需要对查询的记录加上一个锁。例如对于插入缓存<br>不会对其进行并发的读取操作,因此不需要对插入的记录进行锁保护<br>**BTR_KEEP_SYS_FLAG**:若不含有该标志位时,更新记录的隐藏列roll ptr<br>例如当插入的是辅助索引或者是非叶子节点时,记录不含有隐藏列,因此需要设置该标志位<br>**BTR_NO_UNDO_LOG_FLAG**:若flag含有此标志位,表示不需要记录undo log<br>例如回滚时不需要再次产生undo log
+cursor |curosr指向插入前通过函数btr_cur_search_to_nth_Level定位到待插入记录的前一条记录<br>其查询mode为PAGE_CUR_LE, latch_mode 为BTR_MODIFY_LEAF entry 
 rec |当插入成功,返回插入后的记录
 big_rec |当插入成功,并且插入的记录转化为大记录,返回大记录格式
 thr |查询线程

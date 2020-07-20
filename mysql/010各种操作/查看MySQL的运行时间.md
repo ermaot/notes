@@ -57,3 +57,14 @@ mysql      385 32585  0 6月23 ?       00:20:05 /usr/libexec/mysqld --basedir=/u
 
 ## 3. **phpmyadmin**
 
+## 4. mysqladmin
+
+```
+./mysqladmin -uroot -p -i 2 -c 5 status
+Enter password: 
+Uptime: 28705618  Threads: 6  Questions: 1717  Slow queries: 0  Opens: 1035  Flush tables: 3  Open tables: 867  Queries per second avg: 0.000
+Uptime: 28705620  Threads: 6  Questions: 1718  Slow queries: 0  Opens: 1035  Flush tables: 3  Open tables: 867  Queries per second avg: 0.000
+```
+
+
+

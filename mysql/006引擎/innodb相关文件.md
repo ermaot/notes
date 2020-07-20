@@ -83,7 +83,6 @@ Query OK, 0 rows affected, 1 warning (0.00 sec)
 二进制日志，记录所有==对数据库做修改==的操作（不包括show，select）
 - 用于恢复（recovery）
 - 复制（replication）
-- 
 ```
 > show variables like "log_bin";
 +---------------+-------+
@@ -237,6 +236,7 @@ MariaDB [(none)]>
 - mysql存储是按照表，所以每个表都有对应的存储文件
 - mysql使用.frm文件存储表的定义
 - mysql使用.frm文件存储视图的定义，且该文件是简单文本形式
+- MySQL8 已经不采用.frm文件的方式，统一放在
 
 ```
 > create view v_test as select * from test;
@@ -257,19 +257,16 @@ client_cs_name=utf8
 connection_cl_name=utf8_general_ci
 view_body_utf8=select `test`.`test`.`Id` AS `Id`,`test`.`test`.`title` AS `title`,`test`.`test`.`uid` AS `uid`,`test`.`test`.`money` AS `money`,`test`.`test`.`name` AS `name` from `test`.`test`
 mariadb-version=50556
-
 ```
 
 ## innodb存储引擎文件
 #### 表空间文件
 - innodb 模仿oracle，有单独的表空间存放数据
-- 默认配置有大小10M，名称ibdata1的文件
+- 默认配置有大小10M（老版本MySQL，包括mariadb；mysql8是12M），名称ibdata1的文件
 
 ```
 # locate ibdata1
 /var/lib/mysql/ibdata1
-
-
 ```
 
 - innodb_data_file_path的配置

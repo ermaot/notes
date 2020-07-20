@@ -128,7 +128,7 @@ NULL|MySQL在优化过程中分解语句，执行时甚至不用访问表或索�
 类型|说明
 ---|---
 Using index|该值表示相应的select操作中使用了覆盖索引（Covering Index）
-Using where|表示mysql服务器将在存储引擎检索行后再进行过滤。<br>许多where条件里涉及索引中的列，当（并且如果）它读取索引时<br>就能被存储引擎检验，因此不是所有带where字句的查询都会显示"Using where"。有时"Using where"的出现就是一个暗示：查询可受益与不同的索引。
+Using where|表示mysql服务器将在存储引擎检索行后再进行过滤。<br>许多where条件里涉及索引中的列，当（并且如果）它读取索引时<br>就能被存储引擎检验，因此不是所有带where字句的查询都会显示"Using where"。有时"Using where"的出现就是一个暗示：查询可受益于不同的索引。
 Using temporary|表示MySQL需要使用临时表来存储结果集，常见于排序和分组查询。<br>两个常见的原因是在来自不同表的上使用了DISTINCT<br>或者使用了不同的ORDER BY和GROUP BY列
 Using filesort|MySQL中无法利用索引完成的排序操作称为“文件排序”
 Using join buffer|改值强调了在获取连接条件时没有使用索引，<br>并且需要连接缓冲区来存储中间结果。如果出现了这个值，<br>那应该根据查询的具体情况可能需要添加索引来改进能

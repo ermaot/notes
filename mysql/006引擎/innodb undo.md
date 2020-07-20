@@ -13,7 +13,7 @@ undo日志用于存放数据修改被修改前的值，假设修改 tba 表中 i
 
 参数|含义
 ---|---
-innodb_undo_directory[=/opt/mysql/undo]|Innodb为还原日志创建的独立表空间的相对或绝对路径。通常用于日志被放置在哪些不同的存储设备上。配合参数innodb_undo_logs和innodb_undo_tablespaces，这决定了系统表空间外还原日志的磁盘分布。默认目录为innodb默认创建它的其他日志文件的目录。如果想转移undo文件的位置，只需要修改下该配置，并将undo文件拷贝过去就可以了。
+innodb_undo_directory<br>[=/opt/mysql/undo]|Innodb为还原日志创建的独立表空间的相对或绝对路径。通常用于日志被放置在哪些不同的存储设备上。配合参数innodb_undo_logs和innodb_undo_tablespaces，这决定了系统表空间外还原日志的磁盘分布。默认目录为innodb默认创建它的其他日志文件的目录。如果想转移undo文件的位置，只需要修改下该配置，并将undo文件拷贝过去就可以了。
 innodb_rollback_segments[=128]|定义在一个事务中innodb使用的系统表空间中回滚段的个数。如果观察到同回滚日志有关的互斥争用，可以调整这个参数以优化性能。早期为innodb_rollback_segments，后来改为innodb_undo_logs，现在改回innodb_rollback_segments了
 innodb_undo_tablespaces[=4]|用于设定创建的undo表空间的个数，在mysql_install_db时初始化后，就再也不能被改动了；默认值为0，表示不独立设置undo的tablespace，默认记录到ibdata中；否则，则在undo目录下创建这么多个undo文件，例如假定设置该值为4，那么就会创建命名为undo001~undo004的undo tablespace文件，每个文件的默认大小为10M。修改该值会导致Innodb无法完成初始化，数据库无法启动，但是另两个参数可以修改；
 
@@ -67,7 +67,22 @@ for (i = 0; i < n_undo_tablespaces; ++i) {             fsp_header_init( //初始
 本步骤调用 trx_sys_create_sys_pages->trx_sysf_create进行，本步骤除了初始化transaction system segment以外还会初始化其header( ibdata page no 5)信息如下
 
 ```
-/* Create the trx sys file block in a new allocated file segment */    block = fseg_create(TRX_SYS_SPACE, 0, TRX_SYS + TRX_SYS_FSEG_HEADER,                mtr); //建立segment    buf_block_dbg_add_level(block, SYNC_TRX_SYS_HEADER);     ut_a(block->page.id.page_no() == TRX_SYS_PAGE_NO);     page = buf_block_get_frame(block); //获取内存位置     mlog_write_ulint(page + FIL_PAGE_TYPE, FIL_PAGE_TYPE_TRX_SYS, //写入block 的类型             MLOG_2BYTES, mtr);     ...    /* Start counting transaction ids from number 1 up */    mach_write_to_8(sys_header + TRX_SYS_TRX_ID_STORE, 1); // 初始化TRX_SYS_TRX_ID_STORE     /* Reset the rollback segment slots.  Old versions of InnoDB    define TRX_SYS_N_RSEGS as 256 (TRX_SYS_OLD_N_RSEGS) and expect    that the whole array is initialized. */    ptr = TRX_SYS_RSEGS + sys_header;    len = ut_max(TRX_SYS_OLD_N_RSEGS, TRX_SYS_N_RSEGS)        * TRX_SYS_RSEG_SLOT_SIZE;//TRX_SYS_OLD_N_RSEGS 为256个    memset(ptr, 0xff, len); //将slot的信息的全部初始化为ff    ptr += len;    ut_a(ptr <= page + (UNIV_PAGE_SIZE - FIL_PAGE_DATA_END));     /* Initialize all of the page.  This part used to be uninitialized. */    memset(ptr, 0, UNIV_PAGE_SIZE - FIL_PAGE_DATA_END + page - ptr); //将剩下的空间设置为0x00     mlog_log_string(sys_header, UNIV_PAGE_SIZE - FIL_PAGE_DATA_END            + page - sys_header, mtr);     /* Create the first rollback segment in the SYSTEM tablespace */    slot_no = trx_sysf_rseg_find_free(mtr, false, 0);    page_no = trx_rseg_header_create(TRX_SYS_SPACE, univ_page_size,                     ULINT_MAX, slot_no, mtr); //将第一个slot固定在ibdata中
+/* Create the trx sys file block in a new allocated file segment */    
+block = fseg_create(TRX_SYS_SPACE, 0, TRX_SYS + TRX_SYS_FSEG_HEADER, mtr); //建立segment    buf_block_dbg_add_level(block, SYNC_TRX_SYS_HEADER);     
+ut_a(block->page.id.page_no() == TRX_SYS_PAGE_NO);     
+page = buf_block_get_frame(block); //获取内存位置     
+mlog_write_ulint(page + FIL_PAGE_TYPE, FIL_PAGE_TYPE_TRX_SYS, //写入block 的类型             MLOG_2BYTES, mtr);     ...    
+/* Start counting transaction ids from number 1 up */   
+mach_write_to_8(sys_header + TRX_SYS_TRX_ID_STORE, 1); // 初始化TRX_SYS_TRX_ID_STORE     
+/* Reset the rollback segment slots.  Old versions of InnoDB    define TRX_SYS_N_RSEGS as 256 (TRX_SYS_OLD_N_RSEGS) and expect    that the whole array is initialized. */    
+ptr = TRX_SYS_RSEGS + sys_header;    
+len = ut_max(TRX_SYS_OLD_N_RSEGS, TRX_SYS_N_RSEGS)* TRX_SYS_RSEG_SLOT_SIZE;//TRX_SYS_OLD_N_RSEGS 为256个    
+memset(ptr, 0xff, len); //将slot的信息的全部初始化为ff    
+ptr += len;    
+ut_a(ptr <= page + (UNIV_PAGE_SIZE - FIL_PAGE_DATA_END));     /* Initialize all of the page.  This part used to be uninitialized. */    
+memset(ptr, 0, UNIV_PAGE_SIZE - FIL_PAGE_DATA_END + page - ptr); //将剩下的空间设置为0x00     mlog_log_string(sys_header, UNIV_PAGE_SIZE - FIL_PAGE_DATA_END + page - sys_header, mtr);     /* Create the first rollback segment in the SYSTEM tablespace */    
+slot_no = trx_sysf_rseg_find_free(mtr, false, 0);    
+page_no = trx_rseg_header_create(TRX_SYS_SPACE, univ_page_size,ULINT_MAX, slot_no, mtr); //将第一个slot固定在ibdata中
 ```
 
 完成了这一步过后ibdata的 block 5 就初始化完了，而且我们看到所有的rollback segment slots 都初始化完成(源码所示有256个，实际上最多只会有128个，其中0号solt固定在ibdata中)，注意这里的槽大小是TRX_SYS_RSEG_SLOT_SIZE设置的大小为8字节，4字节space id ,4字节 page no，它们会指向 rollback segment header所在的位置

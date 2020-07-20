@@ -110,9 +110,9 @@ MySQL使用函数static void handle_connections_methods()处理客户端的连�
 ```
 pthread_handler_t handle_connect ions_sockets (void *arg_attribute__( (unused)))
 {
-FD_ZERO (&clientFDs) ;
-FD_SET (unix_sock, &clientFDs); // unix_socket在network_init 中已被打开
-socket_flags = fcntl (unix_sock, F__GETFL,0) ;
+FD_ZERO(&clientFDs) ;
+FD_SET(unix_sock, &clientFDs); // unix_socket在network_init 中已被打开
+socket_flags = fcntl(unix_sock, F__GETFL,0) ;
 while (!abort_1oop) { // abort_loop 是全局变量,在某些情况下被置为1表示要退出
 readFDs = ClientFDs; //需要监听的socket
 select( (int) max_used_connection, &readFDs,0,0,0); // select异步监听,当接收到请求之后返回
