@@ -1,4 +1,4 @@
-本文来自MySQL运维内参
+本文参考MySQL运维内参，MySQL技术内幕innodb引擎
 
 ## 源码结构简介
 
@@ -47,7 +47,7 @@ ut|这里实现了很多内部使用的一些经典算法,包括链表、红黑�
 
 
 
-## innodb结构
+## innodb文件结构
 ![innodb结构](pic/innodb%E6%A6%82%E8%BF%B01.png)
 - 最上层的部分，是提供给MySQL server和Innodb NoSQL的接口。公共接口对应的定义在sql/handler.h中
 ```
@@ -76,8 +76,32 @@ virtual int delete_row(const uchar *buf MY_ATTRIBUTE((unused)))
 1. REDO日志IO：缓冲区（一般几MB）满了，或者checkpoint或者逻辑事务提交（innodb_flush_log_at_trx_commit参数有关），日志刷盘，即日志IO
 2. 数据页面IO：对于buffer缓冲区的IO，包括索引数据页面IO和回滚段页面IO
 
+## innodb内存结构
+
+![image-20200701140232542](pic/innodb概述/image-20200701140232542.png)
+
+innodb_buffer_pool_size控制缓冲池大小
+
+索引页
+
+数据页
+
+undo页
+
+insert buffer（change buffer）
+
+自适应哈希索引
+
+innodb存储的锁信息
+
+数据字典
+
+日志缓冲
+
+额外内存池（innodb_additional_mem_pool_size控制大小，在MySQL高版本中已没有该参数）
 
 ## Innodb存储引擎的启动与关闭
+
 #### Innodb启动过程
 1. 调用结构：
 ![image](pic/innodb%E6%A6%82%E8%BF%B02.png)

@@ -94,7 +94,7 @@ performance_schema = ON
 ```
 
 ## 表介绍
-在 MySQL 5.7.17 版本中，performance_schema 下一共有87张表；MySQL8有67张
+在 MySQL 5.7.17 版本中，performance_schema 下一共有87张表；MySQL8有103张
 #### 按照事件类型分组记录性能事件数据的表：
 - 当前语句事件表events_statements_current、
 - 历史语句事件表events_statements_history
@@ -344,3 +344,41 @@ setup_consumers表列出了consumers可配置列表项(注意：该表不支持�
 +----------------------------------+---------+
 15 rows in set (0.00 sec)
 ```
+
+## 一些参数
+
+参数|说明
+---|---
+performance_schema_digests_size=10000|控制events_statements_summary_by_digest表中的最大行数。如果产生的语句摘要信息超过此最大值，便无法继续存入该表，此时performance_schema会增加状态变量
+performance_schema_events_statements_history_long_size|控制events_statements_history_long表中的最大行数，该参数控制所有会话在events_statements_history_long表中能够存放的总事件记录数，超过这个限制之后，最早的记录将被覆盖。全局变量，只读变量
+performance_schema_events_statements_history_size=10|控制events_statements_history表中单个线程（会话）的最大行数，该参数控制单个会话在events_statements_history表中能够存放的事件记录数，超过这个限制之后，单个会话最早的记录将被覆盖，全局变量，只读变量
+performance_schema_max_digest_length=1024|用于控制标准化形式的SQL语句文本在存入performance_schema时的限制长度，该变量与max_digest_length变量相关
+performance_schema_max_sql_text_length=1024|控制存入events_statements_current，events_statements_history和events_statements_history_long语句事件表中的SQL_TEXT列的最大SQL长度字节数。 超出系统变量performance_schema_max_sql_text_length的部分将被丢弃，不会记录，一般情况下不需要调整该参数，除非被截断的部分与其他SQL比起来有很大差异。全局变量，只读变量
+
+```
+performance_schema_digests_size=10000
+/*
+
+*/
+
+/*
+，整型值，5.6.3版本引入 * 5.6.x版本中，5.6.5及其之前的版本默认为10000，5.6.6及其之后的版本默认值为-1，通常情况下，自动计算的值都是10000 * 5.7.x版本中，默认值为-1，通常情况下，自动计算的值都是10000
+*/
+
+/*
+，整型值，5.6.3版本引入 * 5.6.x版本中，5.6.5及其之前的版本默认为10，5.6.6及其之后的版本默认值为-1，通常情况下，自动计算的值都是10 * 5.7.x版本中，默认值为-1，通常情况下，自动计算的值都是10
+除了statement(语句)事件之外，wait(等待)事件、state(阶段)事件、transaction(事务)事件，他们与statement事件一样都有三个参数分别进行存储限制配置，有兴趣的同学自行研究，这里不再赘述
+*/
+
+/*
+(max_digest_length变量含义请自行查阅相关资料)
+全局变量，只读变量，默认值1024字节，整型值，取值范围0~1048576
+*/
+
+/*
+，整型值，默认值为1024字节，取值范围为0~1048576，5.7.6版本引入
+降低系统变量performance_schema_max_sql_text_length值可以减少内存使用，但如果汇总的SQL中，被截断部分有较大差异，会导致没有办法再对这些有较大差异的SQL进行区分。 增加该系统变量值会增加内存使用，但对于汇总SQL来讲可以更精准地区分不同的部分。
+*/
+
+```
+
