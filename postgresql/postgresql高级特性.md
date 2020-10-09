@@ -240,7 +240,7 @@ system抽样方式是随机抽取表的数据块上的数据，bernoulli抽样�
           2 |  4 | English | matiler  |    75
           3 |  5 | English | francs   |    90
           1 |  9 | Math    | tutu     |    65
-          2 |  7 | Math    | francs   |    80
+          2 |  7 | Math    |  francs   |    80
           3 |  8 | Math    | matiler  |    99
 (9 rows)
 ```
