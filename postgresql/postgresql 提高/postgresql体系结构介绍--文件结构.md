@@ -187,12 +187,12 @@ CREATE TABLE
 
 字段名|说明
 ---|---
-pg_lsn|在 ARIES Recovery Algorithm的解释中，这个lsn称为 PageLSN，它确定和记录了最后更改此页的xog记录的LSN，把数据页和WAL日志关联，用于恢复数据时校验日志文件和数据文件的一致性； pg_Isn的高位为 logic，低位记录偏移量；因为历史原因，64位的LSN保存为两个32位的值。
-pg flags|标识页面的数据存储情况。
+pg_lsn|在 ARIES Recovery Algorithm的解释中，这个lsn称为 PageLSN，它确定和记录了最后更改此页的xlog记录的LSN，把数据页和WAL日志关联，用于恢复数据时校验日志文件和数据文件的一致性； pg_Isn的高位为 logic，低位记录偏移量；因为历史原因，64位的LSN保存为两个32位的值。
+pg_flags|标识页面的数据存储情况。
 pg_special|指向索引相关数据的开始位置，该项在数据文件中为空，主要是针对不同索引。
 pg_lower|指向空闲空间的起始位置。
 pg_upper|指向空闲空间的结束位置。
-pg_pagesize version|不同的 PostgreSQL版本的页的格式可能会不同。
+pg_pagesize_version|不同的 PostgreSQL版本的页的格式可能会不同。
 pg_linp[1]|行指针数组，这些地址指向Tuple的存储位置。
 
 
