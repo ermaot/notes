@@ -217,8 +217,9 @@ ActionChains(driver).click_and_hold(left).perform()
 
 ```
 
-
 ## 键盘事件
+
+- 用得最多的，输入字符串send_keys
 
 ```
 from selenium import webdriver
@@ -230,7 +231,7 @@ btn = bs.find_element_by_css_selector("#su")
 btn.send_keys("selenium")
 
 //删除文字，即输入backspace
-btn..send_keys(Keys.BACK_SPACE)
+btn.send_keys(Keys.BACK_SPACE)
 
 //输入空格
 btn.send_keys(Keys.SPACE)
@@ -243,8 +244,31 @@ btn.send_keys(Keys.CONTROL,'x')
 btn.send_keys(Keys.ENTER)
 ```
 
+- click(on_element=None)
+- click_and_hold(on_element=None)
+- context_click(on_element=None)
+- double_click(on_element=None)
+- drag_and_drop(source,target):拖到某个元素再放开
+- drag_and_drop_by_offset(source,xoffset,yoffset):拖到某个坐标再松开
+- key_down(value,element=None)
+- move_by_offset(xoffset,yoffset)
+- move_to_element(to_element)
+- move_to_element_with_offset(to_element,xoffset,yoffset)
+- perform:执行链中所有操作
+- release(on_element=None)
+- send_keys(*keys_to_send)
+- send_keys_to_element(element,*keys_to_send)：发送某个键到执行元素
+
+#### ActionChains
+
+```
+ActionChains(driver).click(btn).perform()
+```
+
+
 
 ## 打印信息
+
 title，current_url等信息
 
 ```
@@ -254,6 +278,15 @@ print(bs.title,bs.current_url)
 ## 设置等待时间
 - time.sleep():单位是秒
 - implicitly_wait()
+
+当使用了隐士等待执行测试的时候，如果 WebDriver没有在 DOM中找到元素，将继续等待，超出设定时间后则抛出找不到元素的异常。换句话说，当查找元素或元素并没有立即出现的时候，隐式等待将等待一段时间再查找 DOM，默认的时间是0。一旦设置了隐式等待，则它存在整个WebDriver 对象实例的声明周期中，隐式的等到会让一个正常响应的应用的测试变慢，**它将会在寻找每个元素的时候都进行等待**，这样会增加整个测试执行的时间。
+```
+driver.implicitly_wait(30)
+driver.find_element_by_id("su").click()
+```
+
+- until
+
 ```
 from selenium.webdriver.support.ui import WebDriverWait
 WebDriverWait(driver, timeout, poll_frequency=0.5, ignored_exceptions=None)
@@ -273,12 +306,26 @@ until(method, message=’ ’)
 until_not(method, message=’ ’)
 调用该方法提供的驱动程序作为一个参数，直到返回值为 False
 
-- implicitly_wait()
-
-```
-driver.implicitly_wait(30)
-driver.find_element_by_id("su").click()
-```
+- 等待条件（17种）
+序号|名称|说明|返回类型
+---|---|---|---
+1|title_is|判断title是否出现了|布尔
+2|title_contains|判断title是否包含某些字符|布尔
+3|presence_of_element_located|判断某个元素是否加到了dom里（不一定可见）|WebElement
+4|visibility_of_element_located|判断某个元素是否加载到dom并且可见、宽和高都大于0|WebElement
+5|visibility_of|判断元素是否可见，如果可见就返回该元素|WebElement
+6|presence_of_all_elements_located|判断是否至少有一个元素在dom中|列表
+7|visibility_of_any_elements_located|判断至少有一个元素在页面中可见|列表
+8|text_to_be_present_in_element|判断指定的元素是否包含了预期字符|布尔
+9|text_to_be_present_in_element_value|判断指定元素的属性值是否包含了预期的字符串|布尔
+10|frame_to_be_available_and_switch_to_it|判断frame是否可以switch进去|布尔
+11|invisibility_of_element_located|判断某个元素是否存在于dom或者不可见|布尔
+12|element_to_be_clickable|判断某个袁术是否可见并可点击|布尔
+13|staleness_of|等待某个元素从dom中移除|布尔
+14|element_to_be_selected|判断某个元素是否被选中，一般用在下拉列表|布尔
+15|element_selection_state_to_be|判断某个元素的选中状态是否符合预期
+16|element_located_selection_state_to_be|判断某个元素选中状态是否符合预期
+17|alert_is_present|判断页面上是否存在alert
 
 ## 定位一组对象
 find_elements_by_XXXX
@@ -337,6 +384,37 @@ m=driver.find_element_by_id("ShippingMethod")
 #再点击下拉框下的选项
 m.find_element_by_xpath("//option[@value='10.69']").click()
 ```
+下拉框的选择函数
+
+```
+from selenium import webdriver
+import os,time
+//注意务必导入该库
+from selenium.webdriver.support.select import  Select
+
+driver= webdriver.Firefox()
+file_path = 'file:///' + os.path.abspath('drop_down.html')
+driver.get(file_path)
+time.sleep(2)
+
+se = driver.find_element_by_id("ShippingMethod")
+select = Select(se)
+//可以有通过值或者通过索引来选择
+select.select_by_value('test')
+select.select_by_index(1)
+select.select_by_visible_text('TEST')
+```
+
+因为select还有多选的情况，所以还有以下用法
+
+```
+all_selected_options       deselect_by_value()        is_multiple                select_by_value()
+deselect_all()             deselect_by_visible_text() options                    select_by_visible_text()
+deselect_by_index()        first_selected_option      select_by_index()
+```
+
+
+
 ## 分页处理
 
 
@@ -452,3 +530,12 @@ self.assertTrue(text_should_present(dr))
 或者
 expected_conditions.title_contains("百度")(bs)  //这种写法看起来有点奇怪expected_conditions.title_contains("百度")返回的是对象<selenium.webdriver.support.expected_conditions.title_is object at 0x00000014B3C4DF28>
 ```
+
+## 截屏
+
+序号|方法|描述
+---|---|---
+1|save_screenshot(filename)|获取当前屏幕截图并保存为指定文件
+2|get_screenshot_as_base64()|获取当前屏幕截图base4编码字符串
+3|get_screenshot_as_file(filename)|获取当前的屏幕截图，并使用完整路径
+4|get_screenshot_as_png()|获取当前屏幕截图的二进制文件数据
