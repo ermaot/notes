@@ -279,7 +279,7 @@ print(bs.title,bs.current_url)
 - time.sleep():单位是秒
 - implicitly_wait()
 
-当使用了隐士等待执行测试的时候，如果 WebDriver没有在 DOM中找到元素，将继续等待，超出设定时间后则抛出找不到元素的异常。换句话说，当查找元素或元素并没有立即出现的时候，隐式等待将等待一段时间再查找 DOM，默认的时间是0。一旦设置了隐式等待，则它存在整个WebDriver 对象实例的声明周期中，隐式的等到会让一个正常响应的应用的测试变慢，**它将会在寻找每个元素的时候都进行等待**，这样会增加整个测试执行的时间。
+当使用了隐式等待执行测试的时候，如果 WebDriver没有在 DOM中找到元素，将继续等待，超出设定时间后则抛出找不到元素的异常。换句话说，当查找元素或元素并没有立即出现的时候，隐式等待将等待一段时间再查找 DOM，默认的时间是0。一旦设置了隐式等待，则它存在整个WebDriver 对象实例的声明周期中，隐式的等到会让一个正常响应的应用的测试变慢，**它将会在寻找每个元素的时候都进行等待**，这样会增加整个测试执行的时间。
 ```
 driver.implicitly_wait(30)
 driver.find_element_by_id("su").click()
@@ -528,7 +528,7 @@ text_should_present = EC.text_to_be_present_in_element((By.NAME, ‘tj_trhao123�
 self.assertTrue(text_should_present(dr))
 
 或者
-expected_conditions.title_contains("百度")(bs)  //这种写法看起来有点奇怪expected_conditions.title_contains("百度")返回的是对象<selenium.webdriver.support.expected_conditions.title_is object at 0x00000014B3C4DF28>
+expected_conditions.title_contains("百度")(bs)  //这种写法看起来有点奇怪expected_conditions.title_contains("百度")   //返回的是对象<selenium.webdriver.support.expected_conditions.title_is object at 0x00000014B3C4DF28>
 ```
 
 ## 截屏
@@ -539,3 +539,5 @@ expected_conditions.title_contains("百度")(bs)  //这种写法看起来有点�
 2|get_screenshot_as_base64()|获取当前屏幕截图base4编码字符串
 3|get_screenshot_as_file(filename)|获取当前的屏幕截图，并使用完整路径
 4|get_screenshot_as_png()|获取当前屏幕截图的二进制文件数据
+
+使用screenshot功能，并联合PIL工具，获取元素坐标再截图
