@@ -57,7 +57,12 @@ m	构建成模块，在需要时加载。
 
 ![image-20200305120136411](pic/linux内核构建与调优/image-20200305120136411.png)
 
+#### make allyesconfig：
 
+所有选项均回答为“yes” 。 
+
+#### make allnoconfig：
+所有选项均回答为“no” 。
 
 **gconfig和xcofig可以使用图形化配置方式**
 
@@ -84,7 +89,7 @@ make M=drivers/usb/serial
 
 ### 安装并引导内核
 
-几乎所有的发行版都提供了 installkerne脚本，这样不需要开发者做任何额外的T作，内核构建系统就可以通过它把内核自动安装到正确的位置井修改 bootloader。
+几乎所有的发行版都提供了 installkernel脚本，这样不需要开发者做任何额外的T作，内核构建系统就可以通过它把内核自动安装到正确的位置井修改 bootloader。
 
 ```
 # make modules_install
