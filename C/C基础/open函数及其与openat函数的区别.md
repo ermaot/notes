@@ -3,7 +3,7 @@
 - 一个进程有一个文件描述符：1024
 - 文件描述符：寻找磁盘文件
 
-![image](https://github.com/ermaot/notes/blob/master/C/pic/open_openat.png)
+![open_openat](pic/open函数及其与openat函数的区别/open_openat.png)
 
 ## open和openat原型
 ```
@@ -35,24 +35,30 @@ int openat(int fd, const char *pathname, int flags, mode_t mode);
 
 - 1.打开采用绝对路径表示的文件/home/leon/test.c,如果文件不存在就创建它。
 
+```
 fd = open("/home/leon/test.c", O_RDWR | O_CREAT, 0640);
 
 fd = openat(anything, "/home/leon/test.c", O_RDWR | O_CREAT, 0640);
+```
 
 - 2.打开采用相对路径表示的文件
 
 a.打开当前目录文件下的test.c
 
+```
 fd = open("./test.c", O_RDWR | O_CREAT, 0640);
 
 fd = openat( AT_FDCWD, O_RDWR | O_CREAT, 0640);
+```
 
 b.打开用户chalion家目录中的test.c文件,且此时你在自己的家目录
 
+```
 DIR* dir_chalion = opendir(/home/chalion);
 
 fd_chalion = dirfd(dir_chalion);
 
 fd = openat(fd_chalion, "test.c" ,O_RDWR | O_CREAT, 0640);
+```
 
 原文链接：https://blog.csdn.net/liangzc1124/article/details/83475246
