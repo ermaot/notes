@@ -1,1 +1,1 @@
-![pagecache详解1](E:\notes\notes\linux\性能\pic\pagecache详解1.png)
+![pagecache详解1](pagecache详解1.png)
