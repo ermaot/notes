@@ -236,3 +236,4 @@ posix字符|含义
 # cut -f 1-2,3-4 num2.txt --output-delimiter ","
 1,2,3,4
 ```
+
