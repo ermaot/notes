@@ -335,7 +335,7 @@ getconf PAGE_SIZE 查看系统内存分页大小
 
 变量|说明
 ---|---
-_CS_PATH	|Value for the PATH environment variable used to find commands.
+CS_PATH	|Value for the PATH environment variable used to find commands.
 ARG_MAX	|Maximum length, in bytes, of the arguments for one of the exec subroutines, including environment data.
 BC_BASE_MAX	|Maximum value allowed for the obase variable with the bc command.
 BC_DIM_MAX	|Maximum number of elements permitted in an array by the bc command.
