@@ -9,7 +9,8 @@ mysqladmin是一个执行管理操作的客户端程序。它可以用来检查�
 命令选项分为两大类：
 
 1. command选项
-2. 标准格式选项，比如mysqladmin shutdown，结合-u -p等选项来指定关闭哪个实例
+2. 标准格式选项，比如mysqladmin shutdown，结合-u -p等选项来指定
+3. 关闭哪个实例
 
 ## 选项
 
