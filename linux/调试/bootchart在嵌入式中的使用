@@ -1,0 +1,39 @@
+下面就来看看如何玩的：
+
+## 1、源码下载
+嵌入式系统中，可以考虑使用bootchart-lite
+http://code.google.com/p/bootchart-lite/
+```
+svn checkout http://bootchart-lite.googlecode.com/svn/trunk/ bootchart-lite-read-only
+```
+## 2、编译
+可以用其本身的Makefile，由于代码只有一个.c文件，也可以进入src目录， 直接用命令编译
+```
+armeb-buildroot-linux-uclibcgnueabi-gcc -o bootchart-lite bootchart-lite.c
+```
+Note：
+a、选用你板子对应的gcc工具
+b、生成的log，缺省是保存在/etc/bootchart-lite中，如果系统启动中，该目录未mount或者不可写，则需要改到可写的目录
+笔者的/etc目录是tmpfs，最开始不存在，于是改到了/var目录，可是又由于/var目录启动中被mount成了Readonly filesystem，所以也不可写；
+逼不得已，在代码中 system("mount -o remount, rw /var")， 才绕开了log无地保存的问题
+
+## 3、配置启动参数
+3.1 将编译好的bootchart-lite拷贝到板子的文件系统 /sbin/
+3.2  在启动文件中的bootarg里，添加bootchart-lite，例如： init=/sbin/bootchart-lite
+3.3 重新制作image，就可以下板子试
+
+
+
+## 4、 收集log
+4.1 系统启动完成后，kill掉bootchart-lite进程，避免产生不需要的log
+4.2 将板子上的proc_diskstats.log 、proc_ps.log、 proc_stat.log上传到Linux机器
+4.3 tar czf bootchart.tgz  proc*.log
+4.4 在linux机器上安装bootchart ，就可以生成漂亮的图片了
+```
+ bootchart -f png bootchart.tgz
+```
+
+
+
+
+Linux启动优化------bootchart的使用  http://zzjlzx.blog.chinaunix.net/uid-26642637-id-4470633.html
