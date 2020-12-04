@@ -1,0 +1,1 @@
+从Oracle的10g开始，增加了IMU（in memory undo）的redo，但同时也有些时候支持非IMU的redo

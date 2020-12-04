@@ -1,6 +1,6 @@
 oracle的卸载
 
-
+## windows版本
 
 完全卸载oracle11g步骤： 
 1、 开始－-＞设置－-＞控制面板－-＞管理工具－-＞服务 停止所有Oracle服务。 
@@ -28,3 +28,23 @@ e.C:\WINDOWS下删除以下文件ORACLE.INI、oradim73.INI、oradim80.INI、orao
 f.C:\WINDOWS下的WIN.INI文件中若有[ORACLE]的标记段，删除该段。 
 12、如有必要，删除全部Oracle相关的ODBC的DSN 
 13、到事件查看器中，删除Oracle相关的日志。说明： 如果有个别DLL文件无法删除的情况下，则不用理会，重启，开始新的安装，安装时，选择一个新的目录，安装完毕并重新启动后，老的目录及文件就可以删除掉了
+
+## linux版本
+
+1. 关闭实例，删除数据文件、控制文件、日志文件、闪回文件、归档文件
+
+```
+select name from v$datafile;
+select name from v$controlfile;
+select name from v$archived_log;
+select name from v$flaskback_database_logfile;
+
+```
+
+2. 删除日志文件目录，如$ORACLE_BASE/admin/$ORACLE_SID下所有目录
+3. 删除$ORACLE_BASE/dbs目录下所删除实例相关的信息，如lk$ORACLE_SID,ORAPW$ORACLE_SID及参数文件
+4. 删除配置文件listener.ora、tnsnames.ora中的相关内容
+5. 删除配置文件/var/opt/oracle/oratab或者/etc/oratab中的内容
+6. 检查$ORACLE_HOME目录下与所删除实例相关的文件，确认之后删除
+
+参考《Oracle DBA实战攻略：运维管理、诊断优化、高可用与最佳实践》第三章
