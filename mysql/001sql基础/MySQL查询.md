@@ -103,7 +103,7 @@ select ifnull(a ,"unknow") from a; 						//ifnull(expr1,expr2)
 ERROR 1054 (42S22): Unknown column 'test' in 'where clause'
 ```
 
-此方法并不合法，也就是说这种方式并不存在。原因在于下图：
+此方法并不合法，也就是说这种方式并不存在。原因在于下图（数字是执行顺序）：
 
 
 ```
