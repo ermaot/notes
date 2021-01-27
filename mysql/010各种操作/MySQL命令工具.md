@@ -1,6 +1,6 @@
 MySQL还有自带了其他大量的工具程序，如
 
-1. 针对离 线Innodb文件做checksum的innochecksum，
+1. 针对离线Innodb文件做checksum的innochecksum，
 2. 转换mSQL C API函数的msql2mysql， 
 3. dumpMyISAM全文索引的myisam_ftdump，
 4. 分析处理slowlog的mysqldumpslow，
