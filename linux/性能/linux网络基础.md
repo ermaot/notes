@@ -15,15 +15,19 @@
 4. 网络接口层，负责网络包在物理网络中的传输，比如 MAC 寻址、错误侦测以及通过网卡传输网络帧等。
 
 #### 两种模型相互比较
-![linux网络基础1.png](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/linux%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%801.png?raw=true)
+![linux网络基础1](pic/linux网络基础1.png)
 
 ## linux网络栈
-![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/linux%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%802.png)
+
+
+![linux网络基础2](pic/linux网络基础2.png)
+
+
 
 - 网络接口配置的最大传输单元（MTU），就规定了最大的 IP 包大小。在我们最常用的以太网中，MTU 默认值是 1500（这也是 Linux 的默认值）。
 - 一旦网络包超过MTU的大小，就会在网络层分片。MTU 越大，需要的分包也就越少，网络吞吐能力就越好。
 - Linux 通用 IP 网络栈
-![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/linux%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%803.png)
+![linux网络基础3](pic/linux网络基础3.png)
 ## Linux 网络收发流程
 #### 网络包的接收流程
 - 当一个网络帧到达网卡后，网卡会通过 DMA 方式，把这个网络包放到收包队列中；然后通过硬中断，告诉中断处理程序已经收到了网络包。
@@ -33,7 +37,8 @@
 2. 网络层取出 IP 头，判断网络包下一步的走向，比如是交给上层处理还是转发。当网络层确认这个包是要发送到本机后，就会取出上层协议的类型（比如 TCP 还是 UDP），去掉 IP 头，再交给传输层处理。
 3. 传输层取出 TCP 头或者 UDP 头后，根据 < 源 IP、源端口、目的 IP、目的端口 > 四元组作为标识，找出对应的 Socket，并把数据拷贝到 Socket 的接收缓存中。
 - 最后，应用程序就可以使用 Socket 接口，读取到新接收到的数据了
-![image](https://github.com/ermaot/notes/blob/master/linux/%E6%80%A7%E8%83%BD/pic/linux%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%804.png)
+
+![linux网络基础4](pic/linux网络基础4.png)
 
 #### 网络包的发送流程
 - 首先，应用程序调用 Socket API（比如 sendmsg）发送网络包。这是一个系统调用，所以会陷入到内核态的套接字层中。套接字层会把数据包放到 Socket 发送缓冲区中。
