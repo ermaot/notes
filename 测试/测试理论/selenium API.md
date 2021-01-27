@@ -60,7 +60,7 @@ E[att='val']| 属性 att 的值为 val 的 E 元素 （区分大小写）
 E[att^='val'] |属性 att 的值以 val 开头的 E 元素 （区分大小写）
 E[att$='val'] |属性 att 的值以 val 结尾的 E 元素 （区分大小写）
 E[att*='val'] |属性 att 的值包含 val 的 E 元素 （区分大小写）
-E[att1='v1'][att2*='v2'] |属性 att1 的值为 v1，att2 的值包含 v2 （区分大小写）
+E[att1='v1'] [att2*='v2'] |属性 att1 的值为 v1，att2 的值包含 v2 （区分大小写）
 E:contains('xxxx') |内容中包含 xxxx 的 E 元素
 E:not(s) |匹配不符合当前选择器的任何元素
 
