@@ -149,7 +149,6 @@ server {
 
 ```
 resolver 8.8.8.8 valid=30s;  # 指定 Google 的 DNS，缓存 30 秒
-
 ```
 #### 域名的新玩法
 - “重定向”
