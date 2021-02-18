@@ -330,7 +330,7 @@ RAW_SOCKETS                        200809
 
 ```
 getconf PAGE_SIZE 查看系统内存分页大小
-  getconf LONG_BIT 看linux是32位还是64位最简单的方法
+getconf LONG_BIT 看linux是32位还是64位最简单的方法
 ```
 
 变量|说明
