@@ -17,7 +17,9 @@
 +---------------+--------+
 1 row in set (0.00 sec)
 
-
+```
+\s ==等同于status==
+```
 > \s
 --------------
 mysql  Ver 15.1 Distrib 5.5.56-MariaDB, for Linux (x86_64) using readline 5.1

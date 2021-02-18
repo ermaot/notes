@@ -11,7 +11,7 @@ HOSTS  | ==这个用的最多==，主要是用来清空主机缓存表。<br/>�
 LOGS   | 关闭当前的二进制日志文件并创建一个新文件，新的二进制日志文件的名字在当前的二进制文件的编号上加1。 <br>mysql中flush logs操作会生成一个新的binlog文件。<br/>如果在==从库==执行flush logs 不仅会生成一个新的binlog文件，而且会生成一个新的relaylog文件。<br/>flush logs 还影响slow log和general log,当删除slow log或者general log,然后执行flush logs，此时会再重新生成一个新的slow log或者general log 
 PRIVILEGES | 这个也是经常使用的，每当重新赋权后，为了以防万一，让新权限立即生效，目的是从数据库授权表中重新装载权限到缓存中。 
 TABLES |   关闭所有打开的表，同时该操作将会清空查询缓存中的内容。
-FLUSH TABLES WITH READ LOCK |关闭所有打开的表，同时对于所有数据库中的表都加一个读锁，直到显式地执行unlock tables，该操作常常用于数据备份的时候。<br/>解锁的语句就是unlock tables。<br/>FLUSH TABLES WITH READ LOCK对于数据库是全局的表锁定，如果只想锁定几个表，可以用LOCK TABLES tbl_name [AS alias] {READ [LOCAL] 
+FLUSH TABLES WITH READ LOCK |关闭所有打开的表，同时对于所有数据库中的表都加一个读锁，直到显式地执行unlock tables，常常用于数据备份的时候。<br/>解锁的语句就是unlock tables。<br/>FLUSH TABLES WITH READ LOCK对于数据库是全局的表锁定，如果只想锁定几个表，可以用LOCK TABLES tbl_name [AS alias] {READ [LOCAL] 
 STATUS |   重置大多数状态变量到0。
 MASTER  | 重置二进制日志文件的索引文件为空，创建一个新的二进制日志文件。<br/>不过这个已经==不推荐使用==，改成==reset master== 了。 
 QUERY CACHE |重整查询缓存，消除其中的碎片，提高性能，但是并不影响查询缓存中现有的数据<br/>这点和Flush table 和Reset Query  Cache（将会清空查询缓存的内容）不一样的。 
