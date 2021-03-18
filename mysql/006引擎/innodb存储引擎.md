@@ -166,7 +166,10 @@ Modified db pages       0
 2. 每个缓冲池的帧缓冲（frame buffer）以及对应的缓冲控制对象（记录了LRU，锁，等待等方面的信息），需要从额外缓冲池申请
 3. 因此，申请了很大的innodb 缓冲池，则对应需要增加额外内存池
 
+已经被取消了。
+
 ## master thread
+
 #### innodb的主要工作是在master thread中完成的
 
 ![img](pic/innodb存储引擎/InnoDB_Master_Thread.png)
@@ -180,7 +183,7 @@ Modified db pages       0
 ==所以再大的事务提交也是很快的==
 2. 合并插入缓冲（可能）
 并非必然发生；如果当前1秒内发生IO小于5次，则认为IO压力小，可合并插入缓冲
-3. 至多刷新100个innodb缓冲池脏页到磁盘（可能）
+3. 至多刷新100个innodb缓冲池脏页到磁盘（可能）【100这个值是硬编码，后来可以通过参数innodb_io_capacity控制】
 4. 如果没有用户活动，切换到background loop（可能）<p>
 **10秒操作**
 ---

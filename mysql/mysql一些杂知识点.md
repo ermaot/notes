@@ -57,3 +57,7 @@ Query OK, 0 rows affected (0.02 sec)
 galera cluster 有一个wsrep_on参数可以控制本地操作是否需要复制到其他节点，如果使用硬链接方法删除文件需要将该配置设置为off，再处理
 
 ## MySQL常见死锁
+
+## Mysql的问题 reading initial communication packet',
+
+在配置文件里加skip-name-resolve，说是跳过mysql连接的DNS反向解析功能
