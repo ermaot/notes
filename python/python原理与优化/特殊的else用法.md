@@ -12,7 +12,7 @@ def prime(n):
 
 该else表示，第二个for执行结束，并且不满足i%j==0时打印print
 
-其实else页可以放在如下位置：
+else如果放在如下位置：
 
 ```
 def prime(n):

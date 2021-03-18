@@ -43,17 +43,17 @@ class LoginForm(Form):
 字段类|说明|对应的HTML表示
 ---|---|---
 Booleanfield|复选框,值会被处理为True或 False|<input type="checkbox">
-DateField|文本字段,值会被处理为 datetime.date对象|< cinput type="text">
+DateField|文本字段,值会被处理为 datetime.date对象|<input type="text">
 Filefield|文件上传字段|<input type="file">
 FloatField|浮点数字段,值会被处理为浮点型|<input type="text">
 IntegerField|整数字段,值会被处理为整型|<input type="text">
 RadioField|组单选按钮|<input type="radio">
 SelectField|下拉列表|<select><option></option></select>
-SelectMultipleField多选下拉列表|<select multiple><option></option></select>
+SelectMultipleField|多选下拉列表|<select multiple><option></option></select>
 Submitfield|提交按钮|<input type="submit">
 StringField|文本字段|<input type="text">
 HiddenField|隐藏文本字段|<input type="hidden">
-PasswordField|密码文本字段|input type="password">
+PasswordField|密码文本字段|<input type="password">
 TextAreaField|多行文本字段|<textarea></textarea>
 #### 实例化字段类常用参数
 参数|说明
