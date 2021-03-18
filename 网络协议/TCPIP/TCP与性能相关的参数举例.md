@@ -159,6 +159,10 @@ SO_RCVBUF 设置的值最大也不能超过 net.core.rmem_max
 
 ![img](pic/Untitled/8d4ba95a95684004f271677f600cda9b.jpg)
 
+```
+ifconfig eth0  txqueuelen 2000
+```
+
 
 
 《Linux内核技术实战课》
