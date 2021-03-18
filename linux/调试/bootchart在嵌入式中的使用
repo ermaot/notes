@@ -4,7 +4,7 @@
 嵌入式系统中，可以考虑使用bootchart-lite
 http://code.google.com/p/bootchart-lite/
 ```
-svn checkout http://bootchart-lite.googlecode.com/svn/trunk/ bootchart-lite-read-only
+svn checkout http://bootchart-lite.googlecode.com/svn/trunk/bootchart-lite-read-only
 ```
 ## 2、编译
 可以用其本身的Makefile，由于代码只有一个.c文件，也可以进入src目录， 直接用命令编译

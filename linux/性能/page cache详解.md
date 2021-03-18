@@ -84,7 +84,7 @@ pgscand/s| Application 在内存申请过程中每秒直接扫描的 page 个数
 pgsteal/s|扫描的 page 中每秒被回收的个数。pgsteal_kswapd 与pgsteal_direct 之和
 %vmeff| pgsteal/(pgscank+pgscand), 回收效率，越接近 100 说明系统越安全，越接近 0 说明系统内存压力越大。
 
-来自于/proc/vmstat
+这几个指标都来自于/proc/vmstat
 
 ```
 # cat /proc/vmstat 
@@ -110,6 +110,16 @@ pgscan_direct_throttle 0
 #### 4.4 误操作而导致 Page Cache 被回收掉，进而导致业务性能下降明显
 
 #### 4.5 内核的一些机制导致业务 Page Cache 被回收，从而引起性能下降
+
+## 五 控制page cache的一些参数
+
+序号|参数|说明
+---|---|---
+1|min_free_kbytes|会影响整体的pagecache大小。<br>对于大于等于 128G 的系统而言，将 min_free_kbytes 设置为 4G 比较合理（经验值）
+2|vfs_cache_pressure|会影响在回收时回收pagecache和slab的比例;
+3|swappiness|在开启了swap的情况下，swappiness也会影响pagecache的大小4
+5|extfrag_threshold|会影响pagecache的碎片情况
+
 
 
 

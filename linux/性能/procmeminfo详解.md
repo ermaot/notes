@@ -77,7 +77,7 @@ Inactive(anon)|LRU_INACTIVE_ANON
 Active(file)|LRU_ACTIVE_FILE
 Inactive(file)|LRU_INACTIVE_FILE
 Unevictable|LRU_UNEVICTABLE
-Mlocked|
+Mlocked|被mlock住的内存
 SwapTotal|全部的swap分区数据
 SwapFree|空闲的swap
 Dirty| 等待写入到磁盘的内存                                         
@@ -96,7 +96,7 @@ WritebackTmp|Memory used by FUSE for temporary writeback buffers
 CommitLimit|                                                              
 Committed_AS|
 VmallocTotal|total size of vmalloc memory area
-VmallocUsed|amount of vmalloc area which is used
+VmallocUsed|amount of vmalloc area which is used（在linux4.4之后，因为性能原因，都设置为0了）
 VmallocChunk|largest contiguous block of vmalloc area which is free
 HardwareCorrupted|当系统检测到内存的硬件故障时，会把有问题的页面删除掉，不再使用，/proc/meminfo中的HardwareCorrupted统计了删除掉的内存页的总大小
 AnonHugePages|

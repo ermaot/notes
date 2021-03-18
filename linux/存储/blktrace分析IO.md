@@ -45,7 +45,7 @@ Q2C – 整个IO请求所消耗的时间(Q2I + I2D + D2C = Q2C)，相当于iosta
 ##### blktrace的用法
 
 使用blktrace需要挂载debugfs：
-$ mount -t debugfs debugfs /sys/kernel/debug
+$ mount -t debugfs debugfs  /sys/kernel/debug
 
 利用blktrace查看实时数据的方法，比如要看的硬盘是sdb：
 $ blktrace -d /dev/sdb -o – | blkparse -i –
